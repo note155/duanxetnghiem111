@@ -1,0 +1,15 @@
+{
+
+    "BaseAdress": "https://localhost:7199",
+    "ConnectionStrings": {
+        "DefaultConnection": "Server=labo.aulacsoft.com;Database=AulacXetNghiem2024;TrustServerCertificate=True;User ID=xetnghiem;Password=Aulac@1234;"
+    },
+    "Logging": {
+        "LogLevel": {
+            "Default": "Information",
+            "Microsoft.AspNetCore": "Warning"
+        }
+    },
+    "AllowedHosts": "*",
+    "Fileupload": "D:\\khoaluan\\duanxetnghiem\\duanxetnghiem\\duanxetnghiem\\images"
+}

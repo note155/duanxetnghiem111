@@ -1,0 +1,25 @@
+﻿@page "/Goidelete/{id:int}"
+@inject NavigationManager navigation;
+@layout AdminLayout
+@attribute [Authorize]
+@code {
+    [Parameter]
+    public int id { get; set; }
+    private bool dataLoaded = false;
+
+    protected override async Task OnInitializedAsync()
+    {
+        await DeleteAndReloadData();
+    }
+
+    private async Task DeleteAndReloadData()
+    {
+        await LoadAllGoi();
+        navigation.NavigateTo("/ListGXN");
+    }
+
+    private async Task LoadAllGoi()
+    {
+        await GXNservice.deleteAsync(id);
+    }
+}

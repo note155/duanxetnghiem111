@@ -1,0 +1,117 @@
+﻿@page "/AddBS"
+@rendermode InteractiveAuto
+@inject NavigationManager navigation;
+@attribute [Authorize]
+@layout AdminLayout
+<div class="container">
+    <div class="col-md-8">
+        <h2 class="mb-4">Thêm bác sĩ</h2>
+        <EditForm Model="Input" method="post" OnValidSubmit="add" FormName="register" class="profile-form">
+            <DataAnnotationsValidator />
+            <hr />
+            @if (err.Any())
+            {
+                <div class="alert alert-danger" role="alert">
+                    @foreach (var error in err)
+                    {
+                        <p>@error</p>
+                    }
+                </div>
+            }
+            <div class="mb-3">
+                <label for="Hoten" class="form-label">Họ Tên</label>
+                <InputText @bind-Value="Input.Hoten" class="form-control" id="Hoten" />
+                <ValidationMessage For="() => Input.Hoten" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="Chucvu" class="form-label">Chức Vụ</label>
+                <InputSelect @bind-Value="Input.Chucvu" class="form-control" id="Chucvu">
+                    <option value="">Chọn</option>
+                    <option value="Cộng tác viên">Cộng tác viên</option>
+                    <option value="Thực tập">Thực tập</option>
+                    <option value="Bác sĩ lấy mẫu máu">Bác sĩ lấy mẫu máu</option>
+                    <option value="Bác sĩ phân tích mẫu">Bác sĩ phân tích mẫu</option>
+                </InputSelect>
+                <ValidationMessage For="() => Input.Chucvu" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="SDT" class="form-label">Số Điện Thoại</label>
+                <InputText @bind-Value="Input.SDT" class="form-control" id="SDT" />
+                <ValidationMessage For="() => Input.SDT" class="text-danger" />
+            </div>
+            <div class="mb-3">
+                <label for="Email" class="form-label">Email</label>
+                <InputText @bind-Value="Input.Email" class="form-control" id="Email" />
+                <ValidationMessage For="() => Input.Email" class="text-danger" />
+            </div>
+            <div class="d-flex justify-content-between">
+                <button type="submit" class="btn btn-primary">Lưu</button>
+                <a href="/listBS" class="btn btn-secondary">Hủy</a>
+            </div>
+        </EditForm>
+    </div>
+</div>
+
+@code {
+    [SupplyParameterFromForm]
+    public BacSi Input { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs();
+    }
+
+    private List<string> err = new List<string>();
+
+    private async Task add()
+    {
+        err.Clear(); // Xóa thông báo lỗi cũ
+        if (string.IsNullOrEmpty(Input.Hoten))
+        {
+            err.Add("Họ Tên không được để trống");
+        }
+        if (string.IsNullOrEmpty(Input.Chucvu) || Input.Chucvu=="0")
+        {
+            err.Add("Chức Vụ không được để trống");
+        }
+        if (string.IsNullOrEmpty(Input.SDT))
+        {
+            err.Add("Số Điện Thoại không được để trống");
+        }
+        if (string.IsNullOrEmpty(Input.Email))
+        {
+            err.Add("Email không được để trống");
+        }
+
+
+        if (err.Count == 0)
+        {
+            if (file == null)
+            {
+                Input.Anh = "img/Bacsi/1.jpg";
+            }
+            else
+            {
+                Input.Anh = file.Name;
+            }
+            await bacsiservice.addAsync(Input);
+            navigation.NavigateTo("/ListBS");
+        }
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+
+    public IBrowserFile file;
+
+    private async void LoadFiles(InputFileChangeEventArgs e)
+    {
+        file = e.File;
+    }
+}

@@ -1,0 +1,256 @@
+﻿
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Điều chỉnh độ mờ của overlay tại đây */
+    background-image: url('imgdanhsachbs/hinhnen1.png');
+    background-size: cover;
+    background-position: center;
+    height: 450px;
+    margin-bottom: 10rem;
+    text-align: center;
+}
+
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.0rem;
+    font-weight: 700;
+    font-style: normal;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    margin-top: 40px;
+}
+
+p {
+    font-family: 'Open Sans'sans-serif;
+    text-align: center;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 0.5em;
+    font-size: 1.2rem;
+    line-height: 1.6;
+    font-weight: 700;
+}
+
+.button {
+    display: inline-block;
+    margin-top: 20px;
+    padding: 8px 20px;
+    border-radius: 4px;
+}
+
+.button-primary1 {
+    position: relative;
+    background-color: #208095;
+    color: #fff;
+    font-size: 1.4rem;
+    font-weight: 600;
+    transition: color 0.3s ease-in;
+    z-index: 1;
+}
+
+    .button-primary1:hover {
+        color: #208095;
+        text-decoration: none;
+    }
+
+    .button-primary1::after {
+        content: '';
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        top: 0;
+        background-color: #fff;
+        border-radius: 4px;
+        opacity: 0;
+        -webkit-transform: scaleX(0.8);
+        -ms-transform: scaleX(0.8);
+        transform: scaleX(0.8);
+        transition: all 0.3s ease-in;
+        z-index: -1;
+    }
+
+    .button-primary1:hover::after {
+        opacity: 1;
+        -webkit-transform: scaleX(1);
+        -ms-transform: scaleX(1);
+        transform: scaleX(1);
+    }
+
+/*Thanh tìm kiếm */
+
+.container {
+    margin-bottom: 4rem;
+}
+
+.search-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px;
+    border-radius: 5px;
+}
+
+input {
+    width: 360px;
+    height: 60px;
+    border: 1px solid #808080;
+    padding: 8px;
+    border-radius: 5px;
+    margin: 0px;
+    font-size: 1.0rem;
+}
+
+.btn {
+    height: 60px;
+    width: 150px;
+    padding: 5px 5px;
+    background-color: #007bff;
+    color: #fff;
+    cursor: pointer;
+    outline: none;
+    text-align: center;
+    font-size: 1.0rem;
+    box-sizing: border-box; /* Tính cả padding vào kích thước */
+}
+
+@media only screen and (max-width: 768px) {
+    .search-container {
+        padding: 5px; /* Giảm padding cho màn hình nhỏ */
+    }
+
+    input, .btn {
+        height: 40px; /* Giảm chiều cao của input và button */
+        font-size: 0.9rem; /* Giảm kích thước chữ cho màn hình nhỏ */
+    }
+}
+
+
+/*danh sach bác si*/
+.package-container {
+    margin-bottom: 6rem;
+}
+
+.team-items {
+    display: -webkit-box;
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    margin-left: -30px;
+    margin-right: -30px;
+    width: 100%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.team-item {
+    font-weight: 500;
+    line-height: 24px;
+    width: 25%;
+    padding: 20px 30px 0;
+    margin-bottom: 60px;
+    text-align: center;
+}
+
+.team-item-photo {
+    max-width: 265px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0;
+    height: auto;
+    position: relative;
+    padding-top: 113.75%;
+    display: block;
+}
+
+    .team-item-photo img {
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        display: block; /* Đảm bảo hình ảnh hiển thị đúng cách như một phần tử block */
+        margin: 0 auto; /* Căn giữa hình ảnh trong phần tử cha */
+        -o-object-fit: contain;
+        object-fit: contain;
+        -o-object-position: top center;
+        object-position: top center;
+        z-index: 1;
+    }
+
+img, embed, iframe, iframe, video, svg {
+    max-width: 100%;
+}
+
+img {
+    vertical-align: middle;
+    border: 0;
+}
+
+.team-item-photo .circle {
+    top: 0;
+    width: 79.25%;
+    position: absolute;
+    top: -20px;
+    left: 50%;
+    -webkit-transform: translate(-50%, 0);
+    transform: translate(-50%, 0);
+}
+
+.team-item-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    width: 280px;
+    height: auto;
+}
+
+.team-item-meta {
+    line-height: 32px;
+    color: #1D93E3;
+    font-weight: 600;
+    line-height: 24px;
+    margin-bottom: 16px;
+    font-size: 1.1rem;
+}
+
+.team-item-title {
+    font-weight: 700;
+    font-size: 1.4rem;
+    width: 280px;
+    height: auto;
+}
+
+.txtnamebs {
+    color: #0e1012 !important;
+}
+
+.post-image-container1 {
+    position: relative;
+    background-color: #1D93E3;
+    color: #fff;
+    font-size: 1.3rem;
+    font-weight: 500;
+    transition: color 0.3s ease-in;
+    z-index: 1;
+    height: 50px;
+    border: 1px solid #208095;
+    border-radius: 5px;
+    width: 200px;
+}
+
+    .post-image-container1:hover {
+        background-color: #91E1F6; /* Thay đổi màu nền khi hover */
+        color: #fff; /* Thay đổi màu chữ khi hover */
+    }
+/* Responsive CSS for smaller screens */
+@media only screen and (max-width: 768px) {
+    .team-item {
+        width: 100%;
+    }
+}
+

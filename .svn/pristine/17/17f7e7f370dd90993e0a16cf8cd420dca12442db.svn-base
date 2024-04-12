@@ -1,0 +1,105 @@
+﻿@page "/listTVDTL"
+@attribute [Authorize]
+@layout AdminLayout
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title">Danh sách tư vấn</h3>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <p><a class="btn btn-success float-end" href="/listTV"> Danh sách tư vấn </a></p>
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header"></div>
+                            @if (!allTV.Any())
+                            {
+                                <p><em>Loading ...</em></p>
+                            }
+                            @if (allTV.Any())
+                            {
+                                <div class="card-body">
+                                    <div class="table-responsive">
+                                        <table class="table table-striped table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Id</th>
+                                                    <th>Họ Tên</th>
+                                                    <th>Nội Dung</th>
+                                                    <th>Bác Sĩ Trả Lời</th>
+                                                    <th>Tư Vấn</th>
+                                                    <th>Thời gian</th>
+                                                    <th></th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach (var goi in allTV)
+                                                {
+                                                    <tr>
+                                                        <td>@goi.id</td>
+                                                        <td>@goi.hoten</td>
+                                                        <td>@goi.noidung</td>
+                                                        <td>@loadhoten(@goi.bacsiid ?? 0)</td>
+                                                        <td>@goi.traloi</td>
+                                                        <td>@goi.thoigian</td>
+                                                        <td>
+                                                            <a class="btn btn-success" href="/traloiTV/@goi.id"> Xem chi tiết </a>
+                                                        </td>
+                                                    </tr>
+                                                }
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="alert alert-info"> There is not GoiXetNghiem List Availlable</div>
+                            }
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    public List<Tuvan> allTV { get; set; } = new();
+    public List<BacSi> allBS { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs();
+        allBS = await bacsiservice.getallAsync();
+        var tv = await TVservice.getallAsync();
+        foreach (var ss in tv)
+        {
+            if (ss.bacsiid != null)
+            {
+                allTV.Add(ss);
+            }
+        }
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+    public String loadhoten(int id)
+    {
+        foreach (var us in allBS)
+        {
+            if (us.Id == id)
+            {
+                return us.Hoten;
+            }
+        }
+        return null;
+    }
+}

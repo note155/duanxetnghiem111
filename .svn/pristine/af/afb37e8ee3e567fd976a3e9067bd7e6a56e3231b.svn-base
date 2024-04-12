@@ -1,0 +1,117 @@
+﻿@page "/quytrinh"
+<!--trang bootrap-->
+<div id="carouselDemo" class="carousel slide" data-bs-ride="carousel" style="margin-bottom:8rem;">
+    <!-- Indicators/dots -->
+    <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="0" class="active"></button>
+        <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="1"></button>
+        <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="2"></button>
+        <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="3"></button>
+        <button type="button" data-bs-target="#carouselDemo" data-bs-slide-to="4"></button>
+    </div>
+    <div class="carousel-inner">
+        <div class="carousel-item active">
+            <div class="overlay"></div>
+            <img src="imgquytrinh/hinhnen18.png" alt="Article Image" class="d-block">
+        </div>
+        <div class="carousel-item">
+            <div class="overlay"></div>
+            <img src="imgquytrinh/hinhnen9.png" alt="Article Image" class="d-block">
+        </div>
+        <div class="carousel-item">
+            <div class="overlay"></div>
+            <img src="imgquytrinh/hinhnen8.png" alt="Article Image" class="d-block">
+        </div>
+        <div class="carousel-item">
+            <div class="overlay"></div>
+            <img src="imgquytrinh/hinhnen15.png" alt="Article Image" class="d-block">
+        </div>
+        <!-- Thêm các ảnh khác nếu cần -->
+    </div>
+    <!-- Left and right controls/icons -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselDemo" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselDemo" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+    </button>
+</div>
+<!-- Bootstrap JS -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+
+<!-- Lợi ích của việc lấy máu tại nhà-->
+<div class="container1 d-flex align-items-center justify-content-center loiich-container" style=" margin-bottom: 8rem; ">
+    <div class="row">
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <div class="d-flex justify-content-center align-items-center">
+                <h4 style="font-family: 'Roboto'; font-style: normal; font-weight: 600; font-size: 2.3rem; line-height: 48px;" class="text-center">
+                    Lợi ích của việc lấy xét nghiệm mẫu tại nhà
+                </h4>
+            </div>
+            <ul class="arrow-list">
+                <li class="arrow-list-item">
+                    <img src="3.png" alt="Biểu tượng">
+                    <p>Tiết kiệm thời gian - Không cần di chuyển</p>
+                </li>
+                <li class="arrow-list-item">
+                    <img src="5.png" alt="Biểu tượng">
+                    <p>Kết quả nhanh - Nhận kết quả trong vài giờ</p>
+                </li>
+                <li class="arrow-list-item">
+                    <img src="6.jpg" alt="Biểu tượng">
+                    <p>An toàn uy tín - Đảm bảo sự riêng tư và bảo mật</p>
+                </li>
+            </ul>
+        </div>
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <img style="width: 100%;" src="4.jpg" alt="Hình ảnh mô tả lợi ích">
+        </div>
+    </div>
+</div>
+<!--quy trinh dat lich-->
+<div class="container1 d-flex align-items-center justify-content-center loiich-container" style=" margin-bottom: 8rem; ">
+    <div class="row">
+        <div class="col d-flex flex-column align-items-center">
+            <img style="width: 100%;height:auto;" src="imgquytrinh/quytrinh6.png" alt="Hình ảnh mô tả lợi ích">
+        </div>
+    </div>
+</div>
+
+<!--Hướng dẫn các bước đặt lịch xét nghiệm-->
+<div class="container mt-5" style="margin-bottom: 8rem;">
+    <div class="row justify-content-center">
+        <div class="block-title">
+            <h2 style="font-family: 'Roboto';font-style: normal;font-weight: 700;font-size: 2.3rem;line-height: 48px;">
+                Hướng dẫn các bước đặt lịch xét nghiệm
+            </h2>
+            <p style="font-size: 1.2rem;margin-left:2px;">
+                Đặt lịch xét nghiệm có thể khác nhau tùy theo địa điểm và cơ sở y tế mà bạn chọn. Tuy nhiên, dưới đây là một số bước cơ bản mà bạn có thể thực hiện để đặt lịch xét nghiệm:
+            </p>
+        </div>
+    </div>
+</div>
+<div class="container">
+    <div class="step-content">
+        <h2>Bước 1: Chuẩn bị thông tin</h2>
+        <p>Đảm bảo bạn đã chuẩn bị đầy đủ thông tin cá nhân cần thiết.</p>
+    </div>
+    <div class="step-image">
+        <img src="prepare_info.jpg" alt="Chuẩn bị thông tin">
+    </div>
+    <div class="step">
+        <h2>Bước 2: Liên hệ cơ sở y tế</h2>
+        <p>Liên hệ với cơ sở y tế để đặt lịch xét nghiệm theo yêu cầu của bạn.</p>
+    </div>
+    <div class="step">
+        <h2>Bước 3: Đặt lịch xét nghiệm</h2>
+        <p>Đặt lịch xét nghiệm theo hướng dẫn của cơ sở y tế và chờ xác nhận.</p>
+    </div>
+    <div class="step">
+        <h2>Bước 4: Thực hiện xét nghiệm</h2>
+        <p>Đến cơ sở y tế đúng giờ để thực hiện xét nghiệm.</p>
+    </div>
+</div>
+@code {
+
+}

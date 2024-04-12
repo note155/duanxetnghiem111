@@ -1,0 +1,128 @@
+﻿@page "/DXNBS"
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
+@layout AdminLayout
+@rendermode InteractiveAuto
+  
+@if (AllDXN.Any())
+{
+    var groupedDXN = AllDXN.GroupBy(dxn => dxn.Ngaydat.Date).OrderBy(group => group.Key);
+    foreach (var group in groupedDXN)
+    {
+        <div class="table-users">
+            <div class="header">@group.Key.ToString("dd/MM/yyyy")</div>
+
+            <table cellspacing="0">
+                <tr>
+                    <th>Họ Tên</th>
+                    <th>SĐT</th>
+                    <th>Thời Gian</th>
+                    <th width="230">Địa Chỉ</th>
+                    <th></th>
+                </tr>
+                @foreach (var DXN in group)
+                {
+                    <tr>
+                        <td>@loadhoten(DXN.UserId)</td>
+                        <td>@loadsdt(DXN.UserId)</td>
+                        <td>@DXN.giolaymau @DXN.Ngaydat.ToString("dd/MM/yyyy")</td>
+                        <td>@loaddiachi(DXN.UserId)</td>
+                        <td>
+                            <a class="btn btn-info" @onclick="()=>duyet(DXN.Id)">Xem Chi Tiết</a>
+                        </td>
+                    </tr>
+                }
+
+            </table>
+        </div>
+    }
+}
+
+@code {
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    public string UserName { get; set; }
+
+    public List<DonXetNghiem> AllDXN { get; set; } = new();
+    public List<GoiXetNghiem> allGXN { get; set; } = new();
+    public List<User> allUser { get; set; } = new();
+    public BacSi bs { get; set; } = new();
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs();
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        UserName = authState.User.Identity.Name;
+        allGXN = await GXNservice.getallAsync();
+        allUser = await Usertservice.getalluserAsync();
+        bs = await bacsiservice.getbyemail(UserName);
+        await LoadAlLStudents();
+    }
+    public void duyet(int id)
+    {
+        navigation.NavigateTo("/XacNhanLayMau/"+id, true);
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+
+
+    public async Task LoadAlLStudents()
+    {
+        // var students = await GenericService.GetAllAsync(student, "api/Student/All-Students");
+        var DXN = await DXNservice.getallAsync();
+        AllDXN.Clear();
+
+        if (DXN is null) return;
+        foreach (var student in DXN)
+        {
+            if (student.BacSiId == bs.Id && student.Trangthai == "Chờ lấy mẫu")
+            {
+                AllDXN.Add(student);
+            }
+        }
+        AllDXN = AllDXN.OrderBy(dxn => dxn.Ngaydat).ToList();
+    }
+    public String loadhoten(int id)
+    {
+        foreach (var us in allUser)
+        {
+            if (us.Id == id)
+            {
+                return us.Hoten;
+            }
+        }
+        return null;
+    }
+    public String loaddiachi(int id)
+    {
+        foreach (var us in allUser)
+        {
+            if (us.Id == id)
+            {
+                string dc= us.Diachi+", "+us.CapXa+", "+us.CapHuyen ;
+                return dc;
+            }
+        }
+        return null;
+    }
+    public String loadsdt(int id)
+    {
+        foreach (var us in allUser)
+        {
+            if (us.Id == id)
+            {
+                return us.SDT;
+            }
+        }
+        return null;
+    }
+}

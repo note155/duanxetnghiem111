@@ -1,0 +1,91 @@
+﻿@page "/patient-info"
+@inject NavigationManager navigation;
+@attribute [Authorize]
+<div class="container">
+    <div class="row">
+        <div class="col-lg-4">
+            <div class="activity-history">
+                <h3>Lịch sử hoạt động</h3>
+                <ul>
+                    <li>Số đơn đã đăng ký: @AllDXN.Count</li>
+                    @if (AllDXN.Count!=0)
+                    {
+                        <li>Đơn đăng ký gần đây: @time.ToString("dd/MM/yyyy HH:mm:ss tt")</li>
+                    }
+                    <!-- Thêm các mục hoạt động khác tại đây -->
+                </ul>
+            </div>
+        </div>
+        <div class="col-lg-8">
+            <div class="patient-info">
+                <h3>Thông tin cá nhân của bệnh nhân</h3>
+
+                <div class="form-group">
+                    <label>Họ và tên:</label>
+                    <p>@patient.Hoten</p>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh:</label>
+                    <p>@patient.Ngaysinh.ToString("dd/MM/yyyy")</p>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính:</label>
+                    <p>@gioitinh(@patient.Gioitinh)</p>
+                </div>
+                <div class="form-group">
+                    <label>Địa Chỉ:</label>
+                    <p>@patient.Diachi, @patient.CapXa, @patient.CapHuyen, Tỉnh TT Huế</p>
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại:</label>
+                    <p>@patient.SDT</p>
+                </div>
+                <div class="form-group">
+                    <label>Email:</label>
+                    <p>@patient.Email</p>
+                </div>
+                <div class="text-center">
+                    <a href="/UpdateUser" class="btn edit-btn">Chỉnh sửa thông tin</a>
+                    <a class="btn add-btn" href="/adduser">Thêm thông tin cho người thân</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row" style="height:500px"></div>
+@code {
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+
+    User patient = new User();
+    public string UserName { get; set; }
+    public List<DonXetNghiem> AllDXN { get; set; } = new();
+    DateTime time;
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        UserName = authState.User.Identity.Name;
+        patient = await Usertservice.getuserbyemail(UserName);
+        if (patient == null)
+        {
+            navigation.NavigateTo("/AddUser");
+        }
+        AllDXN = await DXNservice.getallbyiduserAsync(patient.Id);
+        if (AllDXN.Count!=0)
+        {
+            var dxnWithMaxId = AllDXN.OrderByDescending(dxn => dxn.Id).First();
+            time = dxnWithMaxId.ngaytaodon;
+        }
+    }
+    private String gioitinh(bool a)
+    {
+        if (a)
+        {
+            return "Nam";
+        }
+        else
+        {
+            return "Nữ";
+        }
+    }
+}

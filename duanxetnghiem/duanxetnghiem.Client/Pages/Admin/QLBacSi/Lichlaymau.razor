@@ -1,0 +1,123 @@
+﻿@page "/Lichlaymau/{id:int}"
+@using System.Globalization
+@attribute [Authorize]
+@layout AdminLayout
+@rendermode InteractiveAuto
+<div class="background-container" style="background-image: url('yte1.png');">
+    <div class="row" style="width: 100%; height: 300px; margin: auto;max-width:100%;">
+        <div class="col-md-6 d-flex flex-column align-items-center">
+            <!-- title -->
+            <div class="title">
+                LỊCH LẤY MẪU
+            </div>
+        </div>
+    </div>
+</div>
+<EditForm Model="@this" OnValidSubmit="LoadSchedule" FormName="myForm" class="custom-edit-form">
+    <div class="form-group">
+        <label for="NgayPicker" class="form-label">Chọn ngày:</label>
+        <InputDate id="NgayPicker" @bind-Value="selectedDate" class="form-control" />
+    </div>
+    <button type="submit" class="btn btn-primary custom-btn" @onclick="HandleButtonClick">Load</button>
+</EditForm>
+<div class="table-responsive">
+    <table class="table table-bordered schedule-table">
+        <thead>
+            <tr>
+                @for (int i = 0; i < 7; i++)
+                {
+                    <th>@(startOfWeek.AddDays(i).ToString("dddd (dd/MM/yyyy)"))</th>
+                }
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                @for (int i = 0; i < 7; i++)
+                {
+                    <td>
+                        @{
+                            bool found = false;
+                            foreach (var dxn in allDXN)
+                            {
+                                if (dxn.Ngaydat.Date == startOfWeek.AddDays(i).Date)
+                                {
+                                    <div style="padding: 1px">
+                                        <a style="color: brown;" href="/XacNhanLayMau/@dxn.Id">
+                                            IdDon:@dxn.Id-@dxn.giolaymau-@bs.Hoten
+                                        </a>
+                                    </div>
+                                    found = true;
+                                }
+                            }
+                            if (!found)
+                            {
+                                <div class="no-info">------</div>
+                            }
+                        }
+                    </td>
+                }
+            </tr>
+        </tbody>
+    </table>
+</div>
+@code {
+    private DateTime selectedDate = DateTime.Today;
+    private DateTime startOfWeek;
+
+    //Data
+    public List<DonXetNghiem> allDXN { get; set; } = new();
+    public List<GoiXetNghiem> allGXN { get; set; } = new();
+    public BacSi bs { get; set; } = new();
+
+    [Parameter]
+    public int id { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs ();
+        await LoadSchedule();
+        allDXN = await DXNservice.getallAsync();
+        bs = await bacsiservice.getbyid(id);
+        await LoadAlLStudents();
+    }
+    public async Task LoadAlLStudents()
+    {
+        var DXN = await DXNservice.getallAsync();
+        allDXN.Clear();
+
+        if (DXN is null) return;
+        foreach (var student in DXN)
+        {
+            if (student.BacSiId == bs.Id && student.Trangthai == "Chờ lấy mẫu")
+            {
+                allDXN.Add(student);
+            }
+        }
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+    private async Task LoadSchedule()
+    {
+        // Tìm ngày đầu tiên của tuần
+        startOfWeek = selectedDate.AddDays(-(int)selectedDate.DayOfWeek);
+        //if (startOfWeek.DayOfWeek != DayOfWeek.Monday)
+        //{
+        // Nếu ngày đầu tiên không phải là Monday, điều chỉnh để nó là Monday
+        //  startOfWeek = startOfWeek.AddDays(-(int)startOfWeek.DayOfWeek + (int)DayOfWeek.Monday);
+        //}
+
+    }
+    private async Task HandleButtonClick()
+    {
+        await LoadSchedule();
+    }
+
+}
