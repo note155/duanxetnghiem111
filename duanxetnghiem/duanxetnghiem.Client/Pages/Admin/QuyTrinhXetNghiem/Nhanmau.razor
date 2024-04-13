@@ -55,6 +55,30 @@
             </div>
         </EditForm>
         <div>
+            @if (gxndachon.Count != 0)
+            {
+                <div class="doctor-info">
+                    <div class="selected-packages-header">
+                        <h3>Các gói đã chọn:</h3>
+                    </div>
+                    <div class="selected-packages">
+                        @foreach (var bs in gxndachon)
+                        {
+                            <div class="package">
+                                <div class="package-content">
+                                    <p><strong>Tên Gói:</strong> @bs.TenGoi</p>
+                                    <div class="price">Giá: @bs.Gia VND</div>
+                                </div>
+
+                            </div>
+                        }
+                    </div>
+                    <div class="total-mobile">
+                        <p>Tổng tiền: <span class="total">@tongtien VND</span></p>
+                    </div>
+                </div>
+
+            }
             <h2>Xác Nhận Nhận Mẫu</h2>
             <EditForm Model="Inputkq" method="post" OnValidSubmit="addkq" FormName="addkq" class="profile-form">
                 <DataAnnotationsValidator />
@@ -117,7 +141,7 @@
     string err1 = "", err2 = "";
     [SupplyParameterFromForm]
     public Mau Inputkq { get; set; } = new();
-
+    public long tongtien = 0;
     protected override async Task OnInitializedAsync()
     {
         await checkbs();
@@ -185,6 +209,7 @@
                 if (b.Id == a.GoiXetNghiemId)
                 {
                     gxndachon.Add(b);
+                    tongtien += b.Gia;
                 }
             }
             allGXN.RemoveAll(item => item.Id == a.GoiXetNghiemId);
