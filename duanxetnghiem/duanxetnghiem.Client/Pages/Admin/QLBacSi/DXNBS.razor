@@ -3,7 +3,54 @@
 @attribute [Authorize]
 @layout AdminLayout
 @rendermode InteractiveAuto
-  
+@using BootstrapBlazor.Components
+@using Append.Blazor.Printing
+@inject IPrintingService PrintingService
+
+<button @onclick="xoahtml" class="btn btn-info" id="myBtn">In Mã Vạch Cho Hôm Nay</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        @foreach (var k in dxnhomnay)
+        {
+            <tr>
+                <td><input @onclick="xoahtml" @bind="@k.chon" type="checkbox" /></td>
+                <td>@k.don.Id</td>
+                <td>@loadhoten(k.don.UserId)</td>
+                <td>@k.don.giolaymau</td>
+            </tr>
+        }
+        <div class="row">
+            @foreach (var batch in dxnhomnay)
+            {
+                if (batch.chon)
+                {
+                    <div class="col-sm-3">
+                        @{
+                            batch.Options.Text = LoadHoten1(batch.don.UserId);
+                        }
+                        <BarCodeGenerator Type="EnumBarcodeType.CODE128" Value="@batch.don.Id.ToString()" Options="batch.Options" OnResult="OnResult" />
+                    </div>
+                }
+            }
+        </div>
+        @{
+            xoahtml();
+        }
+        <div class="modal-footer">
+            <button @onclick="PrintCombinedContent" type="button" class="btn btn-info" data-dismiss="modal">In</button>
+        </div>
+    </div>
+   
+
+</div>
+
+
+
 @if (AllDXN.Any())
 {
     var groupedDXN = AllDXN.GroupBy(dxn => dxn.Ngaydat.Date).OrderBy(group => group.Key);
@@ -42,13 +89,15 @@
     [Inject]
     protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     public string UserName { get; set; }
-
+    public List<haha> dxnhomnay { get; set; } = new();
     public List<DonXetNghiem> AllDXN { get; set; } = new();
     public List<GoiXetNghiem> allGXN { get; set; } = new();
     public List<User> allUser { get; set; } = new();
     public BacSi bs { get; set; } = new();
-
-
+    Boolean m = false;
+    string rawHtml = "";
+    string vach = "";
+    private MarkupString preview;
     protected override async Task OnInitializedAsync()
     {
         await checkbs();
@@ -87,9 +136,21 @@
             if (student.BacSiId == bs.Id && student.Trangthai == "Chờ lấy mẫu")
             {
                 AllDXN.Add(student);
+                if (student.Ngaydat.ToString("dd/MM/yyyy") == DateTime.Now.ToString("dd/MM/yyyy"))
+                {
+                    haha a = new haha();
+                    a.chon = true;
+                    a.don = student;
+                    a.Options = new();
+                    dxnhomnay.Add(a);
+                }
             }
         }
-        AllDXN = AllDXN.OrderBy(dxn => dxn.Ngaydat).ToList();
+        AllDXN = AllDXN.OrderBy(dxn => dxn.Ngaydat.ToString("dd/MM/yyyy")).ToList();
+    }
+    public void xoahtml()
+    {
+        rawHtml = "";
     }
     public String loadhoten(int id)
     {
@@ -101,6 +162,52 @@
             }
         }
         return null;
+    }
+    public string LoadHoten1(int id)
+    {
+        if (allUser == null)
+        {
+            // Handle the case where allUser is null
+            return null;
+        }
+
+        foreach (var user in allUser)
+        {
+            if (user.Id == id)
+            {
+                // Assuming "Hà Cảnh Nam Đô" is returned from user.Hoten
+                string hoten = user.Hoten;
+
+                // Split the full name into parts
+                string[] parts = hoten.Split(' ');
+
+                // Build the desired format
+                string result = "";
+                foreach (string part in parts)
+                {
+                    // If the part is not the last name, take the first character
+                    if (part != parts.Last())
+                    {
+                        result += part[0];
+                    }
+                    else
+                    {
+                        // If it's the last name, append it with a space
+                        result += " " + part;
+                    }
+                }
+
+                return result;
+            }
+        }
+
+        // If no user with matching ID is found
+        return null;
+    }
+
+    private async Task PrintCombinedContent()
+    {
+        await PrintingService.Print(rawHtml, PrintType.RawHtml);
     }
     public String loaddiachi(int id)
     {
@@ -125,4 +232,44 @@
         }
         return null;
     }
+    private Task OnResult(string value)
+    {
+        vach = value;
+        preview = new MarkupString(vach);
+        rawHtml += "<svg>" + @preview + "</svg>";
+        return Task.CompletedTask;
+    }
+    public class haha
+    {
+        public Boolean chon { get; set; }
+        public DonXetNghiem don { get; set; }
+        public BarcodeGeneratorOption Options { get; set; }
+    }
 }
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks the button, open the modal
+    btn.onclick = function () {
+        modal.style.display = "block";
+    }
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>

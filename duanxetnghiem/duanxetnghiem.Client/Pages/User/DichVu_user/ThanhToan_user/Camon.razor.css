@@ -1,0 +1,60 @@
+﻿
+/*quy trinh dat lich*/
+.card1 {
+    background-color: #fff; /* Màu nền trắng */
+    padding: 20px; /* Khoảng cách lề */
+    border-radius: 10px; /* Bo tròn góc */
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Đổ bóng */
+}
+
+.card2 {
+    background-image: url('imgtrangchu/hinhnen19.png');
+    background-size: cover; /* Đảm bảo hình nền được phủ toàn bộ phần nền */
+    background-position: center; /* Căn giữa hình nền */
+    padding: 0px;
+    transition: transform 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+h3 {
+    font-size: 2.1rem;
+    margin-bottom: 1.5em;
+    line-height: 1.6;
+    font-style: normal;
+    font-weight: 700;
+    text-align: center;
+    color: black;
+}
+
+.card-text1 {
+    font-size: 1.1rem;
+    color: black;
+    font-weight: 400;
+}
+
+.card-title1 {
+    font-family: 'Roboto';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 1.8rem;
+    line-height: 28px;
+    margin: 5px;
+    color: #fff;
+    text-align: center;
+}
+
+.card-header {
+    height: 50px;
+    background-color: #208095;
+}
+
+.card-body1 {
+    height: 92px;
+    padding: 20px;
+}
+
+.img-fluid rounded-start {
+    border-radius: 5px;
+}
+
+

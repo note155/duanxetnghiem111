@@ -1,0 +1,103 @@
+﻿/* Định dạng hàng */
+.row {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #ccc;
+    cursor: pointer;
+}
+
+/* Định dạng cột chứa hình ảnh */
+.col-sm-3 {
+    flex: 0 0 25%; /* Cố định chiều rộng cột */
+    max-width: 25%; /* Cố định chiều rộng tối đa */
+    padding-right: 10px;
+}
+
+    /* Định dạng hình ảnh */
+    .col-sm-3 img {
+        max-width: 100%;
+        height: auto;
+        border-radius: 50%; /* Làm tròn góc hình ảnh */
+    }
+
+/* Định dạng cột chứa nội dung */
+.col-sm-8 {
+    flex: 1; /* Chiếm phần còn lại của hàng */
+}
+
+/* Định dạng menu người dùng */
+.user-menu {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+    /* Định dạng nút trong menu */
+    .user-menu button {
+        margin: 10px;
+        padding: 12px 24px;
+        border: none;
+        background-color: #007bff;
+        color: #fff;
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 80%;
+        max-width: 300px;
+    }
+
+        .user-menu button:hover {
+            background-color: #0056b3;
+            transform: translateY(-2px); /* Hiệu ứng nút nhảy lên */
+        }
+
+        .user-menu button:focus {
+            outline: none;
+        }
+    /* Định dạng nút trong menu */
+    /* Định dạng nút trong menu */
+    .user-menu button {
+        margin: 10px;
+        padding: 12px 24px;
+        border: none;
+        background-color: transparent; /* Màu nền trong suốt */
+        color: #000; /* Màu chữ đen */
+        font-size: 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: background-color 0.3s ease, transform 0.2s ease;
+        width: 80%;
+        max-width: 300px;
+        position: relative; /* Tạo vị trí tương đối cho biểu tượng */
+        text-align: left; /* Đặt văn bản sang trái */
+    }
+
+        /* Định dạng biểu tượng icon */
+        .user-menu button i {
+            margin-right: 10px; /* Khoảng cách giữa biểu tượng và nội dung */
+        }
+
+        /* Hiệu ứng hover */
+        .user-menu button:hover {
+            background-color: #fff; /* Màu nền trắng */
+            color: #000; /* Màu chữ đen */
+            transform: translateY(-2px); /* Hiệu ứng nhảy lên */
+        }
+
+        /* Dấu ">" */
+        .user-menu button::after {
+            content: '>'; /* Nội dung của dấu ">" */
+            position: absolute;
+            right: 15px; /* Khoảng cách từ phía bên phải */
+            top: 50%; /* Canh giữa theo chiều dọc */
+            transform: translateY(-50%); /* Dịch chuyển lên trên một nửa chiều cao của phần tử */
+            font-weight: bold;
+        }
+
+        /* Ẩn dấu ">" trên nút cuối cùng */
+        .user-menu button:last-child::after {
+            display: none;
+        }

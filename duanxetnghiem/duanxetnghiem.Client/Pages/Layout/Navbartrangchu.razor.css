@@ -1,4 +1,11 @@
-﻿
+﻿img{
+    width:150px;
+}
+@media only screen and (max-width: 600px) {
+    img {
+        width: 100px; /* Điều chỉnh kích thước hình ảnh thành 100px khi trên màn hình điện thoại */
+    }
+}
 /* cyrillic-ext */
 @font-face {
     font-family: 'Lobster';

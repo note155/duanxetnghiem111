@@ -1,0 +1,84 @@
+﻿@page "/Userlist"
+@attribute [Authorize]
+@rendermode InteractiveAuto
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<div @onclick="NavigateToProfile" class="row">
+    <div class="col-sm-3">
+        <img src="userhaha.png"/>
+    </div>
+    <div class="col-sm-8"> @user.Hoten</div>
+</div>
+    
+<div class="user-menu">
+    <button @onclick="NavigateToHealth">
+        <i class="fa fa-heartbeat" ></i> Theo Dõi Sức Khỏe
+    </button>
+    <button @onclick="NavigateToHistory">
+        <i class="fas fa-history"></i> Lịch Sử
+    </button>
+    <button @onclick="NavigateToConsultation">
+        <i class="fas fa-comments"></i> Tư Vấn Trực Tiếp
+    </button>
+    <button @onclick="NavigateToChangePassword">
+        <i class="fas fa-lock"></i> Đổi Mật Khẩu
+    </button>
+    <hr/>
+    <AuthorizeView>
+        <Authorized>
+            <form style="width:100%" action="Account/Logout" method="post">
+                <AntiforgeryToken />
+                <input type="hidden" name="ReturnUrl" value="" />
+                <button style="width:100%" type="submit">
+                    <i class="fas fa-sign-out-alt"></i> Đăng Xuất
+                </button>
+            </form>
+        </Authorized>
+    </AuthorizeView>   
+</div>
+
+
+@code {
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    public string UserName { get; set; }
+    public User user { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        UserName = authState.User.Identity.Name;
+        user = await Usertservice.getuserbyemail(UserName);
+        if (user == null)
+        {
+            navigation.NavigateTo("/AddUser");
+        }
+    }
+    private void NavigateToProfile()
+    {
+        // Điều hướng đến trang Thông Tin Cá Nhân
+        navigation.NavigateTo("/patient-info");
+    }
+
+    private void NavigateToHealth()
+    {
+        // Điều hướng đến trang Theo Dõi Sức Khỏe
+        navigation.NavigateTo("/TDSK");
+    }
+
+    private void NavigateToHistory()
+    {
+        // Điều hướng đến trang Lịch Sử
+        navigation.NavigateTo("/lichsuDl");
+    }
+
+    private void NavigateToConsultation()
+    {
+        // Điều hướng đến trang Tư Vấn Trực Tiếp
+        navigation.NavigateTo("/listchat");
+    }
+
+    private void NavigateToChangePassword()
+    {
+        // Điều hướng đến trang Đổi Mật Khẩu
+        navigation.NavigateTo("/Account/Manage/ChangePassword");
+    }
+}

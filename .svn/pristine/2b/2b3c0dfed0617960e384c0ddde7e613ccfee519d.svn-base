@@ -1,22 +1,20 @@
-﻿@page "/listDXNKQ"
+﻿@page "/ListchoXN"
 @using System.Globalization
-@inject NavigationManager navigation;
 @attribute [Authorize]
 @layout AdminLayout
-
 
 <div class="row">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh Sách Đơn Đang Chờ Kết Quả @Inputkq</h3>
+                <h3 class="card-title">Xác nhận nhận mẫu máu</h3>
             </div>
             <div class="card-body">
                 <div class="row">
                     <EditForm Model="Inputkq" method="post" OnValidSubmit="timkiem" FormName="register">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="text-danger" role="alert" />
-                        <InputText @bind-Value="Inputkq" placeholder="tìm kiếm" />
+                        <InputText @bind-Value="Inputkq" placeholder="Tìm kiếm" />
                         <ValidationMessage For="() => Inputkq" class="text-danger" />
                         <button type="submit" class=" btn-success">Tìm kiếm</button> <!-- Updated button class -->
                     </EditForm>
@@ -39,20 +37,26 @@
                                                     <th>Trạng thái</th>
                                                     <th>Ngày lấy máu </th>
                                                     <th>Giờ lấy máu </th>
+                                                    <th>Bác sĩ đảm nhận</th>
                                                     <th></th>
                                                 </tr>
                                             </thead>
                                             <tbody>
                                                 @foreach (var DXN in AllDXN)
                                                 {
+                                                    var bs = laybs(@DXN.BacSiId);
                                                     <tr>
                                                         <td>@DXN.Id</td>
                                                         <td>@loadhoten(DXN.UserId)</td>
                                                         <td>@DXN.Trangthai</td>
                                                         <td>@DXN.Ngaydat.ToString("dd/MM/yyyy")</td>
                                                         <td>@DXN.giolaymau</td>
+                                                        <td class="doctor-info">
+                                                            <img src="@bs.Anh" alt="@bs.Hoten">
+                                                            <span>@bs.Hoten</span>
+                                                        </td>
                                                         <td>
-                                                            <a class="btn btn-success" href="/addKQXN/@DXN.Id"> Nhập kết quả </a>
+                                                            <a class="btn btn-success" href="/XNNM/@DXN.Id">Xác Nhận </a>
                                                         </td>
                                                     </tr>
                                                 }
@@ -76,6 +80,7 @@
 
 @code {
     public List<DonXetNghiem> AllDXN { get; set; } = new();
+    public List<BacSi> allBS { get; set; } = new();
     public List<User> allUser { get; set; } = new();
     [SupplyParameterFromForm]
     public String Inputkq { get; set; } = new("");
@@ -84,7 +89,7 @@
         await checkbs();
         await LoadAlLStudents();
         allUser = await Usertservice.getalluserAsync();
-
+        allBS = await bacsiservice.getallAsync();
     }
     public async Task checkbs()
     {
@@ -107,11 +112,16 @@
         if (DXN is null) return;
         foreach (var student in DXN)
         {
-            if (student.Trangthai == "Chờ kết quả")
+            if (student.Trangthai == "Đã Lấy Mẫu")
             {
                 AllDXN.Add(student);
             }
         }
+    }
+    public BacSi laybs(int? id)
+    {
+        var bs = allBS.FirstOrDefault(b => b.Id == id);
+        return bs;
     }
     public String loadhoten(int id)
     {
@@ -132,27 +142,32 @@
         }
         else
         {
-            // Define array of formats to parse the search query
-            string[] formats = { "dd/MM/yyyy", "d/M/yyyy" };
-
-            // Parse the search query as a date with multiple formats
-            if (DateTime.TryParseExact(Inputkq, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime searchDate))
+            // Check if the search input is a valid ID
+            if (int.TryParse(Inputkq, out int searchId))
             {
-                // Filter AllDXN based on the search date
-                AllDXN = AllDXN.Where(dx => dx.Ngaydat.Date == searchDate.Date).ToList();
-            }
-            else if (int.TryParse(Inputkq, out int searchId)) // Check if Inputkq can be parsed as an integer
-            {
-                // Filter AllDXN based on the ID
+                // Filter AllDXN based on the search ID
                 AllDXN = AllDXN.Where(dx => dx.Id == searchId).ToList();
             }
             else
             {
-                // Filter AllDXN based on customer's name or doctor's name
-                AllDXN = AllDXN.Where(dx => loadhoten(dx.UserId).Contains(Inputkq, StringComparison.OrdinalIgnoreCase)).ToList();
+                // Define array of formats to parse the search query as a date
+                string[] formats = { "dd/MM/yyyy", "d/M/yyyy" };
+
+                // Parse the search query as a date with multiple formats
+                if (DateTime.TryParseExact(Inputkq, formats, CultureInfo.InvariantCulture, DateTimeStyles.None, out DateTime searchDate))
+                {
+                    // Filter AllDXN based on the search date
+                    AllDXN = AllDXN.Where(dx => dx.Ngaydat.Date == searchDate.Date).ToList();
+                }
+                else
+                {
+                    // Filter AllDXN based on customer's name, doctor's name, or ID
+                    AllDXN = AllDXN.Where(dx => dx.Id.ToString().Contains(Inputkq) ||
+                                                 loadhoten(dx.UserId).Contains(Inputkq, StringComparison.OrdinalIgnoreCase) ||
+                                                 laybs(dx.BacSiId)?.Hoten.Contains(Inputkq, StringComparison.OrdinalIgnoreCase) == true).ToList();
+                }
             }
         }
     }
-
 
 }

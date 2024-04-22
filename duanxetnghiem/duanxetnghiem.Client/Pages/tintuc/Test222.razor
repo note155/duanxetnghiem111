@@ -1,0 +1,49 @@
+﻿@page "/mavach"
+@rendermode InteractiveAuto
+@using BootstrapBlazor.Components
+@using Append.Blazor.Printing
+@inject IPrintingService PrintingService
+
+@{
+    var numberOfCols = 4; // Số mã vạch trên mỗi hàng
+    var batches = Enumerable.Range(0, (int)Math.Ceiling((double)a.Count / numberOfCols))
+                            .Select(i => a.Skip(i * numberOfCols).Take(numberOfCols));
+}
+
+@foreach (var batch in batches)
+{
+    <div class="row">
+        @foreach (var haha in batch)
+        {
+            <div class="col">
+                <div style="display: inline-block; margin-right: 10px;">
+                    <BarCodeGenerator Type="EnumBarcodeType.CODE128" Value="@haha" OnResult="OnResult" />
+                </div>
+            </div>
+        }
+    </div>
+}
+
+<button class="btn btn-success" @onclick="@(_ => PrintingService.Print(rawHtml, PrintType.RawHtml))">
+    In ra
+</button>
+<svg>@preview</svg>
+@code {
+    string value = "1";
+    List<string> a = new() { "a", "haha", "huhu", "sa", "123", "4655" };
+    string rawHtml = "";
+    string vach = "";
+    private MarkupString preview;
+    private BarcodeGeneratorOption Options { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+    }
+
+    private Task OnResult(string value)
+    {
+        vach = value;
+        preview = new MarkupString(vach);
+        rawHtml += "<svg>" + @preview + "</svg>";
+        return Task.CompletedTask;
+    }
+}

@@ -2,6 +2,39 @@
 @using System.Globalization
 @attribute [Authorize]
 @layout AdminLayout
+@rendermode InteractiveAuto
+@using BlazorBarcodeScanner.ZXing.JS
+<button class="btn btn-info" id="myBtn" onclick="focusInput">Quét mã</button>
+
+<!-- The Modal -->
+<div id="myModal" class="modal">
+
+    <!-- Modal content -->
+    <div class="modal-content">
+        <span class="close">&times;</span>
+        @haha
+        <input @bind:event="oninput" @bind="haha" type="text" id="myInput" class="hidden-input">
+        <h2>Sử Dụng Máy Quét Hoặc Camera</h2>       
+        <button class="btn btn-info" @onclick="mocam">@cam</button>
+        <h3 style="color:red">@huhu</h3>
+        @if (cam == "Đóng Camera")
+        {
+            <BlazorBarcodeScanner.ZXing.JS.BarcodeReader  Title="Quét Mã"
+                                                         StartCameraAutomatically="true"
+                                                         ShowStart="true"
+                                                         ShowReset="true"
+                                                         ShowToggleTorch="true"
+                                                         ShowVideoDeviceList="true"
+                                                         VideoWidth="500"
+                                                         VideoHeight="400"
+            OnBarcodeReceived="LocalReceivedBarcodeText" />
+        }
+        else
+        {
+            quetmay();
+        }
+    </div>
+</div>
 
 <div class="row">
     <div class="col-12">
@@ -47,7 +80,7 @@
                                                     var bs = laybs(@DXN.BacSiId);
                                                     <tr>
                                                         <td>@DXN.Id</td>
-                                                        <td>@loadhoten(DXN.UserId)</td>>
+                                                        <td>@loadhoten(DXN.UserId)</td>
                                                         <td>@DXN.Trangthai</td>
                                                         <td>@DXN.Ngaydat.ToString("dd/MM/yyyy")</td>
                                                         <td>@DXN.giolaymau</td>
@@ -84,6 +117,8 @@
     public List<User> allUser { get; set; } = new();
     [SupplyParameterFromForm]
     public String Inputkq { get; set; } = new("");
+    string haha = "", huhu = "";
+    string cam = "Mở Camera";
     protected override async Task OnInitializedAsync()
     {
         await checkbs();
@@ -101,7 +136,32 @@
             navigation.NavigateTo("/err");
         }
     }
-
+    public void quetmay()
+    {
+        huhu = "";
+        if (haha != "")
+        {
+            foreach (var s in AllDXN)
+            {
+                if (s.Id == int.Parse(haha))
+                {
+                    navigation.NavigateTo("/XNNM/" + haha);
+                }
+            }
+            huhu = "Lỗi: Không tìm thấy đơn trong hệ thống cần xác nhận";
+        }
+    }
+    public void mocam()
+    {
+        if (cam == "Mở Camera")
+        {
+            cam = "Đóng Camera";
+        }
+        else
+        {
+            cam = "Mở Camera";
+        }
+    }
 
     public async Task LoadAlLStudents()
     {
@@ -118,6 +178,7 @@
             }
         }
     }
+
     public BacSi laybs(int? id)
     {
         var bs = allBS.FirstOrDefault(b => b.Id == id);
@@ -169,5 +230,54 @@
             }
         }
     }
-
+    private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
+    {
+        this.haha = args.BarcodeText;
+        huhu = "";
+        if (haha != "")
+        {
+            foreach (var s in AllDXN)
+            {
+                if (s.Id == int.Parse(haha))
+                {
+                    navigation.NavigateTo("/XNNM/" + haha);
+                }
+            }
+            huhu = "Lỗi: Không tìm thấy đơn trong hệ thống cần xác nhận";
+        }
+        StateHasChanged();
+    }
 }
+<script>
+    // Get the modal
+    var modal = document.getElementById("myModal");
+
+    // Get the button that opens the modal
+    var btn = document.getElementById("myBtn");
+
+    // Get the input field
+    var inputField = document.getElementById("myInput");
+
+    // When the user clicks the button, open the modal and focus on the input field
+    btn.onclick = function () {
+        modal.style.display = "block";
+        inputField.focus(); // Set focus on the input field
+    }
+
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function () {
+        modal.style.display = "none";
+    }
+
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function (event) {
+        if (event.target == modal) {
+            modal.style.display = "none";
+        }
+    }
+</script>
+
+

@@ -1,0 +1,23 @@
+﻿@page "/lala"
+@rendermode InteractiveAuto
+
+<button @onclick="CallPhoneNumber">Gọi điện</button>
+
+@code {
+    string a = "0988153971";
+
+    private async Task CallPhoneNumber()
+    {
+        // Sử dụng JavaScript interop để gọi hàm JavaScript để thực hiện cuộc gọi điện thoại
+        await JSRuntime.InvokeVoidAsync("callPhoneNumber", a);
+    }
+}
+<script>
+    window.callPhoneNumber = function (phoneNumber) {
+        // Thực hiện cuộc gọi điện thoại
+        // Bạn có thể sử dụng navigator.phoneNumber để thực hiện cuộc gọi
+        console.log("Calling " + phoneNumber);
+        window.open("tel:" + phoneNumber);
+    };
+
+</script>

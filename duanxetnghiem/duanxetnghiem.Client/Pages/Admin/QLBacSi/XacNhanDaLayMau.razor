@@ -3,6 +3,7 @@
  @inject NavigationManager navigation;
 @attribute [Authorize]
  @layout AdminLayout
+ @using BlazorBarcodeScanner.ZXing.JS
 <div id="map" style="height: 400px;"></div>
 <div class="patient-registration-container">
     <div class="patient-info">
@@ -14,6 +15,23 @@
             <p><strong>Địa chỉ:</strong> @user.Diachi, @user.CapXa, @user.CapHuyen, TT Huế</p>
             <p><strong>Email:</strong> @user.Email</p>
             <p><strong>Giới tính:</strong> @gioitinh(@user.Gioitinh)</p>
+            <div style="height:30px"></div>
+                <a @onclick="CallPhoneNumber" class="button button--piyo">
+                    <div class="button__wrapper">
+                        <span class="button__text">Gọi</span>
+                    </div>
+                    <div class="characterBox">
+                        <div class="character wakeup">
+                            <div class="character__face"></div>
+                        </div>
+                        <div class="character wakeup">
+                            <div class="character__face"></div>
+                        </div>
+                        <div class="character">
+                            <div class="character__face"></div>
+                        </div>
+                    </div>
+                </a>
         </div>
     </div>
 
@@ -73,10 +91,19 @@
                     <p>Tổng tiền: <span class="total">@tongtien VND</span></p>
                 </div>
             </div>
+            <h3 style="color:red;" >@huhu</h3>
+            <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Quét Mã"
+                                                             StartCameraAutomatically="true"
+                                                             ShowStart="true"
+                                                             ShowReset="true"
+                                                             ShowToggleTorch="true"
+                                                             ShowVideoDeviceList="true"
+                                                             VideoWidth="300"
+                                                             VideoHeight="400"
+                                                             OnBarcodeReceived="LocalReceivedBarcodeText" />
 
             <!--Button-->
             <button type="button" style="background-color:red" class="btn btn-primary" onclick="toggleForm()"> Chưa hoàn thành </button>
-            <button style="background-color:forestgreen" type="submit" class="btn btn-primary">Hoàn thành</button>
         </EditForm>
         <!--Nếu chưa hoàn thành-->
         <div id="rejectForm" style="display:none;">
@@ -119,7 +146,8 @@
     public List<GoiXetNghiem> gxndachon { get; set; } = new();
     public List<DXNandGXN> dxn { get; set; } = new();
     public long tongtien = 0;
-
+    string haha = "", huhu = "";
+    Boolean cam = true;
     [SupplyParameterFromForm]
     public DonXetNghiem Input { get; set; } = new();
 
@@ -150,6 +178,11 @@
         {
             navigation.NavigateTo("/err");
         }
+    }
+    private async Task CallPhoneNumber()
+    {
+        // Sử dụng JavaScript interop để gọi hàm JavaScript để thực hiện cuộc gọi điện thoại
+        await JSRuntime.InvokeVoidAsync("callPhoneNumber", user.SDT);
     }
     private void loadgxndachon()
     {
@@ -234,8 +267,29 @@
         valor = id;
         Chuathanhcong.Lydo = valor;
     }
+    private async void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
+    {
+        this.haha = args.BarcodeText;
+        huhu = "";
+        if (haha != "")
+        {
+            if (Input.Id == int.Parse(haha))
+            {
+                await add();
+            }
+            huhu = "Lỗi: Mã Vạch không trùng khớp với đơn";
+        }
+        StateHasChanged();
+    }
 }
 <script>
+    window.callPhoneNumber = function (phoneNumber) {
+        // Thực hiện cuộc gọi điện thoại
+        // Bạn có thể sử dụng navigator.phoneNumber để thực hiện cuộc gọi
+        console.log("Calling " + phoneNumber);
+        window.open("tel:" + phoneNumber);
+    };
+
     document.addEventListener("DOMContentLoaded", function () {
         initMap();
     });
