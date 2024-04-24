@@ -1,0 +1,83 @@
+﻿/* CSS for Viewing News Page */
+
+
+.row {
+    margin-top: 20px;
+}
+
+/* Adjustments for the main content column */
+.col-sm-8 {
+    background-color: #fff; /* Background color */
+    padding: 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+
+    /* Styling for the image */
+    .col-sm-8 img {
+        max-width: 100%; /* Maximum width */
+        height: auto; /* Auto height */
+        margin-bottom: 20px; /* Margin bottom */
+    }
+
+    /* Styling for the title */
+    .col-sm-8 h1 {
+        font-size: 24px; /* Font size */
+        margin-bottom: 10px; /* Margin bottom */
+    }
+    .col-sm-8 img {
+        max-width: 100%; /* Maximum width */
+ /* Fixed height */
+        object-fit: cover; /* Keep the aspect ratio, but crop if necessary */
+    }
+
+    /* Styling for the paragraph */
+    .col-sm-8 p {
+        font-size: 16px; /* Font size */
+        margin-bottom: 10px; /* Margin bottom */
+    }
+
+    /* Styling for the link */
+    .col-sm-8 a {
+        color: #007bff; /* Link color */
+        text-decoration: none; /* No underline */
+    }
+
+    /* Styling for the date */
+    .col-sm-8 p:nth-child(3) {
+        font-style: italic; /* Italic font style */
+    }
+
+/* Adjustments for the sidebar column */
+.col-sm-4 {
+    background-color: #f8f9fa; /* Background color */
+    padding: 20px; /* Padding */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Box shadow */
+}
+/* Assuming your container has a class named 'container', and the image is the first child of the container */
+
+
+@media only screen and (max-width: 600px) {
+    .col-sm-8 img {
+        max-width: 100%; /* Ensure images don't exceed container width */
+        height: auto; /* Maintain aspect ratio */
+    }
+    /* Adjustments for the main content column */
+    .col-sm-8 {
+        padding: 5px; /* Further reduced padding for smaller screens */
+    }
+
+        /* Styling for the title on smaller screens */
+        .col-sm-8 h1 {
+            font-size: 18px; /* Smaller font size for smaller screens */
+        }
+
+        /* Styling for the paragraph on smaller screens */
+        .col-sm-8 p {
+            font-size: 12px; /* Smaller font size for smaller screens */
+        }
+    .container img[Attributes Style] {
+        width: 100%;
+    }
+}

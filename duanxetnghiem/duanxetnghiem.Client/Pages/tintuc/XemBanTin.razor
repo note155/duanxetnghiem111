@@ -1,0 +1,34 @@
+﻿@page "/xembt/{id:int}"
+@rendermode InteractiveAuto
+
+<div class="row">
+     <div class="col-sm-8">
+         <img src="@Input.img">
+         <h1>@Input.title</h1>
+        <p>Sản phẩm của:<a href="/"> Âu Lạc</a></p>
+        <p>Ngày xuất bản: @Input.ngayviet.ToString("dd/MM/yyyy")</p>
+        <div class="container" >
+            @noi
+        </div>
+     </div>
+    <div class="col-sm-4">
+
+    </div>
+</div>
+
+@code {
+
+    [SupplyParameterFromForm]
+    public Bantin Input { get; set; } = new();
+    [Parameter]
+    public int id { get; set; }
+
+    IBrowserFile? file;
+    private MarkupString preview;
+    private MarkupString noi;
+    protected override async Task OnInitializedAsync()
+    {
+        Input = await BTinservice.getbyid(id);
+        noi = new MarkupString(Input.noidung);
+    }
+}

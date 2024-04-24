@@ -28,6 +28,7 @@ builder.Services.AddScoped<IMayXetNghiem, MayXetNghiemServices>();
 builder.Services.AddScoped<IRoomchat, RoomchatServices>();
 builder.Services.AddScoped<IChat, ChatServices>();
 builder.Services.AddScoped<ITinhtrang, TinhtrangServices>();
+builder.Services.AddScoped<IBantin, BantinServices>();
 builder.Services.AddScoped(http => new HttpClient
 {
     BaseAddress = new Uri(builder.HostEnvironment.BaseAddress)

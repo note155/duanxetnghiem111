@@ -1,0 +1,117 @@
+﻿@page "/suabt/{id:int}"
+@inject HttpClient HttpClient
+@using Blazored.TextEditor
+@rendermode InteractiveAuto
+
+<h1>Sửa Bản tin</h1>
+<img src="@Input.img" style="height:300px;width:300px;">
+<EditForm Model="Input" method="post" OnValidSubmit="add" FormName="register" class="profile-form">
+    <div class="mb-3">
+        <label for="title" class="form-label">Title</label>
+        <InputText @bind-Value="Input.title" class="form-control" id="title" />
+        <ValidationMessage For="() => Input.title" class="text-danger" />
+    </div>
+    <div class="mb-3">
+        <label for="img" class="form-label">Ảnh</label>
+        <InputFile id="fileInput" class="form-control mt-2" OnChange="@HandleFileSelected" accept="image/*" multiple />
+        <ValidationMessage For="() => Input.img" class="text-danger" />
+    </div>
+    <div class="mb-3">
+        <label for="Email" class="form-label">Thông tin bổ xung</label>
+        <BlazoredTextEditor @ref="@QuillHtml">
+            <ToolbarContent>
+                <select class="ql-header">
+                    <option selected=""></option>
+                    <option value="1"></option>
+                    <option value="2"></option>
+                    <option value="3"></option>
+                    <option value="4"></option>
+                    <option value="5"></option>
+                </select>
+                <span class="ql-formats">
+                    <button class="ql-bold"></button>
+                    <button class="ql-italic"></button>
+                    <button class="ql-underline"></button>
+                    <button class="ql-strike"></button>
+                </span>
+                <span class="ql-formats">
+                    <select class="ql-color"></select>
+                    <select class="ql-background"></select>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-list" value="ordered"></button>
+                    <button class="ql-list" value="bullet"></button>
+                </span>
+                <span class="ql-formats">
+                    <button class="ql-link"></button>
+                    <button class="ql-video"></button>
+                    <button class="ql-image"></button>
+                </span>
+            </ToolbarContent>
+            <EditorContent>
+                @noi
+            </EditorContent>
+        </BlazoredTextEditor>
+    </div>
+    <button type="submit">Sửa</button>
+</EditForm>
+@code {
+
+    [SupplyParameterFromForm]
+    public Bantin Input { get; set; } = new();
+    [Parameter]
+    public int id { get; set; }
+
+    IBrowserFile? file;
+    private BlazoredTextEditor QuillHtml;
+    private MarkupString preview;
+    private MarkupString noi;
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs();
+        Input = await BTinservice.getbyid(id);
+        noi = new MarkupString(Input.noidung);
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+    private async Task add()
+    {
+        if (!string.IsNullOrWhiteSpace(await QuillHtml.GetText()))
+        {
+            preview = (MarkupString)await QuillHtml.GetHTML();
+        }
+        if (file != null)
+        {
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(file.OpenReadStream()), "file", file.Name);
+
+            var response = await HttpClient.PostAsync("/api/images/upload", content);
+            if (response.IsSuccessStatusCode)
+            {
+                var imageUrl = await response.Content.ReadAsStringAsync();
+                Input.img = imageUrl;
+            }
+        }
+
+        
+        Input.noidung = preview.ToString();
+        await BTinservice.updateAsync(Input);
+        navigation.NavigateTo("/qlbantin");
+    }
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        file = e.File;
+        if (file != null)
+        {
+            Input.img = "1";
+        }
+    }
+}

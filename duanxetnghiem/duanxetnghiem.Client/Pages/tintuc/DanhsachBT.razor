@@ -1,0 +1,73 @@
+﻿@page "/DSbantin"
+@rendermode InteractiveAuto
+
+<h1>Bản Tin</h1>
+  <div class="row">
+    <div class="col-sm-3">
+        <div class="card">
+            <div class="card-body">
+                <label>Tìm kiếm:</label><br>
+                <input @bind="noidungtk" @bind:event="oninput" type="text" @onkeypress="nhan" />
+                <button @onclick="tk" class="search-btn">
+                    <i class="fas fa-search"></i> <!-- Icon tìm kiếm -->
+                </button>
+            </div>
+        </div>
+    </div>
+	  <div class="col-sm-9">
+        @if (allbantin.Any())
+        {
+            @foreach (var bt in allbantin)
+            {
+                <div class="blog-card" @onclick="()=>click(bt.Id)">
+                    <div class="meta">
+                        <div class="photo" style="background-image: url(@bt.img)"></div>
+                        <ul class="details">
+                            <li class="author"><a href="#">Âu Lạc</a></li>
+                            <li class="date">@bt.ngayviet.ToString("dd/MM/yyyy")</li>
+
+                        </ul>
+                    </div>
+                    <div class="description">
+                        <h1>@bt.title</h1>
+                        <h2></h2>
+                        <p> </p>
+                        <p class="read-more">
+                            <a href="#">Read More</a>
+                        </p>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>Rỗng !!!</p>
+        }
+    </div>
+     
+  </div>
+@code{
+    string noidungtk = "";
+    public List<Bantin> allbantin { get; set; } = new();
+    public List<Bantin> allBT { get; set; } = new();
+    protected override async Task OnInitializedAsync()
+    {
+        allbantin = await BTinservice.getallAsync();       
+        allbantin.Reverse();
+        allBT = allbantin;
+    }
+    public void tk(){
+        allbantin = allBT;
+        allbantin = allbantin.Where(b => b.title.Contains(noidungtk) || b.noidung.Contains(noidungtk)).ToList();
+    }
+    public void nhan(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            tk();
+        }
+    }
+    public void click(int id){
+        navigation.NavigateTo("/xembt/"+id);
+    }
+}

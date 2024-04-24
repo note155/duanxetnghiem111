@@ -1,36 +1,45 @@
 ﻿@page "/lala"
 @rendermode InteractiveAuto
-@using BlazorBarcodeScanner.ZXing.JS
+@inject HttpClient HttpClient
+@using Microsoft.AspNetCore.Components.Forms
+<h3>Upload Image</h3>
 
-<script src="_content/BlazorBarcodeScanner.ZXing.JS/zxingjs.index.min.js"></script>
-<script src="_content/BlazorBarcodeScanner.ZXing.JS/BlazorBarcodeScanner.js"></script>
-<h1>@LocalBarcodeText</h1>
-<BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Quét Mã"
-                                             StartCameraAutomatically="true"
-                                             ShowStart="true"
-                                             ShowReset="true"
-                                             ShowToggleTorch="true"
-                                             ShowVideoDeviceList="true"
-                                             VideoWidth="300"
-                                             VideoHeight="200" 
-                                             OnBarcodeReceived="LocalReceivedBarcodeText" />
-@code{
-    private string LocalBarcodeText="";
+<InputFile id="fileInput" class="form-control mt-2" OnChange="@HandleFileSelected" accept="image/*" style="display: none;" multiple />
+<button type="button" onclick="document.getElementById('fileInput').click()">Chọn hình ảnh</button>
 
-    private void LocalReceivedBarcodeText(BarcodeReceivedEventArgs args)
-    {
-        this.LocalBarcodeText = args.BarcodeText;
-        StateHasChanged();
-    }
+
+
+
+@if (uploadStatus != null)
+{
+    <div>@uploadStatus</div>
 }
-<script>
-    navigator.mediaDevices.getUserMedia({ video: true })
-        .then(function (stream) {
-            // Thực hiện các thao tác sau khi người dùng chấp nhận quyền truy cập vào camera
-        })
-        .catch(function (error) {
-            // Xử lý lỗi khi người dùng từ chối quyền truy cập hoặc có lỗi khác
-            console.log("Lỗi khi yêu cầu quyền truy cập vào camera: ", error);
-        });
 
-</script>
+@code {
+    private string uploadStatus;
+
+    private async Task HandleFileSelected(InputFileChangeEventArgs e)
+    {
+        var file = e.File;
+        
+        if (file != null)
+        {
+            var content = new MultipartFormDataContent();
+            content.Add(new StreamContent(file.OpenReadStream()), "file", file.Name);
+
+            var response = await HttpClient.PostAsync("/api/images/upload", content);
+
+            if (response.IsSuccessStatusCode)
+            {
+                var imageUrl = await response.Content.ReadAsStringAsync();
+                uploadStatus = $"Image uploaded successfully. Image URL: {imageUrl}";
+            }
+            else
+            {
+                uploadStatus = "Failed to upload image.";
+            }
+        }
+    }
+
+
+}

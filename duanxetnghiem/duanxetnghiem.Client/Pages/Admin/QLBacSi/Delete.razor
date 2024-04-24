@@ -15,7 +15,7 @@
     private async Task DeleteAndReloadData()
     {
         await LoadAllBS();
-        navigation.NavigateTo("/ListBS");
+        navigation.NavigateTo("/ListBS",true);
     }
 
     private async Task LoadAllBS()

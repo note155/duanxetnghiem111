@@ -30,5 +30,37 @@ namespace duanxetnghiem.Controller
             var imageFileStream = new FileStream(imagePath, FileMode.Open, FileAccess.Read);
             return File(imageFileStream, "image/jpeg");
         }
+
+        [HttpPost("upload")]
+        public async Task<IActionResult> UploadImage(IFormFile file)
+        {
+            if (file == null || file.Length == 0)
+            {
+                return BadRequest("File is empty");
+            }
+
+            try
+            {
+                // Tạo đường dẫn lưu trữ hình ảnh trong thư mục wwwroot/img với tên duy nhất
+                var uniqueFileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                var imagePath = Path.Combine(_env.WebRootPath, "img", uniqueFileName);
+
+                // Lưu hình ảnh vào đường dẫn mới
+                using (var fileStream = new FileStream(imagePath, FileMode.Create))
+                {
+                    await file.CopyToAsync(fileStream);
+                }
+
+                // Trả về đường dẫn của hình ảnh mới được tạo
+                var imageUrl = Url.Content("/api/Images/img/" + uniqueFileName);
+                return Ok(imageUrl);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, $"Internal server error: {ex}");
+            }
+        }
+
     }
+
 }

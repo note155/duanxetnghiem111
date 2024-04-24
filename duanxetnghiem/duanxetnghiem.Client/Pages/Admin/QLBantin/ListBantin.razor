@@ -1,0 +1,94 @@
+﻿@page "/qlbantin"
+@inject IJSRuntime JSRuntime
+@rendermode InteractiveAuto
+@layout AdminLayout
+@attribute [Authorize]
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<h1>Danh Sách Bản Tin</h1>
+<input @bind="noidungtk" @bind:event="oninput" type="text" @onkeypress="nhan" />
+<button @onclick="tk" class="search-btn">
+    <i class="fas fa-search"></i> <!-- Icon tìm kiếm -->
+</button>
+<table class="table table-sm">
+    <thead>
+        <tr>
+            <th scope="col">
+                #
+            </th>
+            <th scope="col">Title</th>
+            <th scope="col">Ngày tạo bài</th>
+            <th scope="col">
+                <a href="/thembt">
+                    Thêm Bản tin
+                    <button class="add-btn">
+                        <i class="fas fa-plus"></i> <!-- Icon thêm -->
+                    </button>
+                </a>
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var bt in allbantin)
+        {
+            <tr>
+                <th scope="row">@bt.Id</th>
+                <td>@bt.title</td>
+                <td>@bt.ngayviet</td>
+                <td>
+                    <a href="/suabt/@bt.Id">
+                        <button class="edit-btn">
+                            <i class="fas fa-edit"></i> <!-- Icon sửa -->
+                        </button>
+                    </a>
+                    <button @onclick="()=>confirmDelete(bt.Id)" class="delete-btn">
+                        <i class="fas fa-trash-alt"></i> <!-- Icon xóa -->
+                    </button>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@code {
+    public List<Bantin> allbantin { get; set; } = new();
+    public List<Bantin> allBT { get; set; } = new();
+    string noidungtk = "";
+    protected override async Task OnInitializedAsync()
+    {
+        await checkbs();
+        allbantin = await BTinservice.getallAsync();
+        allBT = allbantin;
+    }
+    public void tk()
+    {
+        allbantin = allBT;
+        allbantin = allbantin.Where(b => b.title.Contains(noidungtk) || b.noidung.Contains(noidungtk)).ToList();
+    }
+    public void nhan(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            tk();
+        }
+    }
+    public async Task checkbs()
+    {
+        var authState = await checkbss.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        var bs = await bacsiservice.getbyemail(UserName);
+        if (bs == null)
+        {
+            navigation.NavigateTo("/err");
+        }
+    }
+    public async Task confirmDelete(int id)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa không?");
+        if (confirmed)
+        {
+            allBT.RemoveAll(a => a.Id == id);
+            allbantin.RemoveAll(a => a.Id == id);
+            await BTinservice.deleteAsync(id);
+        }
+    }
+}

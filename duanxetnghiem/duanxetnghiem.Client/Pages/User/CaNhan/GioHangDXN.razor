@@ -192,11 +192,11 @@
     {
         var itemsToRemove = GHang.Where(student => student.chon == true).ToList();
         foreach (var student in itemsToRemove)
-        {
-            GHang.Remove(student);
+        { 
             await DXNservice.deleteAsync(student.id);
-            navigation.NavigateTo(navigation.Uri, true);
+            GHang.Remove(student);
         }
+        navigation.NavigateTo(navigation.Uri, true);
 
     }
 
