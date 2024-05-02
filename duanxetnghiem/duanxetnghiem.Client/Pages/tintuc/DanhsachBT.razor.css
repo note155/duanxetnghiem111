@@ -1,6 +1,60 @@
-﻿/*PEN STYLES*/
+﻿
+.overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5); /* Điều chỉnh độ mờ của overlay tại đây */
+    background-image: url('imgtintuc/hinnen1.png');
+    background-size: cover;
+    background-position: center;
+    height: 350px;
+    margin-bottom: 10rem;
+    text-align: center;
+}
+
+h4 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 3.0rem;
+    font-weight: 700;
+    font-style: normal;
+    color: rgba(0, 0, 0, 0.5);
+    margin-bottom: 30px;
+    margin-top: 60px;
+    color: #fff;
+}
+
+/*PEN STYLES*/
 * {
     box-sizing: border-box;
+}
+
+/*tìm kiếm*/
+.input-group {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: stretch;
+    width: 100%;
+}
+
+.input-group-append, .input-group-prepend {
+    display: flex;
+}
+
+    .input-group-append button, .input-group-prepend button {
+        border-top-left-radius: 0;
+        border-bottom-left-radius: 0;
+    }
+
+    .input-group-append button {
+        margin-left: -1px;
+    }
+
+.input-group-append {
+    margin-left: -1px;
 }
 
 body {
@@ -87,18 +141,15 @@ body {
         .blog-card .details .author:before {
             font-family: FontAwesome;
             margin-right: 10px;
-            content: "\f007";
         }
 
         .blog-card .details .date:before {
             font-family: FontAwesome;
             margin-right: 10px;
-            content: "\f133";
         }
 
         .blog-card .details .tags ul:before {
             font-family: FontAwesome;
-            content: "\f02b";
             margin-right: 10px;
         }
 
@@ -146,7 +197,6 @@ body {
             }
 
                 .blog-card .description .read-more a:after {
-                    content: "\f061";
                     font-family: FontAwesome;
                     margin-left: -10px;
                     opacity: 0;
@@ -223,3 +273,4 @@ body {
                 padding-left: 25px;
             }
 }
+

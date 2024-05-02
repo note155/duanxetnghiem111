@@ -16,16 +16,11 @@
                     <li><a href="DichVuXetNghiem" class="nav-item nav-link">Dịch Vụ Y Tế</a></li>
                     <li><a href="DanhSachBS" class="nav-item nav-link">Đội Ngũ Bác Sĩ</a></li>
                     <li><a href="DSbantin" class="nav-item nav-link">Bản Tin</a></li>
+                    
                     <AuthorizeView>
                         <Authorized>
                             <li><a href="giohangdxn" class="nav-item nav-link">Đơn Xét Nghiệm</a></li>
-                            <li class="dropdown ">
-                                <a class="nav-item nav-link" data-toggle="dropdown">Người Thân</a>
-                                <div class="dropdown-menu dropdown-menu-right">
-                                    <a href="datlichCNT" class="dropdown-item">Đặt Lịch Cho Người Thân</a>
-                                    <a href="listNT" class="dropdown-item">Danh Sách Thông Tin Người Thân</a>
-                                </div>
-                            </li>
+                            <li><a href="datlich" class="nav-item nav-link"><i class="fas fa-bell"></i><span class="badge badge-light">@TrangChu.tb</span></a></li>
                             <li class="dropdown">
                                 <a class="nav-item nav-link" data-toggle="dropdown">
                                     <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-person" viewBox="0 0 16 16">
@@ -34,6 +29,8 @@
                                 </a>
                                 <div class="dropdown-menu dropdown-menu-right">
                                     <a class="dropdown-item" href="/patient-info">Thông Tin Cá Nhân</a>
+                                    <a href="datlichCNT" class="dropdown-item">Đặt Lịch Cho Người Thân</a>
+                                    <a href="listNT" class="dropdown-item">Danh Sách Thông Tin Người Thân</a>
                                     <a class="dropdown-item" href="/TDSK">Theo Dõi Sức Khỏe</a>
                                     <a class="dropdown-item" href="/lichsuDl">Lịch Sử</a>
                                     <a class="dropdown-item" href="/listchat">Tư Vấn Trực Tiếp</a>
