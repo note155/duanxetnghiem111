@@ -5,7 +5,7 @@
 @using duanxetnghiem.Client.Pages.Admin
 @inject NavigationManager navigation;
 
-
+<title>Âu Lạc</title>
 <!-- Dịch vụ của chúng tôi -->
 <div class="package-container d-flex align-items-center justify-content-center dichvu-container">
     <div class="col-md-6 d-flex flex-column align-items-center">
@@ -505,7 +505,7 @@
             if (khach != null)
             {
                 Allthongbao = await Tbaoservice.getbyid(khach.Id);
-                tb = Allthongbao.Count();
+                tb = Allthongbao.Count(a=>a.trangthai==0);
             }
         }
     }

@@ -1,7 +1,13 @@
-﻿img {
-    width: 100px;
+﻿.navbar-brand1 img {
+    width: 120px;
 }
 
+/* Adjust the size for smaller screens */
+@media only screen and (max-width: 600px) {
+    .navbar-brand1 img {
+        width: 100px; /* Adjust image size to 100px when on mobile devices */
+    }
+}
 
 /* cyrillic-ext */
 @font-face {

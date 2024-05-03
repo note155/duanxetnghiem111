@@ -287,6 +287,14 @@
         }
         Input.BacSiId = idbs;
         Input.Trangthai = "Chờ lấy mẫu";
+        Thongbao thongbao = new Thongbao
+        {
+            iduser=Input.UserId,
+            link="/XCTDon/"+Input.Id,
+            ngaytao=DateTime.Now,
+            noidung="Đơn yêu cầu xét nghiệm số "+Input.Id +" của bạn đã được duyệt"
+        };
+        await Tbaoservice.addAsync(thongbao);
         await DXNservice.updateAsync(Input);
         Tinhtrang ttrang = new Tinhtrang
             {

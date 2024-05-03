@@ -1,21 +1,107 @@
 ﻿@page "/xembt/{id:int}"
 @rendermode InteractiveAuto
-
-<div class="row">
-     <div class="col-sm-8">
-         <img src="@Input.img">
-         <h1>@Input.title</h1>
-        <p>Sản phẩm của:<a href="/"> Âu Lạc</a></p>
-        <p>Ngày xuất bản: @Input.ngayviet.ToString("dd/MM/yyyy")</p>
-        <div class="container" >
-            @noi
+<!-- hinh nen goi dich vu-->
+<div class="container d-flex align-items-center justify-content-center" style="margin-bottom:28rem;">
+    <div class="card-body overlay">
+        <div class="row">
+            <div class="d-flex flex-column align-items-center">
+                <h4>
+                    @Input.title
+                </h4>
+            </div>
         </div>
-     </div>
-    <div class="col-sm-4">
-
     </div>
 </div>
+<div class="package-container" style="margin-bottom:18rem; ">
+    <div class="row justify-content-center">
+        <div class="col-sm-8">
+            <h5>  @Input.title</h5>
+            <p>Sản phẩm của:<a href="/"> Âu Lạc</a></p>
+            <p>Ngày xuất bản: @Input.ngayviet.ToString("dd/MM/yyyy")</p>
+            <img src="@Input.img" class="main-image">
+            <div class="container content-container">
+                @noi
+            </div>
+        </div>
+        <div class="col-sm-4">
+            <div class="tintuc">
+                <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-TdiRl2jghoJm7DoywpSWLFKtDXlU6XsHZ63sC95+ZUzmjTtQJCphgo7e2Wt5K6ZMWTgRtVTQJnFie9GPXtJ/+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+                @if (allbantin.Any())
+                {
+                    @foreach (var bt in allbantin.Take(2))
+                    {
+                        <div class="blog-card" @onclick="()=>click(bt.Id)">
+                            <div class="meta">
+                                <div class="photo" style="background-image: url(@bt.img)"></div>
+                                <ul class="details">
+                                    <li class="author"><i class="fas fa-user-alt"></i> <a href="#">Âu Lạc</a></li>
 
+                                    <li class="date"><i class="far fa-calendar"></i> @bt.ngayviet.ToString("dd/MM/yyyy")</li> <!-- FontAwesome icon for calendar -->
+                                </ul>
+                            </div>
+                            <div class="description">
+                                <h1>@bt.title</h1>
+                                <h2></h2>
+                                <p></p>
+                                <p class="read-more">
+                                    <a href="#">Read More <i class=" fas fa-arrow-right"></i></a>
+                                </p>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <!-- Liên hệ - địa chỉ goodMap-->
+            <div class="card-body overlay2">
+                <div class="row">
+                    @if (errors.Count > 0)
+                    {
+                        <div class="alert alert-danger" role="alert">
+
+                            @foreach (var error in errors)
+                            {
+                                <p>@error</p>
+                            }
+                        </div>
+                    }
+                    <div class="guithongtin">
+                        <h2>Liên hệ tư vấn</h2>
+                        <hr />
+                        <EditForm Model="Inputtv" method="post" OnValidSubmit="tuvanKH" FormName="dangky">
+                            <DataAnnotationsValidator />
+                            <ValidationSummary class="text-white " role="alert" />
+                            <div class="form-container">
+                                <div class="form-group">
+                                    <label for="hoten">Họ và tên :</label>
+                                    <InputText @bind-Value="Inputtv.hoten" class="form-control" placeholder="" />
+                                    <ValidationMessage For="() => Inputtv.hoten" class="text-white " />
+                                </div>
+                                <div class="form-group">
+                                    <label for="sdt">Điện thoại liên hệ :</label>
+                                    <InputText @bind-Value="Inputtv.sdt" class="form-control" placeholder="" />
+                                    <ValidationMessage For="() => Inputtv.sdt" class="text-white " />
+                                </div>
+                                <div class="form-group">
+                                    <label for="email">Địa chỉ Email :</label>
+                                    <InputText @bind-Value="Inputtv.email" class="form-control" placeholder="" />
+                                    <ValidationMessage For="() => Inputtv.email" class="text-white " />
+                                </div>
+                                <div class="form-group">
+                                    <label for="noidung">Nội dung :</label>
+                                    <InputTextArea @bind-Value="Inputtv.noidung" class="form-control" placeholder="" />
+                                    <ValidationMessage For="() => Inputtv.noidung" class="text-white " />
+                                </div>
+                                <div class="form-group button-cell">
+                                    <button type="submit" class="btn btn-primary">Gửi</button>
+                                </div>
+                            </div>
+                        </EditForm>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 @code {
 
     [SupplyParameterFromForm]
@@ -23,6 +109,18 @@
     [Parameter]
     public int id { get; set; }
 
+    [SupplyParameterFromForm]
+    public Tuvan Inputtv { get; set; } = new();
+    public string UserName { get; set; }
+    public Data.Model.User khach { get; set; } = new Data.Model.User();
+    String err = "";
+    List<string> errors = new List<string>();
+    int a = 0;
+
+
+    string noidungtk = "";
+    public List<Bantin> allBT { get; set; } = new();
+    public List<Bantin> allbantin { get; set; } = new();
     IBrowserFile? file;
     private MarkupString preview;
     private MarkupString noi;
@@ -30,5 +128,55 @@
     {
         Input = await BTinservice.getbyid(id);
         noi = new MarkupString(Input.noidung);
+        allbantin = await BTinservice.getallAsync();
+        allbantin.Reverse();
+        allBT = allbantin;
     }
+    public void tk()
+    {
+        allbantin = allBT;
+        allbantin = allbantin.Where(b => b.title.Contains(noidungtk) || b.noidung.Contains(noidungtk)).ToList();
+    }
+    public void nhan(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            tk();
+        }
+    }
+    public void click(int id)
+    {
+        navigation.NavigateTo("/xembt/" + id);
+    }
+    private async Task tuvanKH()
+    {
+        if (a == 0)
+        {
+            errors.Clear();
+        }
+        if (string.IsNullOrEmpty(Inputtv.hoten))
+        {
+            errors.Add("Vui lòng nhập họ tên");
+        }
+        if (string.IsNullOrEmpty(Inputtv.email))
+        {
+            errors.Add("Vui lòng nhập email");
+        }
+        if (string.IsNullOrEmpty(Inputtv.sdt))
+        {
+            errors.Add("Vui lòng nhập số điện thoại");
+        }
+        if (string.IsNullOrEmpty(Inputtv.noidung))
+        {
+            errors.Add("Vui lòng nhập nội dung");
+        }
+        if (errors.Any())
+        {
+            return;
+        }
+        await TVservice.addAsync(Inputtv);
+        a++;
+        errors.Add("Đã gửi thành công");
+    }
+
 }

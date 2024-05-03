@@ -8,7 +8,7 @@
                 <h3>Lịch sử hoạt động</h3>
                 <ul>
                     <li>Số đơn đã đăng ký: @AllDXN.Count</li>
-                    @if (AllDXN.Count!=0)
+                    @if (AllDXN.Count != 0)
                     {
                         <li>Đơn đăng ký gần đây: @time.ToString("dd/MM/yyyy HH:mm:ss tt")</li>
                     }
@@ -19,40 +19,49 @@
         <div class="col-lg-8">
             <div class="patient-info">
                 <h3>Thông tin cá nhân của bệnh nhân</h3>
+                <hr />
+                <div class="form-group">
+                    <label>Họ và tên: </label>
+                    <span> @patient.Hoten</span>
+                </div>
+                <div class="form-group">
+                    <label>Ngày sinh: </label>
+                    <span> @patient.Ngaysinh.ToString("dd/MM/yyyy")</span>
+                </div>
+                <div class="form-group">
+                    <label>Giới tính: </label>
+                    <span>  @gioitinh(@patient.Gioitinh)</span>
+                </div>
+                <div class="form-group">
+                    <label>Địa Chỉ: </label>
+                    <span> @patient.Diachi, @patient.CapXa, @patient.CapHuyen, Tỉnh TT Huế</span>
+                </div>
+                <div class="form-group">
+                    <label>Số Điện Thoại: </label>
+                    <span> @patient.SDT</span>
+                </div>
+                <div class="form-group">
+                    <label>Email: </label>
+                    <span> @patient.Email</span>
+                </div>
+                <div class="form-group">
+                    <h4>
+                        Theo dõi sức khỏe =>
+                        <a href="/TDSK">
+                            <img class="suckhoe" src="imgttcanhan/hinhnen2.png" alt="Health Tracking">
+                        </a>
+                    </h4>
 
-                <div class="form-group">
-                    <label>Họ và tên:</label>
-                    <p>@patient.Hoten</p>
-                </div>
-                <div class="form-group">
-                    <label>Ngày sinh:</label>
-                    <p>@patient.Ngaysinh.ToString("dd/MM/yyyy")</p>
-                </div>
-                <div class="form-group">
-                    <label>Giới tính:</label>
-                    <p>@gioitinh(@patient.Gioitinh)</p>
-                </div>
-                <div class="form-group">
-                    <label>Địa Chỉ:</label>
-                    <p>@patient.Diachi, @patient.CapXa, @patient.CapHuyen, Tỉnh TT Huế</p>
-                </div>
-                <div class="form-group">
-                    <label>Số Điện Thoại:</label>
-                    <p>@patient.SDT</p>
-                </div>
-                <div class="form-group">
-                    <label>Email:</label>
-                    <p>@patient.Email</p>
                 </div>
                 <div class="text-center">
-                    <a href="/UpdateUser" class="btn edit-btn">Chỉnh sửa thông tin</a>
+                    <a href="/UpdateUser" class="btn edit-btn">Chỉnh sửa thông tin cá nhân</a>
                     <a class="btn add-btn" href="/adduser">Thêm thông tin cho người thân</a>
                 </div>
             </div>
         </div>
     </div>
 </div>
-
+<div class="row" style="height:500px"></div>
 @code {
     [Inject]
     protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
@@ -71,7 +80,7 @@
             navigation.NavigateTo("/AddUser");
         }
         AllDXN = await DXNservice.getallbyiduserAsync(patient.Id);
-        if (AllDXN.Count!=0)
+        if (AllDXN.Count != 0)
         {
             var dxnWithMaxId = AllDXN.OrderByDescending(dxn => dxn.Id).First();
             time = dxnWithMaxId.ngaytaodon;

@@ -1,12 +1,11 @@
 ﻿
 h1 {
     font-family: 'Open Sans', sans-serif;
-    font-size: 2.4rem;
+    font-size: 2.3rem;
     font-weight: 600;
     font-style: normal;
-    color: #428DFF;
-    margin-bottom: 20px;
-    margin-top: 20px;
+    color: #007bff;
+    margin: 0.3rem auto;
 }
 
 @media (max-width: 767px) {
@@ -17,6 +16,18 @@ h1 {
     /* Thiết lập độ rộng tối thiểu cho các cột */
     .table th, .table td {
         min-width: 100px; /* Điều chỉnh độ rộng tối thiểu tùy thuộc vào nhu cầu của bạn */
+    }
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .total-amount {
+        font-size: 16px;
+    }
+
+    .btn1 {
+        font-size: 1.0rem;
     }
 }
 
@@ -60,13 +71,6 @@ h1 {
     margin-top: 10px;
 }
 
-/* Định dạng cho trang web khi xem trên điện thoại di động */
-@media only screen and (max-width: 768px) {
-    /* Giảm kích thước của tổng tiền */
-    .total-amount {
-        font-size: 16px;
-    }
-}
 
 /*thanh toán*/
 .btn {
@@ -96,12 +100,10 @@ h1 {
 }
 
 .btn-success1 {
-    background-color: #428DFF;
+    background-color: #208095;
     color: #fff;
 }
 
     .btn-success1:hover {
-        background-color: #3398ff; /* Màu mới khi nút được hover */
+        background-color: #208095; /* Màu mới khi nút được hover */
     }
-
-

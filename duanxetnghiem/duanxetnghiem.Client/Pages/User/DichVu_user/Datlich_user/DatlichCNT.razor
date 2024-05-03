@@ -10,11 +10,11 @@
         <DataAnnotationsValidator />
         <hr />
 
-       
+
         <div class="patient-registration-container">
             <div class="patient-info-container">
                 <div class="patient-info">
-                    <h3 style="color:red"> Chọn người thân bạn cần đặt lịch </h3>
+                    <h3 style="color:red;"> Chọn người thân đặt lịch</h3>
                     <InputSelect ValueChanged="@((int value)=>layuser(value))" ValueExpression="@(()=>iduser)" Value="iduser" class="form-control" id="userid">
                         @foreach (var use in alluser)
                         {
@@ -31,7 +31,7 @@
                             <p><strong>Địa chỉ:</strong> @user.Diachi / @user.CapXa / @user.CapHuyen / Thành phố Huế</p>
                             <p><strong>Email:</strong> @user.Email</p>
                             <p><strong>Giới tính:</strong> @gioitinh(@user.Gioitinh)</p>
-                            <a href="/adduser" class="btn btn-info">Thêm thông tin người thân</a>
+                            <a href="/adduser" class="btn btn-info" style="margin-top:5px;">Thêm thông tin người thân</a>
                         </div>
                     }
                 </div>
@@ -145,7 +145,7 @@ else
     public List<GXNchon> listgxn { get; set; } = new();
     int valor = 0, idbs;
     public long tongtien = 0;
-    int iduser=0;
+    int iduser = 0;
     List<string> timeList = new();
     [SupplyParameterFromForm]
     public donXNform Input { get; set; } = new();
@@ -155,7 +155,7 @@ else
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         UserName = authState.User.Identity.Name;
-        user = await Usertservice.getuserbyemail(UserName);           
+        user = await Usertservice.getuserbyemail(UserName);
         if (user == null)
         {
             navigation.NavigateTo("/AddUser");
@@ -310,7 +310,7 @@ else
     }
     private void layuser(int id)
     {
-        iduser=id;
+        iduser = id;
         user = alluser.FirstOrDefault(p => p.Id == id);
     }
     private void LoadBSInfo(int id)

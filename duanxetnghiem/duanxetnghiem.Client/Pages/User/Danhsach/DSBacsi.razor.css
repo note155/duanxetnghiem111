@@ -17,12 +17,12 @@
 
 h4 {
     font-family: 'Open Sans', sans-serif;
-    font-size: 3.0rem;
+    font-size: 2.9rem;
     font-weight: 700;
     font-style: normal;
     color: rgba(0, 0, 0, 0.5);
-    margin-bottom: 30px;
-    margin-top: 40px;
+    margin-bottom: 20px;
+    margin-top: 20px;
 }
 
 p {
@@ -84,7 +84,7 @@ p {
 /*Thanh tìm kiếm */
 
 .container {
-    margin-bottom: 4rem;
+    margin-bottom: 2rem;
 }
 
 .search-container {
@@ -97,7 +97,7 @@ p {
 
 input {
     width: 360px;
-    height: 60px;
+    height: 50px;
     border: 1px solid #808080;
     padding: 8px;
     border-radius: 5px;
@@ -106,7 +106,7 @@ input {
 }
 
 .btn {
-    height: 60px;
+    height: 50px;
     width: 150px;
     padding: 5px 5px;
     background-color: #007bff;
@@ -231,20 +231,19 @@ img {
 
 .post-image-container1 {
     position: relative;
-    background-color: #1D93E3;
-    color: #fff;
+    background-color: #ffffff;
+    color: #007bff;
     font-size: 1.3rem;
     font-weight: 500;
-    transition: color 0.3s ease-in;
     z-index: 1;
     height: 50px;
-    border: 1px solid #208095;
+    border: 1px solid #007bff;
     border-radius: 5px;
     width: 200px;
 }
 
     .post-image-container1:hover {
-        background-color: #91E1F6; /* Thay đổi màu nền khi hover */
+        background-color: #3398ff; /* Thay đổi màu nền khi hover */
         color: #fff; /* Thay đổi màu chữ khi hover */
     }
 /* Responsive CSS for smaller screens */
@@ -253,4 +252,3 @@ img {
         width: 100%;
     }
 }
-

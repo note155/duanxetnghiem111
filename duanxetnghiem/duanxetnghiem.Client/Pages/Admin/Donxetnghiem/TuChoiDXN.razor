@@ -181,6 +181,14 @@
         await TTservice.deleteAsync(tt.Id);
         await DXNservice.updateAsync(Input);
         await TCservice.addAsync(Xoadxn);
+        Thongbao thongbao = new Thongbao
+            {
+                iduser = Input.UserId,
+                link = "/XCTDon/" + Input.Id,
+                ngaytao = DateTime.Now,
+                noidung = "Chúng tôi chân thành xin lỗi! Đơn yêu cầu xét nghiệm số " + Input.Id + " của bạn đã bị từ chối"
+            };
+        await Tbaoservice.addAsync(thongbao);
         Tinhtrang ttrang = new Tinhtrang
             {
                 DonXetNghiemId = Input.Id,

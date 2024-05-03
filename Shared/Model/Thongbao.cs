@@ -15,6 +15,6 @@ namespace Shared.Model
         public string? link { get; set; }
         public int? iduser { get; set; }
         public int trangthai { get; set; }
-
+        public DateTime ngaytao { get; set; }
     }
 }

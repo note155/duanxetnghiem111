@@ -326,6 +326,14 @@
                 iddon = id
             };
         await KQXNservice.guiemail(gm);
+        Thongbao thongbao = new Thongbao
+            {
+                iduser = Input.UserId,
+                link = "/XCTDon/" + Input.Id,
+                ngaytao = DateTime.Now,
+                noidung = "Đơn yêu cầu xét nghiệm số " + Input.Id + " của bạn đã có kết quả - Xem ngay !!!"
+            };
+        await Tbaoservice.addAsync(thongbao);
         Tinhtrang ttrang = new Tinhtrang
             {
                 DonXetNghiemId = Input.Id,

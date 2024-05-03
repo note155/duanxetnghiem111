@@ -99,7 +99,7 @@ p {
 
 /*Thanh tìm kiếm */
 .container {
-    margin-bottom: 1rem;
+    margin-bottom: 0.5rem;
 }
 
 .search-container {
@@ -153,6 +153,7 @@ button:hover {
 .package-container {
     width: 100%;
     margin: 0 auto;
+    margin-top: -4px;
 }
 
 .team-items {
@@ -264,4 +265,3 @@ button:hover {
     font-size: 8px; /* Điều chỉnh kích thước của biểu tượng */
     margin-right: 5px; /* Khoảng cách giữa biểu tượng và văn bản */
 }
-

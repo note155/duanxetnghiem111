@@ -1,0 +1,68 @@
+﻿@page "/Thongbao"
+<div class="row">
+    <h1>Thông báo</h1>
+    <div class="col-sm-8">
+        @foreach (var tb in Allthongbao)
+        {
+            <a href="@tb.link">
+                <div loading="lazy" class="card">
+                    <div class="card-body">
+                        @tb.noidung
+                    </div>
+                    <div class="card-footer text-muted">
+                        <!-- Tính thời gian đã trôi qua từ khi tạo -->
+                        @GetTimeElapsed(tb.ngaytao)
+                    </div>
+                </div>
+            </a>
+        }
+    </div>
+</div>
+@code {
+    public List<Thongbao> Allthongbao { get; set; } = new();
+    public string UserName { get; set; }
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    public User us = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        UserName = authState.User.Identity.Name;
+        if (UserName != null)
+        {
+            us = await Usertservice.getuserbyemail(UserName);
+            Allthongbao = await Tbaoservice.getbyid(us.Id);
+            Allthongbao.Reverse();
+            var trangthai = Allthongbao.Where(a => a.trangthai == 0).ToList();
+            foreach(var tb in trangthai)
+            {
+                tb.trangthai = 1;
+                await Tbaoservice.updateAsync(tb);
+            }
+        }
+    }
+
+    // Phương thức tính thời gian đã trôi qua kể từ khi tạo
+    public string GetTimeElapsed(DateTime creationTime)
+    {
+        TimeSpan timeSinceCreation = DateTime.Now - creationTime;
+
+        if (timeSinceCreation.TotalMinutes < 1)
+        {
+            return "Vừa xong";
+        }
+        else if (timeSinceCreation.TotalHours < 1)
+        {
+            return $"{(int)timeSinceCreation.TotalMinutes} phút trước";
+        }
+        else if (timeSinceCreation.TotalDays < 1)
+        {
+            return $"{(int)timeSinceCreation.TotalHours} giờ trước";
+        }
+        else
+        {
+            return $"{(int)timeSinceCreation.TotalDays} ngày trước";
+        }
+    }
+}

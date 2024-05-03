@@ -1,72 +1,113 @@
 ﻿@page "/DSbantin"
 @rendermode InteractiveAuto
 @inject NavigationManager navigation;
-
-<div class="container d-flex align-items-center justify-content-center" style="margin-bottom:25rem;">
+<!--<div class="container d-flex align-items-center justify-content-center" style="margin-bottom:25rem;">
     <div class="card-body overlay">
         <div class="row">
             <div class="col-md-6 d-flex flex-column align-items-center">
                 <h4>
-                    Bản Tin 
+                    Bản Tin
                 </h4>
             </div>
         </div>
 
     </div>
-</div>
-
+</div>-->
 <!-- tìm kiếm các gói dịch vụ-->
-<div class="row">
-    <div class="col-sm-3">
-        <div class="input-group">
-            <input @bind="noidungtk" @bind:event="oninput" type="text" class="form-control" @onkeypress="nhan" />
-            <div class="input-group-append">
-                <button @onclick="tk" class="btn btn-primary" type="button">
-                    <i class="fas fa-search"></i>
-                </button>
+<div class="package-container">
+    <div class="row justify-content-center">
+        <div class="col-sm-4">
+            <div class="input-group">
+                <input @bind="noidungtk" @bind:event="oninput" type="text" class="form-control" @onkeypress="nhan" />
+                <div class="input-group-append">
+                    <button @onclick="tk" class="btn btn-primary" type="button">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </div>
+            </div>
+            <img src="imgtintuc/hinhnen3.jpeg" alt="Description of the image" style="width: 100%; max-width: 100%; height: auto;">
+            <div style="position: relative; display: inline-block;">
+                <img src="imgtintuc/hinhnen4.png" alt="Description of the image" style="width: 100%; max-width: 100%; height: auto; margin-top:4rem; margin-bottom:4rem;">
+                <a href="/quytrinh" class="button button-primary1" style="position: absolute; top: 45%; left: 50%; transform: translate(-50%, -50%);">Đặt lịch ngay > </a>
             </div>
         </div>
-    </div>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-TdiRl2jghoJm7DoywpSWLFKtDXlU6XsHZ63sC95+ZUzmjTtQJCphgo7e2Wt5K6ZMWTgRtVTQJnFie9GPXtJ/+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <div class="col-sm-9">
-        @if (allbantin.Any())
-        {
-            @foreach (var bt in allbantin)
+        <!-- Center content horizontally -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-TdiRl2jghoJm7DoywpSWLFKtDXlU6XsHZ63sC95+ZUzmjTtQJCphgo7e2Wt5K6ZMWTgRtVTQJnFie9GPXtJ/+A==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <div class="col-sm-8">
+            <!-- Sử dụng flexbox để căn chỉnh các phần tử -->
+            @if (allbantin.Any())
             {
-                <div class="blog-card" @onclick="()=>click(bt.Id)">
-                    <div class="meta">
-                        <div class="photo" style="background-image: url(@bt.img)"></div>
-                        <ul class="details">
-                            <li class="author"><i class="fas fa-user-alt"></i> <a href="#">Âu Lạc</a></li>
+                <h4><span style="color: #007bff; font-size:14px; vertical-align: middle; display: inline-block;">&#9679; </span> Bản Tin Mới Nhất </h4>
+                <hr />
+                @foreach (var bt in allbantin)
+                {
+                    <div class="blog-card" @onclick="()=>click(bt.Id)">
 
-                            <li class="date"><i class="far fa-calendar"></i> @bt.ngayviet.ToString("dd/MM/yyyy")</li> <!-- FontAwesome icon for calendar -->
-                        </ul>
+                        <div class="meta">
+                            <div class="photo" style="background-image: url(@bt.img)"></div>
+                            <ul class="details">
+                                <li class="author"><i class="fas fa-user-alt"></i> <a href="#">Âu Lạc</a></li>
+
+                                <li class="date"><i class="far fa-calendar"></i> @bt.ngayviet.ToString("dd/MM/yyyy")</li> <!-- FontAwesome icon for calendar -->
+                            </ul>
+                        </div>
+                        <div class="description">
+                            <h1>@bt.title</h1>
+                            <h2></h2>
+                            <p></p>
+                            <p class="read-more">
+                                <a href="#">Read More <i class=" fas fa-arrow-right"></i></a>
+                            </p>
+                        </div>
                     </div>
-                    <div class="description">
-                        <h1>@bt.title</h1>
-                        <h2></h2>
-                        <p> </p>
-                        <p class="read-more">
-                            <a href="#">Read More <i class=" fas fa-arrow-right"></i></a>
-                        </p>
-                    </div>
-                </div>
+                }
             }
-        }
-        else
-        {
-            <p>Rỗng !!!</p>
-        }
+            <!-- Nút phân trang-->
+            <nav aria-label="Page navigation" style="margin-top: 4rem;">
+                <nav id="pagination-7960274864" aria-label="Page navigation" class="text-center">
+                    <ul class="pagination mb-0 justify-content-center">
+                        <!-- Nút trang trước -->
+                        <li class="page-item @(currentPage == 1 ? "disabled" : "")">
+                            <a aria-label="Trước" class="page-nav previous page-link" rel="tooltip" tabindex="-1" title="Trước" @onclick="(() => ChangePage(currentPage - 1))">
+                                <i class="fa fa-angle-left"></i>
+                                <span>&#10094;</span>
+                            </a>
+                        </li>
+                        <!-- Các nút trang -->
+                        @for (var pageNumber = 1; pageNumber <= totalPages; pageNumber++)
+                        {
+                            var localPageNumber = pageNumber; // Tạo biến cục bộ ở đây
+                            <li class="page-item @(pageNumber == currentPage ? "active" : "")">
+                                <a class="page-link" @onclick="(() => ChangePage(localPageNumber))">@pageNumber</a>
+                            </li>
+                        }
+
+                        <!-- Nút trang tiếp theo -->
+                        <li class="page-item @(currentPage == totalPages ? "disabled" : "")">
+                            <a aria-label="Kế tiếp" class="page-nav next page-link" rel="tooltip" tabindex="-1" title="Kế tiếp" @onclick="(() => ChangePage(currentPage + 1))">
+                                <i class="fa fa-angle-right"></i>
+                                <span>&#10095;</span>
+                            </a>
+                        </li>
+                    </ul>
+                </nav>
+            </nav>
+        </div>
+
     </div>
+
 </div>
 @code {
     string noidungtk = "";
     public List<Bantin> allbantin { get; set; } = new();
     public List<Bantin> allBT { get; set; } = new();
+    private int itemsPerPage = 8; // Số lượng mục trên mỗi trang
+    private int currentPage = 1;
+    private int totalPages;
     protected override async Task OnInitializedAsync()
     {
-        allbantin = await BTinservice.getallAsync();
-        allbantin.Reverse();
+        await LoadAlLGoi();
+
         allBT = allbantin;
     }
     public void tk()
@@ -84,5 +125,34 @@
     public void click(int id)
     {
         navigation.NavigateTo("/xembt/" + id);
+    }
+    public async Task LoadAlLGoi()
+    {
+        var tt = await BTinservice.getallAsync();
+        allBT.Clear();
+
+        if (tt is null) return;
+        // Sắp xếp tin tức theo ngày tăng dần
+        tt = tt.OrderByDescending(b => b.ngayviet).ToList();
+        totalPages = (int)Math.Ceiling((double)tt.Count / itemsPerPage);
+        foreach (var g in tt.Skip((currentPage - 1) * itemsPerPage).Take(itemsPerPage))
+        {
+            allBT.Add(g);
+        }
+
+        tk(); // Gọi phương thức FilterGoi() sau khi tải dữ liệu
+    }
+
+
+    private async Task ChangePage(int pageNumber)
+    {
+        if (pageNumber < 1 || pageNumber > totalPages || pageNumber == currentPage)
+        {
+            return;
+        }
+
+        currentPage = pageNumber;
+        await LoadAlLGoi();  // Gọi phương thức để load dữ liệu cho trang mới
+        StateHasChanged();
     }
 }

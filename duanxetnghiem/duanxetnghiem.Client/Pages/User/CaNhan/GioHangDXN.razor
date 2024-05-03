@@ -5,7 +5,7 @@
 @using Shared.form
 @inject NavigationManager navigation;
 @attribute [Authorize]
-<h1>Đơn Xét Nghiệm</h1>
+<h1>Giỏi Hàng - Đơn Xét Nghiệm</h1>
 <hr />
 @if (ChuaChonGoi)
 {
@@ -75,7 +75,7 @@
         </table>
     </div>
     <div class="mb-3">
-        <a class="btn1 btn-success1 float-end" @onclick="@(() => add())">Thanh toán</a>
+        <a class="btn1 btn-success1 float-end" @onclick="@(() => add())" style="color:whitesmoke;">Thanh toán</a>
         <p class="total-amount">Tổng tiền: <strong style="color:red;font-size:30px;">@TinhTongTien() VND</strong></p>
     </div>
     <div class="row" style="height:100px"></div>
@@ -192,7 +192,7 @@
     {
         var itemsToRemove = GHang.Where(student => student.chon == true).ToList();
         foreach (var student in itemsToRemove)
-        { 
+        {
             await DXNservice.deleteAsync(student.id);
             GHang.Remove(student);
         }

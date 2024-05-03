@@ -1,0 +1,127 @@
+﻿@page "/QLTbao"
+@rendermode InteractiveAuto
+<div class="row">
+    <h1>Quản Lý Thông Báo</h1>
+    <button @onclick="()=>them()" class="button-89" role="button" data-toggle="modal" data-target="#myModal"> Tạo thông báo</button>
+    <div class="col-sm-8">
+       
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Nội dung</th>
+                    <th scope="col">Link</th>
+                    <th scope="col">Thời gian tạo</th>
+                    <th scope ="col"> </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tb in Allthongbao)
+                {
+                    <tr>
+                        <td>
+                            @tb.noidung
+                        </td>
+                        <td>
+                            @tb.link
+                        </td>
+                        <td>
+                            @GetTimeElapsed(tb.ngaytao)
+                        </td>
+                        <td><button data-toggle="modal" data-target="#myModal" @onclick="()=>sua(tb)">  <i class="fas fa-edit"></i></button></td>
+                    </tr>
+                }
+            </tbody>
+            
+        </table>
+    </div>
+</div>
+@code {
+    public List<Thongbao> Allthongbao { get; set; } = new();
+    public string UserName { get; set; }
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    public User us = new();
+    [SupplyParameterFromForm]
+    public Thongbao Input { get; set; } = new();
+    Boolean check = true;
+
+    protected override async Task OnInitializedAsync()
+    {
+        Allthongbao = await Tbaoservice.getall();
+        Allthongbao.Reverse();
+    }
+    public void them()
+    {
+        check = true;
+        Input = new();
+    }
+    public void sua(Thongbao tb)
+    {
+        check = false;
+        Input = tb;
+    }
+    private async Task add()
+    {
+        if (!check)
+        {
+            await Tbaoservice.updateAsync(Input);
+        }
+        else
+        {
+            Input.ngaytao = DateTime.Now;
+            Input.trangthai=0;
+            await Tbaoservice.addAsync(Input);
+            Allthongbao.Insert(0, Input);
+        }
+    }
+    // Phương thức tính thời gian đã trôi qua kể từ khi tạo
+    public string GetTimeElapsed(DateTime creationTime)
+    {
+        TimeSpan timeSinceCreation = DateTime.Now - creationTime;
+
+        if (timeSinceCreation.TotalMinutes < 1)
+        {
+            return "Vừa xong";
+        }
+        else if (timeSinceCreation.TotalHours < 1)
+        {
+            return $"{(int)timeSinceCreation.TotalMinutes} phút trước";
+        }
+        else if (timeSinceCreation.TotalDays < 1)
+        {
+            return $"{(int)timeSinceCreation.TotalHours} giờ trước";
+        }
+        else
+        {
+            return $"{(int)timeSinceCreation.TotalDays} ngày trước";
+        }
+    }
+}
+<!-- Modal -->
+<div id="myModal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+
+        <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-body">
+                <EditForm Model="@Input" OnValidSubmit="add" class="profile-form">
+                    <div class="mb-3">
+                        <label for="noidung" class="form-label">Nội Dung</label>
+                        <InputText @bind-Value="Input.noidung" class="form-control" id="noidung" />
+                        <ValidationMessage For="() => Input.noidung" class="text-danger" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="link" class="form-label">Link</label>
+                        <InputText @bind-Value="Input.link" class="form-control" id="link" />
+                        <ValidationMessage For="() => Input.link" class="text-danger" />
+                    </div>
+                    <button data-dismiss="modal" type="submit">Xác nhận</button>
+                </EditForm>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+
+    </div>
+</div>

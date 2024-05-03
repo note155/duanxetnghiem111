@@ -210,6 +210,14 @@
                 thoigian = DateTime.Now,
                 trangthai = "Đã lấy mẫu thành công"
             };
+        Thongbao thongbao = new Thongbao
+            {
+                iduser = Input.UserId,
+                link = "/XCTDon/" + Input.Id,
+                ngaytao = DateTime.Now,
+                noidung = "Đơn yêu cầu xét nghiệm số " + Input.Id + " của bạn đã lấy mẫu thành công"
+            };
+        await Tbaoservice.addAsync(thongbao);
         await TTrangservice.addAsync(ttrang);
         navigation.NavigateTo("/DXNBS");
     }
@@ -237,6 +245,14 @@
 
             };
         await TTrangservice.addAsync(ttrang);
+        Thongbao thongbao = new Thongbao
+            {
+                iduser = Input.UserId,
+                link = "/XCTDon/" + Input.Id,
+                ngaytao = DateTime.Now,
+                noidung = "Đơn yêu cầu xét nghiệm số " + Input.Id + " của bạn đã lấy mẫu thất bại"
+            };
+        await Tbaoservice.addAsync(thongbao);
         navigation.NavigateTo("/DXNBS");
     }
     public String loadGXN(int id)

@@ -183,13 +183,8 @@
         Console.WriteLine(content);
         if (content != 0)
         {
-            haha = content;
-            if (kt)
-            {
-                icheck++;
-                iddon.Add(haha);
-                kt = false;
-            }
+            icheck++;
+            iddon.Add(content);
         }
         i++;
 
@@ -384,6 +379,14 @@
             duyetDon.dxn.BacSiId = idbs;
             duyetDon.dxn.Trangthai = "Chờ lấy mẫu";
             await DXNservice.updateAsync(duyetDon.dxn);
+            Thongbao thongbao = new Thongbao
+                {
+                    iduser = duyetDon.dxn.UserId,
+                    link = "/XCTDon/" + duyetDon.dxn.Id,
+                    ngaytao = DateTime.Now,
+                    noidung = "Đơn yêu cầu xét nghiệm số " + duyetDon.dxn.Id + " của bạn đã được duyệt"
+                };
+            await Tbaoservice.addAsync(thongbao);
             Tinhtrang ttrang = new Tinhtrang
                 {
                     DonXetNghiemId = duyetDon.dxn.Id,
