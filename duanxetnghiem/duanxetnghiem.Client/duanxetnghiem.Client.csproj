@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -20,10 +20,8 @@
     <PackageReference Include="Append.Blazor.Printing" Version="6.3.0" />
     <PackageReference Include="BlazorBarcodeScanner.ZXing.JS" Version="1.0.4" />
     <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
-    <PackageReference Include="BlazorGoogleMaps" Version="4.1.0" />
     <PackageReference Include="Blazorise" Version="1.5.2" />
     <PackageReference Include="BootstrapBlazor.BarcodeGenerator" Version="0.1.1" />
-    <PackageReference Include="dojo" Version="1.10.4" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />

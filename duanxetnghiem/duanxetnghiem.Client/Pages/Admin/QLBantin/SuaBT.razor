@@ -2,7 +2,7 @@
 @inject HttpClient HttpClient
 @using Blazored.TextEditor
 @rendermode InteractiveAuto
-
+@layout AdminLayout
 <h1>Sửa Bản tin</h1>
 <img src="@Input.img" style="height:300px;width:300px;">
 <EditForm Model="Input" method="post" OnValidSubmit="add" FormName="register" class="profile-form">
