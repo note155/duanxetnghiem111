@@ -21,6 +21,7 @@
 
 .card-body {
     padding: 1.25rem;
+    color: #0f1217;
 }
 
     .card-body a {
@@ -29,6 +30,13 @@
     }
 
         .card-body a:hover {
-            color: #007bff;
+            color: #0f1217;
             text-decoration: underline;
         }
+/* For small screens (e.g., mobile phones) */
+@media (max-width: 576px) {
+    .col-sm-8 {
+        flex: 0 0 100%; /* Full width for small screens */
+        max-width: 100%;
+    }
+}

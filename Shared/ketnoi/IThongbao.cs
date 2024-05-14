@@ -13,5 +13,8 @@ namespace Shared.ketnoi
         Task<List<Thongbao>> getall();
         Task<List<Thongbao>> getbyid(int id);
         Task<Thongbao> updateAsync(Thongbao tbao);
+        Task<TBDaDoc> adddaDoc(TBDaDoc tbao);
+        Task<int> sltbchuadoc(int iduser);
+        Task<List<TBDaDoc>> getTBDD(int iduser);
     }
 }

@@ -59,7 +59,7 @@ body {
 }
 
     .patient-info h2 {
-        color: #4CAF50;
+        color: #208095;
         margin-bottom: 10px;
     }
 
@@ -80,7 +80,7 @@ body {
 }
 
     .test-registration-form h2 {
-        color: #4CAF50;
+        color: #208095;
         margin-bottom: 20px;
     }
 
@@ -124,7 +124,7 @@ body {
 }
 
     .doctor-info h3 {
-        color: #4CAF50;
+        color: #208095;
         margin-bottom: 10px;
     }
 
@@ -509,4 +509,8 @@ table {
         box-shadow: none;
         overflow: visible;
     }
+}
+
+.red-text {
+    color: red;
 }

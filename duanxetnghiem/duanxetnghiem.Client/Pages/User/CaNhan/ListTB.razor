@@ -1,4 +1,5 @@
 ﻿@page "/Thongbao"
+@attribute [Authorize]
 <div class="row">
     <h1>Thông báo</h1>
     <div class="col-sm-8">
@@ -34,12 +35,27 @@
             us = await Usertservice.getuserbyemail(UserName);
             Allthongbao = await Tbaoservice.getbyid(us.Id);
             Allthongbao.Reverse();
-            var trangthai = Allthongbao.Where(a => a.trangthai == 0).ToList();
+            var trangthai = Allthongbao.Where(a => a.trangthai == 0).ToList();           
             foreach(var tb in trangthai)
             {
                 tb.trangthai = 1;
                 await Tbaoservice.updateAsync(tb);
             }
+            var tbtg = Allthongbao.Where(a => a.iduser==null).ToList();
+            var tbdd = await Tbaoservice.getTBDD(us.Id);
+            var danhSachChuaDoc = tbtg
+            .Where(tb => !tbdd.Any(tbdadoc => tbdadoc.Idthongbao == tb.Id))
+            .ToList();
+            foreach (var tb in danhSachChuaDoc)
+            {
+                TBDaDoc tbs = new TBDaDoc
+                {
+                    Idthongbao=tb.Id,
+                    Iduser=us.Id
+                };
+                await Tbaoservice.adddaDoc(tbs);
+            }
+            TrangChu.tb = 0;
         }
     }
 

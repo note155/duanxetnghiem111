@@ -4,18 +4,18 @@
  @inject NavigationManager navigation;
 @attribute [Authorize]
 @layout AdminLayout
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách bác sĩ</h3>
+                <h1 class="card-title">Danh sách bác sĩ</h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <p><a class="btn btn-success float-end" href="/AddBS"> Thêm bác sĩ </a></p>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!AllBS.Any())
                             {
                                 <p><em>Loading ...</em></p>
@@ -23,10 +23,10 @@
                             @if (AllBS.Any())
                             {
                                 <div class="card-body">
-                                   <div class="table-responsive">
+                                    <div class="table-responsive">
                                         @foreach (var group in GroupedBSByChucVu)
                                         {
-                                            <h3>@group.Key -- Số lượng: @group.Value.Count người</h3> <!-- Hiển thị Chucvu -->
+                                            <h3 style="padding:10px 10px;">@group.Key -- Số lượng: @group.Value.Count người</h3> <!-- Hiển thị Chucvu -->
                                             <table class="table table-striped table-hover">
                                                 <thead>
                                                     <tr>
@@ -44,8 +44,8 @@
                                                     {
                                                         <tr>
                                                             <td>@doctor.Id</td>
-                                                            <td ><img src="@doctor.Anh"></td>
-                                                            <td >@doctor.Hoten</td>
+                                                            <td><img src="@doctor.Anh"></td>
+                                                            <td>@doctor.Hoten</td>
                                                             <td>@doctor.Chucvu</td>
                                                             <td>@doctor.SDT</td>
                                                             <td>

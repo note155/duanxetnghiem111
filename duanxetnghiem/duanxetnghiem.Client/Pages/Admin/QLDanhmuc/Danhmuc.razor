@@ -2,9 +2,9 @@
 @rendermode InteractiveAuto
 @layout AdminLayout
 <title>Danh Mục</title>
-<div class="container">
+<div class="container" style="margin-top:-50px;">
     <div class="box">
-        <h3>Danh Sách Khoa</h3> <button class="button-89" role="button" @onclick="()=>add(4)"> Add</button>
+        <h3>Danh Sách Khoa</h3> <button class="button-89" role="button" @onclick="()=>add(4)" style="color: #007bff;"> Add</button>
         <hr />
         <input type="text" class="form-control" @bind="searchKeyword" placeholder="Nhập từ khóa">
         <select @bind:event="oninput" @bind="@idkhoa" class="form-select custom-select" size="5" aria-label="size 3 select example">
@@ -15,7 +15,7 @@
         </select>
     </div>
     <div class="box">
-        <h3>Danh Sách Phòng</h3> <button class="button-89" role="button" @onclick="()=>add(5)"> Add</button>
+        <h3>Danh Sách Phòng</h3> <button class="button-89" role="button" @onclick="()=>add(5)" style="color: #007bff;"> Add</button>
         <p style="color:red">@erP</p>
         <hr />
         <input type="text" class="form-control" @bind="searchKeywordPhong" placeholder="Nhập từ khóa">
@@ -27,7 +27,7 @@
         </select>
     </div>
     <div class="box">
-        <h3>Danh Sách Máy</h3> <button class="button-89" role="button" @onclick="()=>add(6)"> Add</button>
+        <h3>Danh Sách Máy</h3> <button class="button-89" role="button" @onclick="()=>add(6)" style="color: #007bff;"> Add</button>
         <p style="color:red">@erM</p>
         <hr />
         <input type="text" class="form-control" @bind="searchKeywordMay" placeholder="Nhập từ khóa">
@@ -40,7 +40,7 @@
     </div>
 </div>
 <div class="row">
-    <h2>Quản lý</h2>
+    <h3>Quản lý</h3>
     <div class="row">
         <div class="col-sm-4">
             <select @bind:event="oninput" @bind="@idchon" style="width:100%" class="form-select custom-select" size="5" aria-label="size 3 select example">

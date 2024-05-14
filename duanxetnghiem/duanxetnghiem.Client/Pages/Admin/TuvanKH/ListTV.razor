@@ -1,19 +1,18 @@
 ﻿@page "/listTV"
 @attribute [Authorize]
 @layout AdminLayout
-
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách yêu cầu tư vấn</h3>
+                <h1 class="card-title">Danh sách yêu cầu tư vấn</h1>
             </div>
             <div class="card-body">
                 <div class="row">
-                    <p><a class="btn btn-success float-end" href="/listTVDTL"> Danh sách tư vấn đã trả lời </a></p>
+                    <p><a class="btn btn-success float-end" href="/listTVDTL"> Danh sách tư vấn trả lời </a></p>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!allTV.Any())
                             {
                                 <p><em>Loading ...</em></p>
@@ -69,7 +68,7 @@
     {
         await checkbs();
         var tv = await TVservice.getallAsync();
-        foreach(var ss in tv)
+        foreach (var ss in tv)
         {
             if (ss.bacsiid == null)
             {

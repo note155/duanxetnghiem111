@@ -5,19 +5,18 @@
  @layout AdminLayout
 @attribute [Authorize]
 
-
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách gói xét nghiệm</h3>
+                <h1 class="card-title">Danh sách gói xét nghiệm</h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <p><a class="btn btn-success float-end" href="/AddGXN"> Thêm gói xét nghiệm </a></p>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!AllGoi.Any())
                             {
                                 <p><em>Loading ...</em></p>

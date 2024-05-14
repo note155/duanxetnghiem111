@@ -60,7 +60,19 @@ namespace duanxetnghiem.Controller
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
-
+        [HttpGet("GetTBDDbyid/{id}")]
+        public async Task<IActionResult> GetTBDDById(int id)
+        {
+            try
+            {
+                var thongbaos = await _thongbaoRepository.getTBDD(id);
+                return Ok(thongbaos);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+        }
         [HttpPut("Update-Thongbao")]
         public async Task<IActionResult> Update(Thongbao thongbao)
         {
@@ -74,5 +86,32 @@ namespace duanxetnghiem.Controller
                 return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
             }
         }
+        [HttpPost("Add_ThongbaoDD")]
+        public async Task<IActionResult> Createtbdadoc(TBDaDoc thongbao)
+        {
+            try
+            {
+                var newThongbao = await _thongbaoRepository.adddaDoc(thongbao);
+                return Ok(newThongbao);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+        }
+        [HttpGet("SLTBChuaDoc/{iduser}")]
+        public async Task<IActionResult> GetSLTBChuaDoc(int iduser)
+        {
+            try
+            {
+                var count = await _thongbaoRepository.sltbchuadoc(iduser);
+                return Ok(count);
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, $"Error: {ex.Message}");
+            }
+        }
+
     }
 }

@@ -81,14 +81,9 @@
                 <div class="row">
                     <strong>Chọn nhân viên lấy mẫu</strong>
                     <div class="form-group">
-                        <input type="text" @bind="searchQuery" @oninput="OnSearchQueryChanged" list="staffList" placeholder="Tìm kiếm nhân viên" class="form-control" />
-                        <datalist id="staffList">
-                            @foreach (var bs in FilteredStaffMembers)
-                            {
-                                <option value="@($"{bs.Id} - {bs.Hoten} - {bs.Chucvu}")" data-id="@bs.Id"></option>
-                            }
-                        </datalist>
-                        <input type="hidden" @bind="idbs" />
+                        <Select2 class="form-group" @bind-Value="test"
+                                 Options="@options">
+                        </Select2>
                     </div>
                     @if (SelectedDoctor != null)
                     {
@@ -212,6 +207,7 @@
     private List<BacSi> FilteredStaffMembers { get; set; } = new();
     public List<BacSi> AllBS { get; set; } = new();
     string errloc = "";
+    List<Select2Option<string>> options = new();
     protected override async Task OnInitializedAsync()
     {
         await checkbs();
@@ -221,9 +217,29 @@
         FilteredStaffMembers = AllBS;
         FilterStaffMembers();
         timeList = GenerateTimeList();
+        bsload();
 
     }
-
+    public void bsload()
+    {
+        foreach (var bs in AllBS)
+        {
+            Select2Option<string> a = new()
+                {
+                    Label = bs.Hoten + " - " + bs.Chucvu,
+                    Value = bs.Id.ToString()
+                };
+            options.Add(a);
+        }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2000);
+            await JsRuntime.InvokeAsync<object>("initMap");
+        }
+    }
     static List<string> GenerateTimeList()
     {
         List<string> timeList = new List<string>();
@@ -267,7 +283,7 @@
             FilteredStaffMembers = AllBS.Where(bs => bs.Hoten.ToLower().Contains(searchQuery.ToLower())).ToList();
         }
     }
-    public void remove(int iddonc)
+    public async Task remove(int iddonc)
     {
         var tt = Donachon.FirstOrDefault(a => a.dxn.Id == iddonc);
         Donachon.RemoveAll(a => a.dxn.Id == iddonc);
@@ -277,6 +293,7 @@
         {
             coDon = new();
         }
+        await JsRuntime.InvokeAsync<object>("showPinById", iddonc);
     }
     public async Task LoadDon()
     {
@@ -407,13 +424,20 @@
         foreach (var id in iddon)
         {
             foreach (var a in allDon.ToList())
-            {
+            {               
                 if (a.dxn.Id == id)
                 {
                     Donachon.Add(a);
                     allDon.Remove(a);
                 }
             }
+        }
+        if (iddon.Count > 0)
+        {
+            // Lấy phần tử cuối cùng của danh sách
+            int lastElement = iddon[iddon.Count - 1];
+            await JsRuntime.InvokeAsync<object>("removePinById", lastElement);
+            // Sử dụng phần tử cuối cùng ở đây...
         }
     }
     private async void LoadBSInfo(int id)
@@ -457,15 +481,19 @@
             navigation.NavigateTo("/err");
         }
     }
+    string test = "0";
+}
+@{
+    LoadBSInfo(int.Parse(test));
 }
 <script>
 
-    document.addEventListener("DOMContentLoaded", function () {
-        initMap();
-    });
+    var map = {};
+    var pins = {}; // Object to store pins with their corresponding Ids
+    var addedPins = {};
     function initMap() {
         // Initialize map with center at Hue city
-        var map = new Microsoft.Maps.Map(document.getElementById('bingMap'), {
+        map = new Microsoft.Maps.Map(document.getElementById('bingMap'), {
             credentials: 'AvJeIjn2sAoBGbyZw0PImFkcys5P60orulBL-i8ArqPp96C4h2_CL2xmY0YuJehi',
             center: new Microsoft.Maps.Location(16.4637, 107.5909), // Coordinates of Huế city
             zoom: 12 // Zoom level (adjust as needed)
@@ -473,7 +501,7 @@
 
         Microsoft.Maps.loadModule('Microsoft.Maps.Search', function () {
             var searchManager = new Microsoft.Maps.Search.SearchManager(map);
-            // Geocode all addresses in the list
+
             @foreach (var address in allDon)
     {
         <text>
@@ -486,47 +514,65 @@
                                     title: 'Địa chỉ',
                                     subTitle: "@address.nguoi.Hoten"
                                 });
-                                map.entities.push(pin);
-
+                                pins["@address.dxn.Id"] = pin; // Store pin with its Id
+                                addedPins["@address.dxn.Id"] = false;
+                                showPinById("@address.dxn.Id");
                                 Microsoft.Maps.Events.addHandler(pin, 'click', function () {
                                     var content = `<div class="alert alert-success"> <strong>Thông tin khách hàng: </strong>@address.nguoi.Hoten</div>
-                                                                     <p><strong>Số điện thoại: </strong>@address.nguoi.SDT</p>
-                                                                     <p><strong>Địa chỉ: </strong>@address.diachi</p>
-                                                                     <p><strong>Email: </strong>@address.nguoi.Email</p>
-                                                                     <p><strong>Thời gian: </strong>@address.dxn.giolaymau @address.dxn.Ngaydat.ToString("dd/MM/yyyy")</p>`;
-
-
+                                                    <p><strong>Số điện thoại: </strong>@address.nguoi.SDT</p>
+                                                    <p><strong>Địa chỉ: </strong>@address.diachi</p>
+                                                    <p><strong>Email: </strong>@address.nguoi.Email</p>
+                                                    <p><strong>Thời gian: </strong>@address.dxn.giolaymau @address.dxn.Ngaydat.ToString("dd/MM/yyyy")</p>`;
                                     showInfoWindow(content);
-                                    CSMethod1(@address.dxn.Id);
+                                    CSMethod1("@address.dxn.Id");
                                 });
                             }
                         }
                     });
         </text>
     }
-                            });
-
+            });
     }
-    function CSMethod1(content) {
-        DotNet.invokeMethodAsync('duanxetnghiem.Client', 'CSCallBackMethodhaha', content).then(data => {
+    function showPinById(Id) {
+        if (pins[Id] && !addedPins[Id]) { // Check if the pin exists and hasn't been added before
+            map.entities.push(pins[Id]);
+            addedPins[Id] = true; // Mark the pin as added
+            console.log(Id);
+        }
+    }
+    function removePinById(Id) {
+        if (pins[Id]) {
+            map.entities.remove(pins[Id]);
+            addedPins[Id] = false;
+            console.log(Id);
+        }
+    }
+
+    function CSMethod1(Id) {
+        var intId = parseInt(Id); // Chuyển đổi Id từ chuỗi sang số nguyên
+        DotNet.invokeMethodAsync('duanxetnghiem.Client', 'CSCallBackMethodhaha', intId).then(data => {
             console.log(data);
         });
     }
+
 
     function toggleInfoWindow() {
         var infoWindow = document.getElementById("infoWindow");
         infoWindow.classList.toggle("show");
     }
+
     function toggleInfoWindowtat() {
         var infoContent = document.getElementById("infoContent");
         infoContent.innerHTML = "";
         toggleInfoWindow();
     }
+
     function showInfoWindow(content) {
         var infoContent = document.getElementById("infoContent");
         infoContent.innerHTML = content;
         toggleInfoWindow();
     }
+
 </script>
 <script src="https://www.bing.com/api/maps/mapcontrol?key=AvJeIjn2sAoBGbyZw0PImFkcys5P60orulBL-i8ArqPp96C4h2_CL2xmY0YuJehi&callback=initMap" async defer></script>
 <script>

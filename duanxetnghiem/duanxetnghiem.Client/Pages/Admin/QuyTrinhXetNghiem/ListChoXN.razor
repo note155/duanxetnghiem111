@@ -4,22 +4,20 @@
 @layout AdminLayout
 @rendermode InteractiveAuto
 @using BlazorBarcodeScanner.ZXing.JS
-<button class="btn btn-info" id="myBtn" onclick="focusInput">Quét mã</button>
-
+<button class="btn btn-info" id="myBtn" onclick="focusInput" style="margin-top:-90px;height:50px;margin-bottom:5px;background:red;font-size:16px;">Quét mã</button>
 <!-- The Modal -->
 <div id="myModal" class="modal">
-
     <!-- Modal content -->
     <div class="modal-content">
         <span class="close">&times;</span>
         @haha
         <input @bind:event="oninput" @bind="haha" type="text" id="myInput" class="hidden-input">
-        <h2>Sử Dụng Máy Quét Hoặc Camera</h2>       
+        <h2>Sử Dụng Máy Quét Hoặc Camera</h2>
         <button class="btn btn-info" @onclick="mocam">@cam</button>
         <h3 style="color:red">@huhu</h3>
         @if (cam == "Đóng Camera")
         {
-            <BlazorBarcodeScanner.ZXing.JS.BarcodeReader  Title="Quét Mã"
+            <BlazorBarcodeScanner.ZXing.JS.BarcodeReader Title="Quét Mã"
                                                          StartCameraAutomatically="true"
                                                          ShowStart="true"
                                                          ShowReset="true"
@@ -27,7 +25,7 @@
                                                          ShowVideoDeviceList="true"
                                                          VideoWidth="500"
                                                          VideoHeight="400"
-            OnBarcodeReceived="LocalReceivedBarcodeText" />
+                                                         OnBarcodeReceived="LocalReceivedBarcodeText" />
         }
         else
         {
@@ -36,24 +34,24 @@
     </div>
 </div>
 
-<div class="row">
+<div class="row" style="margin-top:-30px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Xác nhận nhận mẫu máu</h3>
+                <h1 class="card-title">Xác nhận nhận mẫu máu</h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <EditForm Model="Inputkq" method="post" OnValidSubmit="timkiem" FormName="register">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="text-danger" role="alert" />
-                        <InputText @bind-Value="Inputkq" placeholder="Tìm kiếm" />
+                        <InputText @bind-Value="Inputkq" placeholder="Tìm kiếm" class="input-search" style="height:40px;border-radius:5px;width:250px;" />
                         <ValidationMessage For="() => Inputkq" class="text-danger" />
-                        <button type="submit" class=" btn-success">Tìm kiếm</button> <!-- Updated button class -->
+                        <button type="submit" class=" btn btn-success btn-search" style="background-color: #007eff;"><i class="fas fa-search"></i></button> <!-- Updated button class -->
                     </EditForm>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!AllDXN.Any())
                             {
                                 <p><em>Loading ...</em></p>

@@ -2,18 +2,18 @@
 @attribute [Authorize]
 @layout AdminLayout
 
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách tư vấn</h3>
+                <h1 class="card-title">Danh sách tư vấn</h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <p><a class="btn btn-success float-end" href="/listTV"> Danh sách tư vấn </a></p>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!allTV.Any())
                             {
                                 <p><em>Loading ...</em></p>

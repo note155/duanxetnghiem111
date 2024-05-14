@@ -13,8 +13,8 @@ namespace Shared.Model
         public int Id { get; set; }
         public string noidung { get; set; }
         public string? link { get; set; }
-        public int? iduser { get; set; }
-        public int trangthai { get; set; }
+        public int? iduser { get; set; } 
+        public int trangthai { get; set; } 
         public DateTime ngaytao { get; set; }
     }
 }

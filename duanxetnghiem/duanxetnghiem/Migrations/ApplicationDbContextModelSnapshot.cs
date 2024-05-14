@@ -442,6 +442,25 @@ namespace duanxetnghiem.Migrations
                     b.ToTable("Phongs");
                 });
 
+            modelBuilder.Entity("Shared.Model.TBDaDoc", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int>("Idthongbao")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Iduser")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TBDaDocs");
+                });
+
             modelBuilder.Entity("Shared.Model.ThanhToan", b =>
                 {
                     b.Property<int>("Id")

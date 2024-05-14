@@ -43,8 +43,10 @@
     [Inject]
     protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     public User us = new();
+
     [SupplyParameterFromForm]
     public Thongbao Input { get; set; } = new();
+
     Boolean check = true;
 
     protected override async Task OnInitializedAsync()
@@ -63,6 +65,7 @@
             navigation.NavigateTo("/err");
         }
     }
+
     public void them()
     {
         check = true;
@@ -128,7 +131,7 @@
                         <InputText @bind-Value="Input.link" class="form-control" id="link" />
                         <ValidationMessage For="() => Input.link" class="text-danger" />
                     </div>
-                    <button data-dismiss="modal" type="submit">Xác nhận</button>
+                    <button type="submit">Xác nhận</button>
                 </EditForm>
             </div>
             <div class="modal-footer">

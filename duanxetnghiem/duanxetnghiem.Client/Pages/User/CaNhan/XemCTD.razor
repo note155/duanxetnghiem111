@@ -131,7 +131,7 @@
             if (tt.trangthai == "Đã Thanh Toán")
             {
                 <div>
-                    <h2>Kết Quả</h2>
+                    <h2 style="margin-top:10px">Kết Quả</h2>
                     <EditForm Model="Inputkq" method="post" FormName="addkq" class="profile-form">
                         <DataAnnotationsValidator />
                         <hr />
@@ -156,7 +156,7 @@
                         </div>
 
                         <!-- Input for list of KQandCS -->
-                        <h3>Danh sách Kết Quả và Chỉ Số</h3>
+                        <h3 style="color: #208095;margin-bottom:10px;"> Danh sách Kết Quả và Chỉ Số</h3>
                         @if (Inputkq.kQandCs != null)
                         {
                             <div style="overflow-x:auto;">
@@ -171,7 +171,9 @@
                                     </thead>
                                     @foreach (var tl in gxndachon)
                                     {
-                                        <tr><td colspan="4"><strong>Gói Xét Nghiệm:</strong>@tl.TenGoi</td></tr>
+                                        <tr>
+                                            <td colspan="4"><strong>Gói Xét Nghiệm:</strong><span class="red-text">@tl.TenGoi</span></td>
+                                        </tr>
                                         @foreach (var kqandcs in Inputkq.kQandCs)
                                         {
                                             if (kqandcs.goi == tl.Id)
@@ -197,8 +199,8 @@
 
                         }
                     </EditForm>
-                    
-                    <div class="row">
+
+                    <div class="row justify-content-center" style="width:100%;">
                         @if (rooms == null)
                         {
                             <button class=" btn btn-success m-2" style="width:45%" @onclick="tuvan" data-toggle="modal" data-target="#myModal"> Tư vấn </button>
@@ -207,7 +209,7 @@
                         {
                             <button class=" btn btn-success m-2" style="width:45%" @onclick="tuvan" data-toggle="modal"> Tư vấn </button>
                         }
-                        <button style="width:45%" class="btn btn-success m-2" @onclick="@(_ => PrintingService.Print(rawHtml, PrintType.RawHtml))">
+                        <button class="btn btn-success m-2" style="width:45%"  @onclick="@(_ => PrintingService.Print(rawHtml, PrintType.RawHtml))">
                             Tải Kết Quả
                         </button>
                     </div>

@@ -124,6 +124,7 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         UserName = authState.User.Identity.Name;
         kt = await Usertservice.getuserbyemail(UserName);
+        Input.Ngaysinh = DateTime.Now;
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {

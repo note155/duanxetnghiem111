@@ -505,7 +505,9 @@
             if (khach != null)
             {
                 Allthongbao = await Tbaoservice.getbyid(khach.Id);
-                tb = Allthongbao.Count(a=>a.trangthai==0);
+                int a = Allthongbao.Count(a=>a.trangthai==0&&a.iduser!=null);
+                int b = await Tbaoservice.sltbchuadoc(khach.Id);
+                tb = a + b;
             }
         }
     }

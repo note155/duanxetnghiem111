@@ -4,11 +4,13 @@
 @layout AdminLayout
 @attribute [Authorize]
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
-<h1>Danh Sách Bản Tin</h1>
-<input @bind="noidungtk" @bind:event="oninput" type="text" @onkeypress="nhan" />
-<button @onclick="tk" class="search-btn">
+<h1 style="margin-top:-50px;">Danh Sách Bản Tin</h1>
+<hr />
+<input @bind="noidungtk" @bind:event="oninput" type="text" @onkeypress="nhan" placeholder="tìm kiếm" class="input-search" style="height:40px;border-radius:5px;width:250px;" />
+<button @onclick="tk" class="btn btn-success btn-search" tyle="background-color: #007eff;">
     <i class="fas fa-search"></i> <!-- Icon tìm kiếm -->
 </button>
+
 <table class="table table-sm">
     <thead>
         <tr>

@@ -22,6 +22,7 @@
     <PackageReference Include="Blazored.TextEditor" Version="1.1.0" />
     <PackageReference Include="Blazorise" Version="1.5.2" />
     <PackageReference Include="BootstrapBlazor.BarcodeGenerator" Version="0.1.1" />
+    <PackageReference Include="Guinho.BlazorSelect2" Version="1.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.Authentication" Version="8.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />

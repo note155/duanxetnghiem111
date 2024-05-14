@@ -1,3 +1,67 @@
 ﻿@page "/sasa"
+@rendermode InteractiveAuto
+@using Guinho.BlazorSelect2
 
-<img class="imagebase template-none imagebase-border" src="blob:chrome-extension://fdpohaocaechififmbbbbbknoalclacl/de663f5c-dd4c-4c55-82f3-c819c0697e51" style="top: 100px; left: 583px; width: 1366px; height: 3870px;">
+@value
+<div class="form-group">
+    <Select2 class="form-group" @bind-Value="value"
+             Options="@options" >
+    </Select2>
+</div>
+@code {
+    private string value { get; set; }
+    List<Select2Option<string>> options = new List<Select2Option<string>>
+{
+        new Select2Option<string>
+        {
+            Label="Poodle",
+            Value= "1"
+        },
+        new Select2Option<string>
+        {
+            Label="Golden Retriever",
+            Value= "2"
+        },
+        new Select2Option<string>
+        {
+            Label="Beagle",
+            Value= "3"
+        },
+        new Select2Option<string>
+        {
+            Label="Bulldog",
+            Value= "4"
+        },
+        new Select2Option<string>
+        {
+            Label="American Hairless Terrier",
+            Value= "5"
+        },
+        new Select2Option<string>
+        {
+            Label="Beauceron",
+            Value= "6"
+        },
+        new Select2Option<string>
+        {
+            Label="Can de Chira",
+            Value= "7"
+        },
+        new Select2Option<string>
+        {
+            Label="Border Collie",
+            Value= "8"
+        },
+        new Select2Option<string>
+        {
+            Label="Cesky Terrier",
+            Value= "9"
+        },
+        new Select2Option<string>
+        {
+            Label="Boxer",
+            Value= "10"
+        }
+
+    };
+}

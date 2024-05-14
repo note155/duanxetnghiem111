@@ -1,1 +1,141 @@
-﻿
+﻿h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.0rem;
+    font-weight: 600;
+    font-style: normal;
+    color: #007bff;
+    margin: 0.3rem auto;
+}
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.input-search {
+    width: 500px; /* Độ rộng mong muốn của thanh tìm kiếm */
+    height: 52px; /* Chiều cao của thanh tìm kiếm */
+    line-height: 50px; /* Độ cao của dòng bằng với chiều cao của thanh tìm kiếm */
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+/* CSS cho nút tìm kiếm */
+.btn-search {
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Hình con trỏ khi di chuột qua */
+    height: 40px; /* Chiều cao của nút tìm kiếm */
+    width: 80px; /* Độ rộng của nút tìm kiếm */
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: #007bff;
+}
+
+.btn-success {
+    /* Định nghĩa kiểu CSS cho nút tìm kiếm */
+    background-color: #208095; /* Màu nền xanh lá cây */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Không có đường viền */
+    border-radius: 5px; /* Bo góc */
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Hình con trỏ */
+}
+
+    .btn-success:hover {
+        /* Kiểu CSS khi di chuột qua nút */
+        background-color: #6ab1cb; /* Màu nền xanh lá cây đậm */
+    }
+
+    .btn-success:focus {
+        /* Kiểu CSS khi nút được focus */
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Hiển thị hiệu ứng focus */
+    }
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+    .table thead th {
+        border-bottom: 2px solid #ddd;
+        background-color: #6ab1cb;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.0rem;
+    font-weight: 600;
+    font-style: normal;
+    color: #007bff;
+    margin: 0.3rem auto;
+}
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.input-search {
+    width: 500px; /* Độ rộng mong muốn của thanh tìm kiếm */
+    height: 52px; /* Chiều cao của thanh tìm kiếm */
+    line-height: 50px; /* Độ cao của dòng bằng với chiều cao của thanh tìm kiếm */
+    border-radius: 5px;
+    margin-bottom: 5px;
+}
+
+/* CSS cho nút tìm kiếm */
+.btn-search {
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Hình con trỏ khi di chuột qua */
+    height: 40px; /* Chiều cao của nút tìm kiếm */
+    width: 80px; /* Độ rộng của nút tìm kiếm */
+    border-radius: 5px;
+    margin-bottom: 5px;
+    background-color: #007bff;
+}
+
+.btn-success {
+    /* Định nghĩa kiểu CSS cho nút tìm kiếm */
+    background-color: #208095; /* Màu nền xanh lá cây */
+    color: #fff; /* Màu chữ trắng */
+    border: none; /* Không có đường viền */
+    border-radius: 5px; /* Bo góc */
+    font-size: 16px; /* Kích thước chữ */
+    cursor: pointer; /* Hình con trỏ */
+}
+
+    .btn-success:hover {
+        /* Kiểu CSS khi di chuột qua nút */
+        background-color: #6ab1cb; /* Màu nền xanh lá cây đậm */
+    }
+
+    .btn-success:focus {
+        /* Kiểu CSS khi nút được focus */
+        box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.5); /* Hiển thị hiệu ứng focus */
+    }
+
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+    .table thead th {
+        border-bottom: 2px solid #ddd;
+        background-color: #6ab1cb;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        vertical-align: middle;
+    }

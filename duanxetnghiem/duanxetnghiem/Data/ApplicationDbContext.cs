@@ -10,7 +10,6 @@ namespace duanxetnghiem.Data
     public class ApplicationDbContext(DbContextOptions<ApplicationDbContext> options) : IdentityDbContext<ApplicationUser>(options)
     {
         internal object user;
-
         public DbSet<User> Users { get; set; }
         public DbSet<BacSi> BacSis { get; set; }
         public DbSet<GoiXetNghiem> GoiXetNghiems { get; set; }
@@ -33,6 +32,7 @@ namespace duanxetnghiem.Data
         public DbSet<Tinhtrang> Tinhtrangs { get; set; }
         public DbSet<Bantin> Bantins { get; set; }
         public DbSet<Thongbao> Thongbaos { get; set; }
+        public DbSet<TBDaDoc> TBDaDocs { get; set; }
         public object User { get; internal set; }
     }
 

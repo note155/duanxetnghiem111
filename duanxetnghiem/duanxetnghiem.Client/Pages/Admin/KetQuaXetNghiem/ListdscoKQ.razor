@@ -3,24 +3,24 @@
 @attribute [Authorize]
 @layout AdminLayout
 @using System.Globalization
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Danh sách đơn có kết quả</h3>
+                <h1 class="card-title">Danh sách đơn có kết quả</h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <EditForm Model="Inputkq" method="post" OnValidSubmit="timkiem" FormName="register">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="text-danger" role="alert" />
-                        <InputText @bind-Value="Inputkq" placeholder="tìm kiếm" />
+                        <InputText @bind-Value="Inputkq" placeholder="tìm kiếm" style="height:40px;border-radius:5px;width:250px;" />
                         <ValidationMessage For="() => Inputkq" class="text-danger" />
-                        <button type="submit" class=" btn-success">Tìm kiếm</button> <!-- Updated button class -->
+                        <button type="submit" class=" btn btn-success btn-search" style="background-color: #007eff;"><i class="fas fa-search"></i></button> <!-- <!-- Updated button class -->
                     </EditForm>
                     <div class="col-md-12">
                         <div class="card">
-                            <div class="card-header"></div>
+
                             @if (!AllDXN.Any())
                             {
                                 <p><em>Loading ...</em></p>
