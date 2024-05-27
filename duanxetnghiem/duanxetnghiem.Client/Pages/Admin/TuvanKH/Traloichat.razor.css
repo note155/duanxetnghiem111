@@ -2,9 +2,11 @@
     max-height: 250px; /* Thay đổi giá trị tối đa theo nhu cầu của bạn */
     overflow-y: auto;
 }
+
 .modal-content {
-   width:900px;
+    width: 900px;
 }
+
 .card-container {
     display: flex;
     flex-direction: column;
@@ -113,6 +115,7 @@ button {
         width: calc(100% - 20px); /* Adjust the width of the button */
         margin-right: 0; /* Remove margin-right for better alignment */
     }
+
     .modal-content {
         width: 90%; /* Đặt chiều rộng của nội dung modal thành 90% của màn hình */
         margin: 10% auto; /* Căn giữa theo chiều ngang và dọc */
@@ -133,5 +136,15 @@ button {
     .modal-footer {
         padding: 10px; /* Đặt padding nhỏ hơn cho phần footer */
     }
+}
 
+h1 {
+    text-align: center;
+    color: #007eff;
+    font-family: 'Open Sans', sans-serif;
+    font-size: 1.7rem;
+    font-weight: 600;
+    font-style: normal;
+    margin-bottom: 5px;
+    margin-top: 5px;
 }

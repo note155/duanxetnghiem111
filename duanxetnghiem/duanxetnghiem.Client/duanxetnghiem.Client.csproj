@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Content Remove="Pages\User\DichVu_user\ThanhToan_user\VNpay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
     <None Remove="Pages\Admin\TuvanKH\ListChatTV.razor.css" />
   </ItemGroup>
 
@@ -36,6 +40,18 @@
 
   <ItemGroup>
     <Folder Include="Pages\Admin\GoiXetNghiem\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <UpToDateCheckInput Remove="Pages\User\DichVu_user\ThanhToan_user\VNpay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="Pages\User\DichVu_user\ThanhToan_user\VNpay.razor" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Pages\User\DichVu_user\ThanhToan_user\VNpay.razor" />
   </ItemGroup>
 
 </Project>

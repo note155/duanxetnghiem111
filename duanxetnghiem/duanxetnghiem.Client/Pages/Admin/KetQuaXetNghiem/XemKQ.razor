@@ -5,7 +5,7 @@
 @attribute [Authorize]
 @layout AdminLayout
 
-<div class="patient-registration-container">
+<div class="patient-registration-container" style="margin-top:-50px;">
     <div class="patient-info">
         <h2>Thông tin bệnh nhân</h2>
         <div class="info">
@@ -16,10 +16,8 @@
             <p><strong>Email:</strong> @user.Email</p>
             <p><strong>Giới tính:</strong> @gioitinh(@user.Gioitinh)</p>
         </div>
-        <div style="width:100%" class="row tientrinh">
-            <h2>
-                Tiến trình
-            </h2>
+        <div style="width:100%;margin-left:3px;margin-top:20px;" class="row tientrinh">
+            <h3 style="margin-bottom:10px;color: #4CAF50;">Tiến trình</h3>
             @foreach (var tt in allttrang)
             {
                 <div class="timeline-item">
@@ -30,10 +28,8 @@
                 </div>
             }
          </div>
-        <div style="width:100%" class="row tientrinh">
-            <h2>
-                Chi tiết xét nghiệm
-            </h2>
+        <div style="width:100%;margin-left:3px;margin-top:20px;" class="row tientrinh">
+            <h3 style="margin-bottom:10px;color: #4CAF50;">Chi tiết xét nghiệm</h3>
             <p>Ngày nhận mẫu: @mau.ngaynhanmau</p>
             <p>Khoa: @loadkhoa(mau.khoaId)</p>
             <p>Phòng: @loadphong(mau.PhongId)</p>
@@ -67,7 +63,7 @@
         </EditForm>
         @if (SelectedDoctor != null)
         {
-            <div class="doctor-info">
+            <div class="doctor-info1">
                 <div class="doctor-details">
                     <h3>Bác sĩ lấy mẫu:</h3>
                     <p><strong>Họ tên:</strong> @SelectedDoctor.Hoten</p>
@@ -81,7 +77,7 @@
 
                 <!-- Thêm các trường thông tin khác của bác sĩ nếu cần -->
             </div>
-            <div class="doctor-info">
+            <div class="doctor-info1">
                 <div class="doctor-details">
                     <h3>Bác sĩ thực hiện xét nghiệm:</h3>
                     <p><strong>Họ tên:</strong> @SelectedDoctor1.Hoten</p>
@@ -96,7 +92,7 @@
                 <!-- Thêm các trường thông tin khác của bác sĩ nếu cần -->
             </div>
         }
-        <div>
+        <div style="margin-top:10px;">
             <h2>Kết Quả</h2>
             <EditForm Model="Inputkq" method="post"  FormName="addkq" class="profile-form">
                 <DataAnnotationsValidator />
@@ -122,7 +118,7 @@
                 </div>
 
                 <!-- Input for list of KQandCS -->
-                <h3>Danh sách Kết Quả và Chỉ Số</h3>
+                <h3 style="margin-bottom:10px;color: #208095;">Danh sách Kết Quả và Chỉ Số</h3>
                 @if (Inputkq.kQandCs != null)
                 {
                     <table class="table table-bordered">

@@ -1,19 +1,19 @@
 ﻿@page "/ListDXN"
 @using duanxetnghiem.Client.Pages.Layout
-@layout AdminLayout 
+@layout AdminLayout
 @inject NavigationManager NavigationManager
 @attribute [Authorize]
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <div class="col-12">
         <div class="card">
             <div class="card-header">
-                <h3 class="card-title">Đơn yêu cầu xét nghiệm </h3>
+                <h1 class="card-title">Đơn yêu cầu xét nghiệm </h1>
             </div>
             <div class="card-body">
                 <div class="row">
                     <div class="package-list-filter" data-select2-id="select2-data-23-141k">
                         <div class="filter-container">
-                            <a class="btn btn-success" role="button" data-toggle="collapse" href="#package-filter" aria-expanded="true">Bộ lọc <img src="\imgDonYeuCauXN\boloc.png" alt="Filter Image" class="filter-image"></a>
+                            <a class="btn btn-success" role="button" data-toggle="collapse" href="#package-filter" aria-expanded="true">Bộ lọc <img src="imgdonyeucauxn/boloc.png" alt="Filter Image" class="filter-image"></a>
                         </div>
                         <div class="package-filter-content collapse in" id="package-filter" data-select2-id="select2-data-package-filter" aria-expanded="true" style="">
                             <div class="form" data-select2-id="select2-data-22-48o7">
@@ -23,7 +23,7 @@
                                     <div class="row align-items-center justify-content-center">
                                         <div class="col-sm-3 form-group">
 
-                                            <InputSelect class="form-control"  @bind-Value="Ticket.que">
+                                            <InputSelect class="form-control" @bind-Value="Ticket.que">
                                                 <option value="0">Chọn quận/huyện</option>
                                                 @foreach (var district in Districts)
                                                 {
@@ -35,7 +35,7 @@
                                         <div class="col-sm-3 form-group">
 
                                             <div class="search-container d-flex">
-                                                <InputText class="form-control"  @bind-Value="Ticket.tim" />
+                                                <InputText class="form-control" @bind-Value="Ticket.tim" />
                                             </div>
                                         </div>
                                         <div class="col-sm-3 form-group">
@@ -64,8 +64,8 @@
                                 <br>
                                 <div class="col-md-12" id="@($"district-{capHuyenGroup.Key.CapHuyen}")">
                                     <div class="card">
-                                        <div class="card-header"></div>
-                                        <h4 class="text-primary">@capHuyenGroup.Key.CapHuyen</h4> <!-- Use a different color for each CapHuyen group -->
+
+                                        <h4 class="text-primary" style="margin-top:10px;">@capHuyenGroup.Key.CapHuyen</h4> <!-- Use a different color for each CapHuyen group -->
                                         <hr /> <!-- Add a horizontal line to separate each CapHuyen group -->
                                         @foreach (var capXaGroup in capHuyenGroup.GroupBy(g => g.User?.CapXa))
                                         {

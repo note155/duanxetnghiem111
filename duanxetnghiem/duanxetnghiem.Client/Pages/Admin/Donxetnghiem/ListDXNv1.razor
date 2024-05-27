@@ -396,6 +396,41 @@
                     noidung = "Đơn yêu cầu xét nghiệm số " + duyetDon.dxn.Id + " của bạn đã được duyệt"
                 };
             await Tbaoservice.addAsync(thongbao);
+            //
+            String listgoi = "";
+            var don = duyetDon.dxn;
+            string thongtinxn = "<h3>Thông tin đơn xét nghiệm</h3>" +
+                        "<table style=\"text-align: center;width:100%;border-collapse: collapse; border: 1px solid black;\">" +
+                        "<thead>" +
+                        "<tr>" +
+                        "<th style=\"border: 1px solid black;\">Ngày lấy máu</th>" +
+                        "<th style=\"border: 1px solid black;\">Giờ lấy máu</th>" +
+                        "<th style=\"border: 1px solid black;\">Bác sĩ</th>" +
+                        "<th style=\"border: 1px solid black;\">Gói xét nghiệm</th>" +
+                        "<th style=\"border: 1px solid black;\">Ghi chú</th>" +
+                        "</tr>" +
+                        "</thead><tbody>";
+            foreach (var tl in duyetDon.gxndachon)
+            {
+                listgoi += tl.TenGoi + "<br>";
+            }
+            thongtinxn += "<tr>" +
+                            "<td style=\"border: 1px solid black;\">" + don.Ngaydat.ToString("dd/MM/yyyy") + "</td>" +
+                            "<td style=\"border: 1px solid black;\">" + don.giolaymau + "</td>" +
+                            "<td style=\"border: 1px solid black;\">" + SelectedDoctor.Hoten + "</td>" +
+                            "<td style=\"border: 1px solid black;\">" + listgoi + "</td>" +
+                            "<td style=\"border: 1px solid black;\">" + don.ghiChu + "</td>" +
+                            "</tr>" +
+                            "</tbody></table>";
+            gmail gm = new gmail
+                {
+                    email = duyetDon.nguoi.Email,
+                    hoten = duyetDon.nguoi.Hoten,
+                    iddon = don.Id,
+                    ketqua = thongtinxn
+                };
+            await DXNservice.guiemailxacnhan(gm);
+            //
             Tinhtrang ttrang = new Tinhtrang
                 {
                     DonXetNghiemId = duyetDon.dxn.Id,

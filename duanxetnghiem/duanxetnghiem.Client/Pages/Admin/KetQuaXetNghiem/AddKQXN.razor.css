@@ -21,13 +21,6 @@ body {
     padding: 20px;
 }
 
-/* Header styles */
-.header {
-    background-color: #4CAF50;
-    color: #fff;
-    padding: 20px;
-    text-align: center;
-}
 
 /* Navigation styles */
 .navbar {
@@ -59,7 +52,7 @@ body {
 }
 
     .patient-info h2 {
-        color: #4CAF50;
+        color: #208095;
         margin-bottom: 10px;
     }
 
@@ -80,7 +73,7 @@ body {
 }
 
     .test-registration-form h2 {
-        color: #4CAF50;
+        color: #208095;
         margin-bottom: 20px;
     }
 
@@ -114,22 +107,45 @@ body {
         .test-registration-form button:hover {
             background-color: #ff0000;
         }
+/* Header styles */
+.header {
+    background-color: #2f7e86;
+    color: white;
+    font-size: 1.5em;
+    padding: 1rem;
+    text-align: center;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
 /* Doctor Info styles */
 .doctor-info {
-    background-color: #fff;
+    background-color: #ffffff;
     padding: 20px;
-    margin-top: 20px;
-    border-radius: 5px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    margin: 20px 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    transition: transform 0.3s, box-shadow 0.3s;
 }
 
     .doctor-info h3 {
         color: #4CAF50;
         margin-bottom: 10px;
+        font-size: 18px;
     }
 
     .doctor-info p {
         margin-bottom: 5px;
+        font-size: 16px;
+        color: #333;
+    }
+
+    .doctor-info:hover {
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        transform: translateY(-2px);
     }
 
     .doctor-info img {
@@ -142,6 +158,7 @@ body {
 
 .patient-registration-container {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
 }
 
@@ -149,22 +166,26 @@ body {
 .test-registration-form {
     flex: 1;
     margin-right: 20px; /* Khoảng cách giữa hai phần tử */
+    min-width: 280px;
 }
 
 .patient-registration-container {
     display: flex;
     justify-content: space-between;
     align-items: flex-start; /* Căn phần tử theo phía trên */
+    flex-wrap: wrap;
 }
 
 .patient-info {
     flex: 1; /* Phần thông tin bệnh nhân co giãn để chiếm phần lớn không gian có sẵn */
-    max-width: 30%; /* Đặt chiều rộng tối đa */
+    max-width: 100%; /* Đặt chiều rộng tối đa */
+    margin-bottom: 20px;
 }
 
 .test-registration-form {
     flex: 2; /* Phần thông tin đơn đăng ký xét nghiệm chiếm phần còn lại */
-    margin-left: 20px; /* Khoảng cách giữa hai phần tử */
+    margin-left: 0; /* Khoảng cách giữa hai phần tử */
+    max-width: 100%;
 }
 
 button.btn-primary {
@@ -172,11 +193,6 @@ button.btn-primary {
     margin-top: 20px; /* Khoảng cách từ nút đến các phần tử khác */
 }
 
-.doctor-info {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 
 .doctor-details {
     flex: 1;
@@ -208,14 +224,12 @@ button.btn-primary {
     padding: 10px;
     background-color: #f9f9f9;
     border-radius: 5px;
-}
-
-.package {
     display: flex; /* Use flexbox for layout */
     justify-content: space-between; /* Place content at each end of the container */
     align-items: center; /* Center items vertically */
     padding: 10px; /* Add padding for spacing */
 }
+
 
 .package-content {
     flex: 1; /* Allow content to grow */
@@ -279,5 +293,90 @@ button.btn-primary {
 
     100% {
         transform: rotate(360deg);
+    }
+}
+
+@media screen and (max-width: 700px) {
+    .patient-info h2 {
+        font-size: 1.8rem;
+    }
+
+    .test-registration-form h2 {
+        font-size: 1.8rem;
+    }
+
+    .custom-table {
+        width: 100%;
+        overflow-x: auto;
+    }
+
+
+        .custom-table td {
+            display: block;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .custom-table th {
+            background-color: #ffffff;
+            color: #ffffff;
+            display: none;
+        }
+
+
+        .custom-table td {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+            .custom-table td:before {
+                content: attr(data-label);
+                flex: 1;
+                font-weight: bold;
+            }
+}
+
+@media screen and (max-width: 500px) {
+    .header {
+        background-color: transparent;
+        color: #89c1c7;
+        font-size: 1.5rem;
+        font-weight: 700;
+        padding: 0;
+        text-shadow: 2px 2px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .custom-table th,
+    .custom-table td {
+        padding: 10px 5px;
+        font-size: 0.8em;
+    }
+
+    .patient-registration-container {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .patient-info,
+    .test-registration-form {
+        margin-right: 0;
+        margin-bottom: 20px;
+    }
+
+    .test-registration-form {
+        margin-left: 0;
+    }
+
+    .total {
+        font-size: 16px;
+    }
+
+    .navbar a {
+        padding: 10px;
+    }
+
+    .container {
+        padding: 10px;
     }
 }

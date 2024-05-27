@@ -19,7 +19,7 @@
             <div class="col-md-6">
                 <div class="card1" style="margin-bottom: 8px;">
                     <div class="package-item-photo">
-                        <a class="post-image-container" tabindex="-1">
+                        <a href="/ChiTietGoiXetNghiem/3" class="post-image-container" tabindex="-1">
                             <div class="package-item-photo">
                                 <img src="img/1.jpg" alt="" loading="lazy">
                             </div>
@@ -40,7 +40,7 @@
             <div class="col-md-6">
                 <div class="card1">
                     <div class="package-item-photo">
-                        <a class="post-image-container" tabindex="-1">
+                        <a href="/ChiTietGoiXetNghiem/1" class="post-image-container" tabindex="-1">
                             <div class="package-item-photo">
                                 <img src="img/1.jpg" alt="" loading="lazy">
                             </div>
@@ -505,9 +505,7 @@
             if (khach != null)
             {
                 Allthongbao = await Tbaoservice.getbyid(khach.Id);
-                int a = Allthongbao.Count(a=>a.trangthai==0&&a.iduser!=null);
-                int b = await Tbaoservice.sltbchuadoc(khach.Id);
-                tb = a + b;
+                tb = Allthongbao.Count(a => a.trangthai == 0);
             }
         }
     }

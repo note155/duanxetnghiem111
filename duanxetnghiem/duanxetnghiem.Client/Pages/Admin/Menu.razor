@@ -5,9 +5,9 @@
 @inject NavigationManager navigation;
 @attribute [Authorize]
 <!-- Danh muc quản lý menu -->
-<div class="row">
+<div class="row" style="margin-top:-50px;">
     <h4>
-        Xin chào <strong>@bs.Hoten</strong>
+        Xin chào <strong style="color:red;">@bs.Hoten</strong>
     </h4>
 </div>
 <div class="package-container mt-5" style="margin-bottom: 8rem;margin-top:0px;">
@@ -18,7 +18,7 @@
                     <div class="row g-0">
                         <div class="col">
                             <div @onclick="duyet" class="card-body">
-                                <a >
+                                <a>
                                     <div class="col-md-4 d-flex justify-content-center ">
                                         <div style="position: relative;">
                                             <img style="max-width: 80px; max-height: 80px; margin-top: 5px; margin-bottom:30px;" src="imgadmin/icondoncanduyet.png" alt="Hình ảnh bài viết" class="img-fluid">
@@ -397,7 +397,7 @@
     }
     public void CalculateTotalDXNBSCount()
     {
-        TotalDXNBSCount = AllDXN != null ? AllDXN.Count(a=>a.BacSiId==bs.Id) : 0;
+        TotalDXNBSCount = AllDXN != null ? AllDXN.Count(a => a.BacSiId == bs.Id) : 0;
     }
 
 
@@ -423,7 +423,7 @@
     }
     public async void CalculateTotalBSTVCount()
     {
-        
+
     }
 
 

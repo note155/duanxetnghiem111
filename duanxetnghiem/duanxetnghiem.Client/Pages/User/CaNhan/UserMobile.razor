@@ -4,14 +4,14 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 <div @onclick="NavigateToProfile" class="row">
     <div class="col-sm-3">
-        <img src="userhaha.png"/>
+        <img src="userhaha.png" />
     </div>
     <div class="col-sm-8"> @user.Hoten</div>
 </div>
-    
+
 <div class="user-menu">
     <button @onclick="NavigateToHealth">
-        <i class="fa fa-heartbeat" ></i> Theo Dõi Sức Khỏe
+        <i class="fa fa-heartbeat"></i> Theo Dõi Sức Khỏe
     </button>
     <button @onclick="NavigateToHistory">
         <i class="fas fa-history"></i> Lịch Sử
@@ -22,7 +22,7 @@
     <button @onclick="NavigateToChangePassword">
         <i class="fas fa-lock"></i> Đổi Mật Khẩu
     </button>
-    <hr/>
+    <hr />
     <AuthorizeView>
         <Authorized>
             <form style="width:100%" action="Account/Logout" method="post">
@@ -33,7 +33,7 @@
                 </button>
             </form>
         </Authorized>
-    </AuthorizeView>   
+    </AuthorizeView>
 </div>
 
 

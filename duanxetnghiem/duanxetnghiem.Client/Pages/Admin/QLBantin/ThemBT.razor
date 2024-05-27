@@ -3,8 +3,8 @@
 @using Blazored.TextEditor
 @rendermode InteractiveAuto
 @layout AdminLayout
-<h1>Thêm Bản tin</h1>
-
+<h1 style="margin-top:-50px;">Thêm Bản tin</h1>
+<hr />
 <EditForm Model="Input" method="post" OnValidSubmit="add" FormName="register" class="profile-form">
     <div class="mb-3">
         <label for="title" class="form-label">Title</label>
@@ -17,7 +17,7 @@
         <ValidationMessage For="() => Input.img" class="text-danger" />
     </div>
     <div class="mb-3">
-     <label for="Email" class="form-label">Thông tin bổ xung</label>
+        <label for="Email" class="form-label">Nội dung</label>
         <BlazoredTextEditor @ref="@QuillHtml">
             <ToolbarContent>
                 <select class="ql-header">
@@ -52,7 +52,11 @@
             </EditorContent>
         </BlazoredTextEditor>
     </div>
-    <button type="submit">Thêm</button>
+    <div class="d-flex justify-content-center button-container">
+        <button type="submit" class="btn btn-primary" style="background-color: #ff2c02;">Lưu</button>
+        <a href="/qlbantin" class="btn btn-secondary" style="background-color: #3db500;">Hủy</a>
+    </div>
+
 </EditForm>
 @code {
 
@@ -104,7 +108,7 @@
     private async Task HandleFileSelected(InputFileChangeEventArgs e)
     {
         file = e.File;
-        if(file!=null)
+        if (file != null)
         {
             Input.img = "1";
         }

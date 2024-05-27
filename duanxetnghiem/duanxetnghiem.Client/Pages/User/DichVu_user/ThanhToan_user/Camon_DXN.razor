@@ -1,5 +1,4 @@
-﻿
-@page "/camondxn/{id}"
+﻿@page "/camondxn/{id}"
 @using Append.Blazor.Printing
 @inject IPrintingService PrintingService
 @rendermode InteractiveAuto
@@ -102,8 +101,18 @@
     {
         await JSRuntime.InvokeVoidAsync("scrollToBottom");
     }
+    string te1, te2;
     protected override async Task OnInitializedAsync()
     {
+        var uri = new Uri(navigation.Uri);
+        var queryString = System.Web.HttpUtility.ParseQueryString(uri.Query);
+
+        te1 = queryString["vnp_ResponseCode"];
+        te2 = queryString["vnp_TransactionStatus"];
+        if (te1 != "00" || te2 != "00")
+        {
+            navigation.NavigateTo("/ttthatbai/"+id);
+        }
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         UserName = authState.User.Identity.Name;
         user = await Usertservice.getuserbyemail(UserName);
@@ -129,6 +138,7 @@
                 }
             }
         }
+        await updatedon();
         await loadtongtien();
         ngaytt = DateTime.Now.ToString("dd/MM/yyyy");
         rawHtml = "<h3>CÔNG TY TNHH GIẢI PHÁP PHẦN MỀM ÂU LẠC</h1>" +
@@ -168,11 +178,26 @@
 
 
         rawHtml +=
-               "<p>Tổng Thành Tiền: " + tongtien + "VND ------ Bằng Chữ:" + ConvertNumberToWords(tongtien) + " Đồng</p>" +
-            "<p>Số Tiền Đã Thanh Toán: " + datthd + "VND ------ Bằng Chữ:" + ConvertNumberToWords(datthd) + " Đồng</p>"
-               ;
+    "<p>Tổng Thành Tiền: " + tongtien + "VND ------ Bằng Chữ:" + ConvertNumberToWords(tongtien) + " Đồng</p>" +
+    "<p>Số Tiền Đã Thanh Toán: " + datthd + "VND ------ Bằng Chữ:" + ConvertNumberToWords(datthd) + " Đồng</p>" +
+    "<div style=\"width: 100%; display: flex; justify-content: flex-end;\">" +
+    "<div style=\"width: 75%; text-align: center;\">" +
+     "<p>TT Huế, ngày " + DateTime.Now.ToString("dd") + " tháng " + DateTime.Now.ToString("MM") + " năm " + DateTime.Now.ToString("yyyy") + "</p>" +
+    "<p>Người lập phiếu</p>" +
+    "<img src=\"chuky.png\" style=\"width: 150px; height: auto; margin-top: 10px;\">" +
+    "<p>ThS.Nguyễn Chiến Thắng</p>" +
+    "</div>" +
+    "</div>";
 
 
+    }
+    private async Task updatedon()
+    {
+        foreach (var dxn in allDXN)
+        {
+            dxn.Trangthai = "Đã Chuyển Tiền";
+            await DXNservice.updateAsync(dxn);
+        }
     }
     private async Task loadtongtien()
     {

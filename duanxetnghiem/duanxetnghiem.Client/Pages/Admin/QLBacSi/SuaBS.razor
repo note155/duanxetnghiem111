@@ -5,7 +5,7 @@
 @attribute [Authorize]
 @layout AdminLayout
 @using Blazored.TextEditor
-<div class="container">
+<div class="container" style="margin-top:-50px;">
     <div class="row">
         <div class="col-md-4">
             <img src=@Input.Anh class="profile-image" alt="Avatar">
@@ -13,7 +13,7 @@
                 <DataAnnotationsValidator />
                 <ValidationSummary />
                 <InputFile class="form-control mt-2" OnChange="@setfile" multiple />
-                <button class="btn btn-primary mt-2" type="submit">Xác Nhận Đổi Ảnh</button>
+                <button class="btn btn-primary1 mt-2" type="submit" style="width:100%;">Xác Nhận Đổi Ảnh</button>
             </EditForm>
         </div>
         <div class="col-md-8">
@@ -110,12 +110,12 @@
                             @preview
                         </EditorContent>
                     </BlazoredTextEditor>
-
-
                 </div>
-                <button type="submit" class="btn btn-primary">Lưu</button>
+                <div class="d-flex justify-content-between">
+                    <button type="submit" class="btn btn-primary" style="background-color: #ff2c02;">Lưu</button>
+                    <a href="/listBS" class="btn btn-secondary" style="background-color: #3db500;">Hủy</a>
+                </div>
             </EditForm>
-
         </div>
     </div>
 </div>

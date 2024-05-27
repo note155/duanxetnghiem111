@@ -1,17 +1,68 @@
-﻿
-/* Thiết lập font chữ mặc định */
+﻿/* Customize card styles */
+.card {
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h1 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.0rem;
+    font-weight: 600;
+    font-style: normal;
+    color: #fff;
+    margin: 0.3rem auto;
+}
+
+@media (max-width: 767px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+}
+
+.card-header {
+    background-color: #3c8eac;
+}
+
+.card-title {
+    margin-bottom: 0;
+    color: #fff;
+}
+
+.card-body {
+    padding: 20px;
+}
+
+/* Table styles */
+.table {
+    width: 100%;
+    margin-bottom: 0;
+    background-color: #fff;
+}
+
+    .table thead th {
+        border-bottom: 2px solid #ddd;
+        background-color: #6ab1cb;
+        color: #fff;
+    }
+
+    .table th, .table td {
+        padding: 12px;
+        vertical-align: middle;
+    }
+
+
 body {
     font-family: Arial, sans-serif;
 }
 
-/* Định dạng phần header */
 .header {
     background-color: #007bff; /* Màu nền header */
     color: #fff; /* Màu chữ */
     padding: 20px;
 }
 
-/* Định dạng phần menu */
 .menu {
     background-color: #f8f9fa; /* Màu nền menu */
     padding: 10px;
@@ -145,5 +196,3 @@ body {
     .search-container button:not(:last-child) {
         margin-right: 5px;
     }
-
-Đang hiển thị 1961511495396438441.

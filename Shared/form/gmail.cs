@@ -10,6 +10,7 @@ namespace Shared.form
     {
         public string email { get; set; }
         public string hoten { get; set; }
+        public string ketqua { get; set; }
         public int iddon { get; set; }
     }
 }

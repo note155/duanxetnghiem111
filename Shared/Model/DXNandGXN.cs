@@ -16,6 +16,8 @@ namespace Shared.Model
 		public DonXetNghiem? DonXetNghiem { get; set; }
 		public int GoiXetNghiemId { get; set; }
         public GoiXetNghiem? GoiXetNghiem { get; set; }
-
+		public DateTime? Star { get; set; }
+        public DateTime? End { get; set; }
+        public String? MaOngNghiem { get; set; }
     }
 }

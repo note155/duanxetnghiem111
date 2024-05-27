@@ -16,7 +16,7 @@
                     <EditForm Model="Inputkq" method="post" OnValidSubmit="timkiem" FormName="register">
                         <DataAnnotationsValidator />
                         <ValidationSummary class="text-danger" role="alert" />
-                        <InputText @bind-Value="Inputkq" placeholder="tìm kiếm" class="input-search" style="height:40px;border-radius:5px;width:250px;" />
+                        <InputText @bind-Value="Inputkq" placeholder="tìm kiếm" class="input-search" style="height:40px;border-radius:5px;width:200px;" />
                         <ValidationMessage For="() => Inputkq" class="text-danger" />
                         <button type="submit" class=" btn btn-success btn-search" style="background-color: #007eff;"><i class="fas fa-search"></i></button> <!-- Updated button class -->
                     </EditForm>

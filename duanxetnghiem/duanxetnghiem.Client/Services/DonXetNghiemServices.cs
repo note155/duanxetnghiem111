@@ -1,4 +1,5 @@
 ﻿using duanxetnghiem.Data.Model;
+using Shared.form;
 using Shared.ketnoi;
 using Shared.Model;
 using System.Net.Http.Json;
@@ -26,7 +27,12 @@ namespace duanxetnghiem.Client.Services
             var respone = await newstudent.Content.ReadFromJsonAsync<DXNandGXN>();
             return respone;
         }
-
+        public async Task<gmail> guiemailxacnhan(gmail gm)
+        {
+            var newstudent = await _httpClient.PostAsJsonAsync("api/DonXetNghiem/gui-XNemail", gm);
+            var respone = await newstudent.Content.ReadFromJsonAsync<gmail>();
+            return respone;
+        }
         public async Task<DonXetNghiem> deleteAsync(int id)
         {
             var newstudent = await _httpClient.DeleteAsync($"api/DonXetNghiem/Delete-DXN/{id}");
@@ -79,6 +85,63 @@ namespace duanxetnghiem.Client.Services
                 // Xử lý khi không thành công, ví dụ: trả về null hoặc throw exception
                 return null;
             }
+        }
+
+        public Task<List<DXNandGXN>> getmaubyidbs(int idbs)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<DXNandGXN> getOngNghiem(int Id)
+        {
+            var response = await _httpClient.GetAsync($"api/DonXetNghiem/Single-OngNghiem/{Id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var respone = await response.Content.ReadFromJsonAsync<DXNandGXN>();
+                return respone;
+            }
+            else
+            {
+                // Handle the case where the request was not successful
+                return null; // or throw an exception
+            }
+        }
+
+        public async Task<List<DonXetNghiem>> ListDXNBS(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/DonXetNghiem/All-DXNbyidbs/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var respone = await response.Content.ReadFromJsonAsync<List<DonXetNghiem>>();
+                return respone;
+            }
+            else
+            {
+                // Handle the case where the request was not successful
+                return null; // or throw an exception
+            }
+        }
+
+        public async Task<List<DonXetNghiem>> ListDXNBSHoanThanh(int id)
+        {
+            var response = await _httpClient.GetAsync($"api/DonXetNghiem/All-DXNbyidbsHoanthanh/{id}");
+            if (response.IsSuccessStatusCode)
+            {
+                var respone = await response.Content.ReadFromJsonAsync<List<DonXetNghiem>>();
+                return respone;
+            }
+            else
+            {
+                // Handle the case where the request was not successful
+                return null; // or throw an exception
+            }
+        }
+
+        public async Task<DXNandGXN> SuaOngNghiem(DXNandGXN a)
+        {
+            var newstudent = await _httpClient.PostAsJsonAsync("api/DonXetNghiem/Update-OngNghiem", a);
+            var respone = await newstudent.Content.ReadFromJsonAsync<DXNandGXN>();
+            return respone;
         }
 
         public async Task<DonXetNghiem> updateAsync(DonXetNghiem DonXetNghiem)

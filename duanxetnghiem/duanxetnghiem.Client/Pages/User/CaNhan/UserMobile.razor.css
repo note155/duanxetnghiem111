@@ -24,6 +24,9 @@
 /* Định dạng cột chứa nội dung */
 .col-sm-8 {
     flex: 1; /* Chiếm phần còn lại của hàng */
+    color: #0056b3;
+    font-size: 1.5rem;
+    font-weight: 500;
 }
 
 /* Định dạng menu người dùng */
@@ -34,38 +37,25 @@
     margin-top: 20px;
 }
 
-    /* Định dạng nút trong menu */
-    .user-menu button {
-        margin: 10px;
-        padding: 12px 24px;
-        border: none;
-        background-color: #007bff;
-        color: #fff;
-        font-size: 16px;
-        border-radius: 8px;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-        width: 80%;
-        max-width: 300px;
+
+    .user-menu button:hover {
+        background-color: #0056b3;
+        transform: translateY(-2px); /* Hiệu ứng nút nhảy lên */
     }
 
-        .user-menu button:hover {
-            background-color: #0056b3;
-            transform: translateY(-2px); /* Hiệu ứng nút nhảy lên */
-        }
-
-        .user-menu button:focus {
-            outline: none;
-        }
+    .user-menu button:focus {
+        outline: none;
+    }
     /* Định dạng nút trong menu */
     /* Định dạng nút trong menu */
     .user-menu button {
         margin: 10px;
         padding: 12px 24px;
         border: none;
+        font-weight: 500;
         background-color: transparent; /* Màu nền trong suốt */
         color: #000; /* Màu chữ đen */
-        font-size: 16px;
+        font-size: 18px;
         border-radius: 8px;
         cursor: pointer;
         transition: background-color 0.3s ease, transform 0.2s ease;
@@ -83,7 +73,7 @@
         /* Hiệu ứng hover */
         .user-menu button:hover {
             background-color: #fff; /* Màu nền trắng */
-            color: #000; /* Màu chữ đen */
+            color: #0056b3; /* Màu chữ đen */
             transform: translateY(-2px); /* Hiệu ứng nhảy lên */
         }
 

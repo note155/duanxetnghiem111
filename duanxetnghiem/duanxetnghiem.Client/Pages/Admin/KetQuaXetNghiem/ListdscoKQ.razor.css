@@ -144,9 +144,3 @@ h1 {
     opacity: 0;
     pointer-events: none;
 }
-
-/* Điều chỉnh kích thước của ảnh */
-.table img {
-    max-width: 50px; /* Đặt chiều rộng tối đa của ảnh là 50px */
-    max-height: 50px; /* Đặt chiều cao tối đa của ảnh là 50px */
-}

@@ -45,7 +45,7 @@
             <button @onclick="PrintCombinedContent" type="button" class="btn btn-info" data-dismiss="modal">In</button>
         </div>
     </div>
-   
+
 
 </div>
 
@@ -110,7 +110,7 @@
     }
     public void duyet(int id)
     {
-        navigation.NavigateTo("/XacNhanLayMau/"+id, true);
+        navigation.NavigateTo("/XacNhanLayMau/" + id, true);
     }
     public async Task checkbs()
     {
@@ -167,7 +167,6 @@
     {
         if (allUser == null)
         {
-            // Handle the case where allUser is null
             return null;
         }
 
@@ -175,20 +174,19 @@
         {
             if (user.Id == id)
             {
-                // Assuming "Hà Cảnh Nam Đô" is returned from user.Hoten
                 string hoten = user.Hoten;
-
-                // Split the full name into parts
                 string[] parts = hoten.Split(' ');
-
-                // Build the desired format
                 string result = "";
                 foreach (string part in parts)
                 {
                     // If the part is not the last name, take the first character
                     if (part != parts.Last())
                     {
-                        result += part[0];
+                        // Ensure part is not empty
+                        if (!string.IsNullOrEmpty(part))
+                        {
+                            result += part[0]; // Access the first character of the part
+                        }
                     }
                     else
                     {
@@ -196,14 +194,12 @@
                         result += " " + part;
                     }
                 }
-
                 return result;
             }
         }
-
-        // If no user with matching ID is found
         return null;
     }
+
 
     private async Task PrintCombinedContent()
     {
@@ -215,7 +211,7 @@
         {
             if (us.Id == id)
             {
-                string dc= us.Diachi+", "+us.CapXa+", "+us.CapHuyen ;
+                string dc = us.Diachi + ", " + us.CapXa + ", " + us.CapHuyen;
                 return dc;
             }
         }

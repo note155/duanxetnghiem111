@@ -1,7 +1,6 @@
 ﻿/*<!-- Danh muc quản lý menu -->*/
 .visao-container {
     margin-bottom: 20px; /* Điều chỉnh giảm khoảng cách dưới */
-    
 }
 
 .card {
@@ -76,6 +75,7 @@ a {
     a:active {
         text-decoration: none; /* Loại bỏ dấu gạch chân dưới */
     }
+
 .circle-container {
     position: relative;
     display: inline-block; /* Đảm bảo phần tử không chiếm cả chiều rộng */
@@ -145,6 +145,7 @@ p {
     line-height: 24px;
     text-align: center;
 }
+
 .btn {
     display: inline-block;
     font-weight: 400;
@@ -170,6 +171,7 @@ p {
         background-color: #23272b;
         border-color: #fff;
     }
+
 .package-item-photo img {
     width: 100%; /* Hình ảnh sẽ chiếm toàn bộ chiều rộng của phần tử cha */
     height: auto; /* Chiều cao sẽ tự động điều chỉnh để giữ tỉ lệ khung hình */

@@ -7,7 +7,7 @@
     <DataAnnotationsValidator />
     <hr />
 
-   
+
     <div class="patient-registration-container">
         <div class="patient-info-container">
             <div class="patient-info">
@@ -153,7 +153,7 @@
         allGXN = await GXNservice.getallAsync();
         getds();
 
-        Input.Ngaydat = DateTime.Now; 
+        Input.Ngaydat = DateTime.Now;
         getid();
         GenerateTimeList();
     }
@@ -257,7 +257,7 @@
         }
         if (err.Any())
         {
-             keolen();
+            keolen();
             return;
         }
         DonXetNghiem donXetNghiem = new DonXetNghiem

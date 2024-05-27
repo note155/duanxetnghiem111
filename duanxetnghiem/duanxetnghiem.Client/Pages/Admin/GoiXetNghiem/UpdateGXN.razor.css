@@ -1,12 +1,9 @@
 ﻿/* Styling for the profile image */
 .profile-image {
-    /*max-width: 300px;
+    max-width: 300px;
     border-radius: 50%;
     height: 300px;
-    width: 300px;*/
-    max-width: 100%; /* Đảm bảo ảnh không vượt quá kích thước của div */
-    border-radius: 50%;
-    height: auto; /* Đảm bảo tỷ lệ hình ảnh không bị méo */
+    width: 300px;
 }
 
 /* Styling for the profile form */
@@ -18,15 +15,22 @@
 }
 
 /* Styling for primary buttons */
-.btn-primary {
+.btn-primary1 {
     background-color: #007bff;
     color: #fff;
     border: none;
     transition: background-color 0.3s ease, color 0.3s ease; /* Smooth transition on hover */
+    width: 300px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px;
 }
 
-    .btn-primary:hover {
-        background-color: #0056b3;
+    .btn-primary1:hover {
+        background-color: #0090ff;
+        color: #fff;
     }
 
 /* Styling for secondary buttons */
@@ -40,3 +44,28 @@
     .btn-secondary:hover {
         background-color: #5a6268;
     }
+
+h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 600;
+    font-style: normal;
+    color: #007bff;
+    margin: 0.3rem auto;
+}
+
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.btn-primary,
+.btn-secondary {
+    width: 350px;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    border: 2px;
+}

@@ -4,16 +4,16 @@
 @attribute [Authorize]
 <div class="row">
     <h1>Quản Lý Thông Báo</h1>
-    <button @onclick="()=>them()" class="button-89" role="button" data-toggle="modal" data-target="#myModal"> Tạo thông báo</button>
+    <hr />
+    <button @onclick="()=>them()" class="button-89" role="button" data-toggle="modal" data-target="#myModal" style="color:#007eff"> Tạo thông báo</button>
     <div class="col-sm-8">
-       
         <table class="table">
             <thead>
                 <tr>
                     <th scope="col">Nội dung</th>
                     <th scope="col">Link</th>
                     <th scope="col">Thời gian tạo</th>
-                    <th scope ="col"> </th>
+                    <th scope="col"> </th>
                 </tr>
             </thead>
             <tbody>
@@ -29,11 +29,20 @@
                         <td>
                             @GetTimeElapsed(tb.ngaytao)
                         </td>
-                        <td><button data-toggle="modal" data-target="#myModal" @onclick="()=>sua(tb)">  <i class="fas fa-edit"></i></button></td>
+                        <td class="button-cell">
+                            <div class="button-group">
+                                <button data-toggle="modal" data-target="#myModal" @onclick="()=>sua(tb)" class="edit-btn">
+                                    <i class="fas fa-edit"></i> <!-- Icon sửa -->
+                                </button>
+                                <button @onclick="()=>confirmDelete(tb.Id)" class="delete-btn">
+                                    <i class="fas fa-trash-alt"></i> <!-- Icon xóa -->
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 }
             </tbody>
-            
+
         </table>
     </div>
 </div>
@@ -43,10 +52,8 @@
     [Inject]
     protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
     public User us = new();
-
     [SupplyParameterFromForm]
     public Thongbao Input { get; set; } = new();
-
     Boolean check = true;
 
     protected override async Task OnInitializedAsync()
@@ -65,7 +72,6 @@
             navigation.NavigateTo("/err");
         }
     }
-
     public void them()
     {
         check = true;
@@ -85,11 +91,12 @@
         else
         {
             Input.ngaytao = DateTime.Now;
-            Input.trangthai=0;
+            Input.trangthai = 0;
             await Tbaoservice.addAsync(Input);
             Allthongbao.Insert(0, Input);
         }
     }
+
     // Phương thức tính thời gian đã trôi qua kể từ khi tạo
     public string GetTimeElapsed(DateTime creationTime)
     {
@@ -112,6 +119,16 @@
             return $"{(int)timeSinceCreation.TotalDays} ngày trước";
         }
     }
+    public async Task confirmDelete(int id)
+    {
+        var confirmed = await JSRuntime.InvokeAsync<bool>("confirm", "Bạn có chắc muốn xóa không?");
+        if (confirmed)
+        {
+            Allthongbao.RemoveAll(a => a.Id == id);
+
+
+        }
+    }
 }
 <!-- Modal -->
 <div id="myModal" class="modal fade" role="dialog">
@@ -131,7 +148,7 @@
                         <InputText @bind-Value="Input.link" class="form-control" id="link" />
                         <ValidationMessage For="() => Input.link" class="text-danger" />
                     </div>
-                    <button type="submit">Xác nhận</button>
+                    <button data-dismiss="modal" type="submit">Xác nhận</button>
                 </EditForm>
             </div>
             <div class="modal-footer">

@@ -4,40 +4,8 @@
 @rendermode InteractiveAuto
 <h3>Chat Tư Vấn Bác Sĩ</h3>
 <hr />
-<button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Đăng ký</button>
+<button type="button" class="btn btn-info btn-lg" @onclick="add">Đăng ký</button>
 
-<!-- Modal -->
-<div class="modal fade" id="myModal" role="dialog">
-    <div class="modal-dialog">
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Thêm đoạn chat mới</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div class="modal-body">
-                @if (err != "")
-                {
-                    <div class="alert alert-danger" role="alert">
-                        <p>@err</p>
-                    </div>
-                }
-                <EditForm Model="Inputkq" method="post" OnValidSubmit="add" FormName="register">
-                    <DataAnnotationsValidator />
-                    <ValidationSummary class="text-danger" role="alert" />
-                    <div class="form-group">
-                        <InputText @bind-Value="Inputkq" class="form-control" placeholder="Nhập tên" />
-                        <ValidationMessage For="() => Inputkq" class="text-danger" />
-                    </div>
-                    <button type="submit" class="btn btn-dark">Đăng ký</button>
-                </EditForm>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
-            </div>
-        </div>
-    </div>
-</div>
 
 <br />
 <br />
@@ -105,6 +73,7 @@
     }
     private async Task add()
     {
+        Inputkq = "Hỗ Trợ Tư vấn";
         err = "";
         if (string.IsNullOrEmpty(Inputkq))
         {

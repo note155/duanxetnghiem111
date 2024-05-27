@@ -25,20 +25,20 @@
     display: flex;
     align-items: center;
     justify-content: center;
-    background-color: #BEBEBE;
     color: #fff;
     border: 2px;
-    transition: background-color 0.3s ease, color 0.3s ease;
 }
 
-    .btn-secondary:hover {
-        background-color: #ff2c02;
-        color: #fff;
-    }
+h2 {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 2.3rem;
+    font-weight: 600;
+    font-style: normal;
+    color: #007bff;
+    margin: 0.3rem auto;
+}
 
-    .btn-primary:hover {
-        background-color: #3db500;
-        color: #fff;
-    }
-
-Đang hiển thị 3577206278591584302.
+label {
+    font-weight: bold;
+    margin-bottom: 5px;
+}

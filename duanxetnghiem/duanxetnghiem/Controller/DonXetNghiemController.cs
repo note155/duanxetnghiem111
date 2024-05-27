@@ -1,6 +1,7 @@
 ﻿using duanxetnghiem.Data.Model;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Shared.form;
 using Shared.ketnoi;
 using Shared.Model;
 
@@ -28,11 +29,37 @@ namespace duanxetnghiem.Controller
             var users = await _DXNRepository.getallbyiduserAsync(id);
             return Ok(users);
         }
+        [HttpPost("gui-XNemail")]
+        public async Task<IActionResult> guiXNEmail([FromBody] gmail gm)
+        {
+            var newStudent = await _DXNRepository.guiemailxacnhan(gm);
+            return Ok(newStudent);
+        }
+        [HttpGet("All-DXNbyidbs/{id}")]
+        public async Task<ActionResult<List<DonXetNghiem>>> GetAllbyidbsAsync(int id)
+        {
+            var users = await _DXNRepository.ListDXNBS(id);
+            return Ok(users);
+        }
+
+        [HttpGet("All-DXNbyidbsHoanthanh/{id}")]
+        public async Task<ActionResult<List<DonXetNghiem>>> GetAllbyidbshoanthanhAsync(int id)
+        {
+            var users = await _DXNRepository.ListDXNBSHoanThanh(id);
+            return Ok(users);
+        }
 
         [HttpGet("All-DXNandGXN/{idDXN}")]
-        public async Task<ActionResult<List<DonXetNghiem>>> GetAllDXNAsync(int idDXN)
+        public async Task<ActionResult<List<DXNandGXN>>> GetAllDXNAsync(int idDXN)
         {
             var users = await _DXNRepository.getallGXNAsync(idDXN);
+            return Ok(users);
+        }
+
+        [HttpGet("All-getmaubybs/{idbs}")]
+        public async Task<ActionResult<List<DXNandGXN>>> GetAllmauAsync(int idbs)
+        {
+            var users = await _DXNRepository.getmaubyidbs(idbs);
             return Ok(users);
         }
 
@@ -40,6 +67,14 @@ namespace duanxetnghiem.Controller
         public async Task<ActionResult<DonXetNghiem>> GetSingleStudentAsync(int id)
         {
             var student = await _DXNRepository.getbyid(id);
+
+            return Ok(student);
+        }
+
+        [HttpGet("Single-OngNghiem/{id}")]
+        public async Task<ActionResult<DXNandGXN>> GetSingleongnghiemAsync(int id)
+        {
+            var student = await _DXNRepository.getOngNghiem(id);
 
             return Ok(student);
         }
@@ -73,6 +108,13 @@ namespace duanxetnghiem.Controller
         public async Task<ActionResult<DonXetNghiem>> UpdateStudentAsync(DonXetNghiem user)
         {
             var updatestudent = await _DXNRepository.updateAsync(user);
+            return Ok(updatestudent);
+        }
+
+        [HttpPost("Update-OngNghiem")]
+        public async Task<ActionResult<DXNandGXN>> UpdateongnghiemAsync(DXNandGXN user)
+        {
+            var updatestudent = await _DXNRepository.SuaOngNghiem(user);
             return Ok(updatestudent);
         }
 

@@ -1,4 +1,5 @@
-﻿@page "/addKQXN/{id:int}"
+﻿
+@page "/addKQXN/{id:int}"
 @using Shared.form
 @rendermode InteractiveAuto
 @inject NavigationManager navigation;
@@ -68,7 +69,7 @@
                     <label for="ngaycoKQ">Bác Sĩ Thực Hiện</label>
                     <InputSelect id="giolaymau" @bind-Value="Inputkq.bsid" class="form-control">
                         <option value="0">Chọn</option>
-                        @foreach(var bs in allBS)
+                        @foreach (var bs in allBS)
                         {
                             <option value="@bs.Id">@bs.Hoten</option>
                         }
@@ -168,7 +169,7 @@
                                             @loaddonvi(kqandcs.id)
                                         </td>
                                     </tr>
-                                }
+                                 }
                             }
                         }
                     </table>
@@ -197,9 +198,18 @@
     private List<string> err = new List<string>();
     public List<Khoa> allkhoa { get; set; } = new();
     public List<MayXetNghiem> allMayXN { get; set; } = new();
+
+    //Thông tin đơn xét nghiệm trên:
+    private KetQuaXetNghiem kqxn { get; set; } = new();
+    string thongtinkq = "";
+    public KQXN Outputkq { get; set; } = new();
+    public int stt = 1;
+    //Khai báo để kiểm tra thanh toán đủ chưa
+    private ThanhToan tt { get; set; } = new();
     [SupplyParameterFromForm]
     public KQXN Inputkq { get; set; } = new();
     string err1 = "", err2 = "", err3 = "";
+
     protected override async Task OnInitializedAsync()
     {
         await checkbs();
@@ -229,6 +239,7 @@
                 Inputkq.kQandCs.Add(kq);
             }
         }
+
     }
     public async Task checkbs()
     {
@@ -319,11 +330,107 @@
         await Mauservice.updateAsync(mau);
         Input.Trangthai = "Hoàn thành";
         await DXNservice.updateAsync(Input);
+
+        //Thông tin thanh toán để xem thanh toán đủ chưa
+        tt = await TTservice.getbyidDXNAsync(id);
+        //Lấy thông tin chỉ số kq để gửi mail
+        Outputkq.kQandCs = new List<ChisoKq>();
+        foreach (var a in gxndachon)
+        {
+            var listcs = await GXNservice.getallCSbyidAsync(a.Id);
+            foreach(var b in listcs)
+            {       
+                ChisoKq kq = new ChisoKq
+                    {
+                        id = b.ChisoId,
+                        goi = a.Id
+                    };
+                Outputkq.kQandCs.Add(kq);
+            }
+        }
+        kqxn = await KQXNservice.getbyid(id);
+        Outputkq.ngaycoKQ = kqxn.ngaycoKQ;
+        Outputkq.khoa = kqxn.khoaId;
+        Outputkq.nhommau = kqxn.nhommau;
+        Outputkq.ghiChu = kqxn.ghiChu;
+        var qq = await KQXNservice.getallCSbyidAsync(kqxn.Id);
+        foreach (var a in Outputkq.kQandCs)
+        {
+            foreach (var b in qq)
+            {
+                if (a.id == b.ChisoId && a.goi == b.idgoi)
+                {
+                    a.kq = b.KetQua;
+                    a.goi = b.idgoi ?? 0;
+                }
+            }
+        }
+        @* Lấy thongtinkq *@
+        @*foreach (var tl in gxndachon)
+        {
+            thongtinkq += "<br>" + "Gói xét nghiệm " + tl.TenGoi + ":" + "<br>";
+            @foreach (var kqandcs in Outputkq.kQandCs)
+            {
+                if (kqandcs.goi == tl.Id)
+                {
+                    thongtinkq += "Chỉ số " + " " + loadtenchiso(kqandcs.id) + ": " + kqandcs.kq + " " + loaddonvi(kqandcs.id) + " | ";
+                }
+            }
+        }*@
+        thongtinkq = "<h3>Danh sách Kết Quả và Chỉ Số</h3>" +
+                    "<table style=\"text-align: center;width:100%;border-collapse: collapse; border: 1px solid black;\">" +
+                    "<thead>" +
+                    "<tr>" +
+                    "<th style=\"border: 1px solid black;\">STT</th>" +
+                    "<th style=\"border: 1px solid black;\">Chỉ số</th>" +
+                    "<th style=\"border: 1px solid black;\">Kết Quả</th>" +
+                    "<th style=\"border: 1px solid black;\">CSBT</th>" +
+                    "<th style=\"border: 1px solid black;\">Đơn Vị</th>" +
+                    "</tr>" +
+                    "</thead><tbody>";
+        foreach (var tl in gxndachon)
+        {
+            thongtinkq += "<tr><td colspan=\"5\"><strong>Gói Xét Nghiệm:</strong> " + tl.TenGoi + "</td></tr>";
+            foreach (var kqandcs in Outputkq.kQandCs)
+            {
+                if (kqandcs.goi == tl.Id)
+                {
+                    thongtinkq += "<tr>" +
+                        "<td style=\"border: 1px solid black;\">" + stt + "</td>" +
+                        "<td style=\"border: 1px solid black;\">" + loadtenchiso(kqandcs.id) + "</td>" +
+                        "<td style=\"border: 1px solid black;\">" + kqandcs.kq + "</td>" +
+                        "<td style=\"border: 1px solid black;\">" + loadcsbt(kqandcs.id) + "</td>" +
+                        "<td style=\"border: 1px solid black;\">" + loaddonvi(kqandcs.id) + "</td>" +
+                        "</tr>";
+                    stt++;
+                }
+            }
+        }
+        thongtinkq += "</tbody></table>";
+        string ketquatemp = string.Empty;
+        if (tt.trangthai == "Chưa Thanh Toán")
+        {
+            ketquatemp = "Và để xem được kết quả xét nghiệm bạn vui lòng thanh toán đầy đủ cho đơn xét nghiệm này.";
+        }
+        else if (tt.trangthai == "30%")
+        {
+            ketquatemp = "Và để xem được kết quả xét nghiệm bạn vui lòng thanh toán 70% còn lại cho đơn xét nghiệm này.";
+        }
+        else
+        {
+            ketquatemp = "Ngày lấy máu: " + Input.Ngaydat.ToString("dd/MM/yyyy") + "<br>" +
+                     "Ngày có kết quả: " + Outputkq.ngaycoKQ.ToString("dd/MM/yyyy") + "<br>" +
+                     "Khoa: " + loadkhoa(Outputkq.khoa) + "<br>" +
+                     "Nhóm máu: " + Outputkq.nhommau + "<br>" +
+                     thongtinkq + "<br>" +
+                     Inputkq.ghiChu;
+        }
         gmail gm = new gmail
             {
                 email = user.Email,
                 hoten = user.Hoten,
-                iddon = id
+                iddon = id,
+                ketqua = ketquatemp
             };
         await KQXNservice.guiemail(gm);
         Thongbao thongbao = new Thongbao
@@ -416,6 +523,18 @@
     }
     private bool isLoading = false;
 
+    //load tên khoa
+    private string loadkhoa(int id)
+    {
+        foreach (var i in allkhoa)
+        {
+            if (i.Id == id)
+            {
+                return i.ten;
+            }
+        }
+        return null;
+    }
 }
 <script>
     window.scrollToError = function () {

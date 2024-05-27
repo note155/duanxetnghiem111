@@ -1,0 +1,50 @@
+﻿@page "/ttthatbai/{id}"
+
+<title>Thông báo thanh toán thất bại</title>
+
+<div class="container">
+    <h1>Thanh toán thất bại</h1>
+    <p>Xin lỗi, thanh toán của bạn không thành công.</p>
+    <a href="/"><button class="btn">Quay lại</button></a>
+</div>
+@code{
+    [Parameter]
+    public string id { get; set; }
+    public List<DonXetNghiem> allDXN { get; set; } = new();
+    public List<ThanhToan> AllTT { get; set; } = new();
+    [Inject]
+    protected AuthenticationStateProvider AuthenticationStateProvider { get; set; }
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        var UserName = authState.User.Identity.Name;
+        if (!string.IsNullOrEmpty(id))
+        {
+            var alluser = await Usertservice.getalluserbyemailAsync(UserName);
+            string[] numbers = id.Split(';');
+            foreach (string number in numbers)
+            {
+                if (!string.IsNullOrEmpty(number))
+                {
+                    if (int.TryParse(number, out int a))
+                    {
+                        var dxn = await DXNservice.getbyid(a);
+                        allDXN.Add(dxn);
+                    }
+                }
+            }
+            foreach (var dxn in allDXN)
+            {
+                var tt = await TTservice.getbyidDXNAsync(dxn.Id);
+                AllTT.Add(tt);
+            }
+            foreach (var tt in AllTT)
+            {
+                tt.NgayTT1 = null;
+                tt.trangthai = "Chưa Thanh Toán";
+                tt.DaTT1 = null;
+                await TTservice.updateAsync(tt);
+            }
+        }
+    }
+}

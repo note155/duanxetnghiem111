@@ -111,9 +111,9 @@ body {
         cursor: pointer;
     }
 
-    .test-registration-form button:hover {
+        .test-registration-form button:hover {
             background-color: #45a049;
-    }
+        }
 /* Doctor Info styles */
 .doctor-info {
     background-color: #fff;
@@ -139,6 +139,7 @@ body {
         border-radius: 5px;
         box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
     }
+
 .patient-registration-container {
     display: flex;
     justify-content: space-between;
@@ -149,6 +150,7 @@ body {
     flex: 1;
     margin-right: 20px; /* Khoảng cách giữa hai phần tử */
 }
+
 .patient-registration-container {
     display: flex;
     justify-content: space-between;
@@ -169,6 +171,7 @@ button.btn-primary {
     width: 49%;
     margin-top: 20px; /* Khoảng cách từ nút đến các phần tử khác */
 }
+
 .doctor-info {
     display: flex;
     justify-content: space-between;
@@ -184,6 +187,7 @@ button.btn-primary {
     max-width: 100px; /* Đặt chiều rộng tối đa cho ảnh của bác sĩ */
     height: auto;
 }
+
 .selected-packages {
     margin-top: 10px; /* Add margin to create space between packages */
 }
@@ -262,6 +266,7 @@ button.btn-primary {
     .test-registration-form {
         margin-top: 20px; /* Tạo khoảng cách giữa các phần tử */
     }
+
     .patient-info {
         max-width: 100%; /* Thiết lập chiều rộng tối đa là 100% */
     }

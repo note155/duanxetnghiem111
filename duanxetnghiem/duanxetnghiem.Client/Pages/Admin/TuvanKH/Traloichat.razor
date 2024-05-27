@@ -4,7 +4,7 @@
 @inject NavigationManager navigation
 @using duanxetnghiem.Client.Pages.Layout
 @layout AdminLayout
-<div class="row">
+<div class="row" style="margin-top:-50px;">
 	@if (idbs == 0)
 	{
 		<div class="col-sm-3">
@@ -17,13 +17,14 @@
 	{
 		<div class="card ">
 			<div class="card-header">
-				Thông tin người tư vấn
+				<h1>Thông tin người tư vấn</h1>
 			</div>
 			<div class="card-body">
 				<div class="row">
 					<p>Họ tên: <strong>@userchat.Hoten</strong></p>
 					<p>Ngày sinh: <strong>@userchat.Ngaysinh.ToString("dd/MM/yyyy")</strong></p>
-					<p>Giới tính:@if (@userchat.Gioitinh)
+					<p>
+						Giới tính:@if (@userchat.Gioitinh)
 						{
 							<strong>Nam</strong>
 						}
@@ -40,25 +41,25 @@
 		</div>
 	}
 	<div class="col-sm-8">
-		<div style="width:100%" class="card-header">
-			#Room: @room.Name <button @onclick="keoxuong" style="width:auto;background-color:darkgrey">Kéo xuống</button>
+		<div style="width:100%;font-size:1.1rem;" class="card-header">
+			#Room: @room.Name <button @onclick="keoxuong" style="width:auto;background-color:#6ab1cb;">Kéo xuống</button>
 		</div>
 
 		<div id="chat-container" class="chat-container" @ref="chatContainerRef">
-			@if ( iddon != 0)
+			@if (iddon != 0)
 			{
 				<div class="card-wrapper">
-						<div class="card w-auto ">
-							<div class="card-header">
+					<div class="card w-auto ">
+						<div class="card-header">
 							<strong>@dau.Name</strong>@dau.Time
 						</div>
-							<div class="card-body">
+						<div class="card-body">
 							<p class="card-text"><button @onclick="(() => mo(true))" type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">Xem đơn @iddon</button></p>
-							</div>
 						</div>
+					</div>
 				</div>
 			}
-			@if (idgoi!=0)
+			@if (idgoi != 0)
 			{
 
 				<div class="card-wrapper">
@@ -114,38 +115,37 @@
 
 
 <!-- Modal -->
-<div  id="myModal" class="modal fade" role="dialog">
-	<div  class="modal-dialog">
+<div id="myModal" class="modal fade" role="dialog">
+	<div class="modal-dialog">
+		<!-- Modal content-->
+		<div class="modal-content">
+			<div class="modal-header">
 
-        <!-- Modal content-->
-        <div  class="modal-content">
-            <div  class="modal-header">
-                
 				@if (ok)
 				{
 					<h4 class="modal-title">Đơn xét nghiệm: @iddon</h4>
 				}
 				@if (okgoi)
 				{
-					<h4 class="modal-title">Gói xét nghiệm: @idgoi</h4>
+					<h4 class="modal-title">Gói xét nghiệm: <span style="color: #ff0000;">@idgoi</span></h4>
 				}
-                <button style="width:auto;height:auto;color:black;" type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <div  class="modal-body">
-                @if (ok)
-                {
-                    <DXNMTN Id="@iddon" />
-                }
+				<button style="width:auto;height:auto;color:black;" type="button" class="close" data-dismiss="modal">&times;</button>
+			</div>
+			<div class="modal-body">
+				@if (ok)
+				{
+					<DXNMTN Id="@iddon" />
+				}
 				@if (okgoi)
 				{
 					<CTDNT Id="@idgoi" />
 				}
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-    </div>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			</div>
+		</div>
+	</div>
 </div>
 @code {
 
@@ -156,7 +156,7 @@
 	private string messageInput;
 
 	//khaibao
-	Boolean ok = false,okgoi=false;
+	Boolean ok = false, okgoi = false;
 	[Parameter]
 	public int id { get; set; }
 	[Inject]
@@ -169,7 +169,7 @@
 	public List<BacSi> allBS { get; set; } = new();
 	private ElementReference chatContainerRef;
 	public roomchat room { get; set; } = new();
-	public int idbs = 0,iddon=0,idgoi=0;
+	public int idbs = 0, iddon = 0, idgoi = 0;
 	protected override async Task OnAfterRenderAsync(bool firstRender)
 	{
 		if (firstRender)
@@ -184,7 +184,7 @@
 		await checkbs();
 		var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
 		UserName = authState.User.Identity.Name;
-		bs = await bacsiservice.getbyemail(UserName);		
+		bs = await bacsiservice.getbyemail(UserName);
 		allChat = await Chatservice.getallbyidroomAsync(id);
 		room = await Roomchatservice.getbyidAsync(id);
 		idbs = room.idbs ?? 0;
@@ -192,7 +192,7 @@
 		alluser = await Usertservice.getalluserAsync();
 		allBS = await bacsiservice.getallAsync();
 		string[] mangChuoi = room.Name.Split(':');
-		if(mangChuoi.Length >= 2)
+		if (mangChuoi.Length >= 2)
 		{
 			if (mangChuoi[0] == "Tư Vấn Đơn ")
 			{
@@ -200,7 +200,7 @@
 			}
 			if (mangChuoi[0] == "Tư Vấn Gói ")
 			{
-				idgoi = int.Parse(mangChuoi[1]) ;
+				idgoi = int.Parse(mangChuoi[1]);
 			}
 		}
 		try
