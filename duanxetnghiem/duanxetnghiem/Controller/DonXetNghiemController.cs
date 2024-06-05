@@ -96,7 +96,7 @@ namespace duanxetnghiem.Controller
             return Ok(deletestudent);
         }
 
-        [HttpDelete("Delete-DXNGXN/{id}")]
+        [HttpGet("Delete-DXNGXN/{id}")]
         public async Task<ActionResult<DXNandGXN>> DeleteDXNGXNAsync(int id)
         {
             var deletestudent = await _DXNRepository.deletegxnAsync(id);

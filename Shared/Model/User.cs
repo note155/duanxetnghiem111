@@ -21,6 +21,8 @@ namespace duanxetnghiem.Data.Model
         public bool Gioitinh { get; set; }
         [Required(ErrorMessage = "Ngày sinh không được để trống")]
         public DateTime Ngaysinh {  get; set; }
+        [Required(ErrorMessage = "CCCD/BHXH không được để trống")]
+        public string? the { get; set; }
         public string? Quanhe {  get; set; }
     }
 }

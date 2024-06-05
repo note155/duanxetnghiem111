@@ -95,7 +95,7 @@
             {
                 <div class="doctor-info">
                     <div class="doctor-details">
-                        <h3>Thông tin bác sĩ:</h3>
+                        <h3>Thông tin bác sĩ thực hiện lấy mẫu:</h3>
                         <p><strong>Họ tên:</strong> @SelectedDoctor.Hoten</p>
                         <p><strong>Chức vụ:</strong> @SelectedDoctor.Chucvu</p>
                         <p><strong>Số điện thoại:</strong> @SelectedDoctor.SDT</p>
@@ -106,6 +106,21 @@
                     </div>
 
                     <!-- Thêm các trường thông tin khác của bác sĩ nếu cần -->
+                </div>
+            }
+            @if (Doctorthuchien.Id==null)
+            {
+                <div class="doctor-info">
+                    <div class="doctor-details">
+                        <h3>Thông tin bác sĩ thực hiện xét nghiệm:</h3>
+                        <p><strong>Họ tên:</strong> @Doctorthuchien.Hoten</p>
+                        <p><strong>Chức vụ:</strong> @Doctorthuchien.Chucvu</p>
+                        <p><strong>Số điện thoại:</strong> @Doctorthuchien.SDT</p>
+                        <p><strong>Email:</strong> @Doctorthuchien.Email</p>
+                    </div>
+                    <div class="doctor-image">
+                        <img src="@Doctorthuchien.Anh" alt="Ảnh bác sĩ">
+                    </div>
                 </div>
             }
         </EditForm>
@@ -135,6 +150,9 @@
                     <EditForm Model="Inputkq" method="post" FormName="addkq" class="profile-form">
                         <DataAnnotationsValidator />
                         <hr />
+
+                        
+
                         <div class="form-group">
                             <label for="ngaycoKQ">Ngày Có Kết Quả</label>
                             <InputDate @bind-Value="Inputkq.ngaycoKQ" class="form-control" id="ngaycoKQ" readonly />
@@ -234,6 +252,7 @@
     public List<GoiXetNghiem> allGXN { get; set; } = new();
     public List<BacSi> AllBS { get; set; } = new();
     private BacSi SelectedDoctor = null;
+    private BacSi Doctorthuchien = new();
     int valor, idbs;
     int valorgxn, idgxn;
     public List<GoiXetNghiem> gxndachon { get; set; } = new();
@@ -248,7 +267,7 @@
     string rawHtml = "";
     public int stt = 0;
     private ThanhToan tt { get; set; } = new();
-
+    private Mau mau { get; set; } = new();
     [SupplyParameterFromForm]
     public DonXetNghiem Input { get; set; } = new();
 
@@ -309,6 +328,8 @@
             Inputkq.khoa = kq.khoaId;
             Inputkq.nhommau = kq.nhommau;
             Inputkq.ghiChu = kq.ghiChu;
+            mau = await Mauservice.getbyid(id);
+            Doctorthuchien = await bacsiservice.getbyid(mau.bacsiid ?? 0);
             var qq = await KQXNservice.getallCSbyidAsync(kq.Id);
             foreach (var a in Inputkq.kQandCs)
             {

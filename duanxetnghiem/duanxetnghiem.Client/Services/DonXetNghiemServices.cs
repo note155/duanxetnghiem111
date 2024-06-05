@@ -42,7 +42,7 @@ namespace duanxetnghiem.Client.Services
 
         public async Task<DXNandGXN> deletegxnAsync(int id)
         {
-            var response = await _httpClient.DeleteAsync($"api/DonXetNghiem/Delete-DXNGXN/{id}");
+            var response = await _httpClient.GetAsync($"api/DonXetNghiem/Delete-DXNGXN/{id}");
 
             // Handle the response here if needed
 

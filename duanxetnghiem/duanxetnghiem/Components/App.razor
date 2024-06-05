@@ -1,14 +1,17 @@
-﻿@using duanxetnghiem.Components
+﻿@using System.Net.NetworkInformation
+@using duanxetnghiem.Components
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
     <meta charset="utf-8" />
+    
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <base href="/" />
     <link rel="stylesheet" href="bootstrap/bootstrap.min.css" />
     <link href="lib/quill/dist/quill.snow.css" rel="stylesheet" />
     <link href="lib/quill/dist/quill.bubble.css" rel="stylesheet" />
+    <script src="/lib/html5-qrcode/html5-qrcode.min.js"></script>
     <link rel="stylesheet" href="app.css" />
     <link rel="stylesheet" href="duanxetnghiem.styles.css" />
     <link rel="icon" type="image/png" href="favicon.png" />
@@ -22,6 +25,7 @@
 <body>
 
     <Routes />
+
     <script src="_content/BlazorBarcodeScanner.ZXing.JS/zxingjs.index.min.js"></script>
     <script src="_content/BlazorBarcodeScanner.ZXing.JS/BlazorBarcodeScanner.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>

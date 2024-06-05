@@ -1,4 +1,6 @@
 ﻿using System.Net.Http.Json;
+using System.Text.Json;
+using System.Text;
 using duanxetnghiem.Data.Model;
 using Shared.form;
 using Shared.ketnoi;
@@ -18,7 +20,6 @@ namespace duanxetnghiem.Client.Services
             var respone = await newstudent.Content.ReadFromJsonAsync<int>();
             return respone;
         }
-       
         public async Task<User> deleteuserAsync(int id)
         {
             var newstudent = await _httpClient.PostAsJsonAsync("api/User/Delete-User", id);
