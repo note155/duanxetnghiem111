@@ -1,109 +1,86 @@
 ﻿@page "/SuaUser/{id:int}"
 @attribute [Authorize]
-@using Shared.form
-@using System.Text
-@using System.Globalization
 @using duanxetnghiem.Data.Model;
 @inject NavigationManager navigation;
 @rendermode InteractiveAuto
-@inject CheckCardService CheckCardService
-@using System
-@using ZXingBlazor.Components
-<h3>Cập Nhập Thông Tin Cá Nhân </h3>
-<div class="form-container">
-    @if (errors.Count > 0)
-    {
-        <div class="alert alert-danger" role="alert">
 
-            @foreach (var error in errors)
+<h3>Thông Tin Cá Nhân </h3>
+@if (errors.Count > 0)
+{
+    <div class="alert alert-danger" role="alert">
+
+        @foreach (var error in errors)
+        {
+            <p>@error</p>
+        }
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-6">
+        <EditForm Model="Input" class="needs-validation" method="post" OnValidSubmit="add" FormName="register">
+            <DataAnnotationsValidator />
+            <hr />
+            <ValidationSummary class="text-danger" role="alert" />
+            <div class="form-group">
+                <label class="form-label" for="Hoten">Họ Tên</label>
+                <InputText @bind-Value="Input.Hoten" class="form-control" placeholder="" />
+                <ValidationMessage For="() => Input.Hoten" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="CapHuyen">Quận/Huyện</label>
+                <InputSelect style="border-color:greenyellow;" class="form-control" ValueChanged="@((string value)=>FilterData(value))" ValueExpression="@(()=>aa)" Value="aa">
+                    <option value="0">Vui Lòng Chọn</option>
+                    @foreach (var qh in Quan)
+                    {
+                        <option value="@qh">@qh</option>
+                    }
+                </InputSelect>
+            </div>
+            @if (aa != "0")
             {
-                <p>@error</p>
-            }
-        </div>
-    }
-    <hr />
-    <div class="row justify-content" style="margin-left:5px;">
-        <div class="col-md-6">
-            <EditForm Model="Input" class="needs-validation" method="post" OnValidSubmit="add" FormName="register">
-                <DataAnnotationsValidator />
-                <ValidationSummary class="text-danger" role="alert" />
                 <div class="form-group">
-                    <label class="form-label" for="Diachi">CCCD/BHXN</label>
-                    <div class="input-group">
-                        <InputText @bind-Value="Input.the" class="form-control" placeholder="" />
-                        <div @onclick="doi" class="input-group-append">
-                            <span class="input-group-text" id="basic-addon2">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-qr-code-scan" viewBox="0 0 16 16">
-                                    <path d="M0 .5A.5.5 0 0 1 .5 0h3a.5.5 0 0 1 0 1H1v2.5a.5.5 0 0 1-1 0zm12 0a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-1 0V1h-2.5a.5.5 0 0 1-.5-.5M.5 12a.5.5 0 0 1 .5.5V15h2.5a.5.5 0 0 1 0 1h-3a.5.5 0 0 1-.5-.5v-3a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v3a.5.5 0 0 1-.5.5h-3a.5.5 0 0 1 0-1H15v-2.5a.5.5 0 0 1 .5-.5M4 4h1v1H4z" />
-                                    <path d="M7 2H2v5h5zM3 3h3v3H3zm2 8H4v1h1z" />
-                                    <path d="M7 9H2v5h5zm-4 1h3v3H3zm8-6h1v1h-1z" />
-                                    <path d="M9 2h5v5H9zm1 1v3h3V3zM8 8v2h1v1H8v1h2v-2h1v2h1v-1h2v-1h-3V8zm2 2H9V9h1zm4 2h-1v1h-2v1h3zm-4 2v-1H8v1z" />
-                                    <path d="M12 9h2V8h-2z" />
-                                </svg>
-                            </span>
-                        </div>
-                    </div>
-                    <ValidationMessage For="() => Input.the" class="text-danger" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="Hoten">Họ Tên</label>
-                    <InputText @bind-Value="Input.Hoten" class="form-control" placeholder="" />
-                    <ValidationMessage For="() => Input.Hoten" class="text-danger" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="Tuoi">Ngày sinh </label>
-                    <InputDate @bind-Value="Input.Ngaysinh" class="form-control" placeholder="" />
-                    <ValidationMessage For="() => Input.Ngaysinh" class="text-danger" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="Tuoi">Giới tính</label>
-                    <InputSelect id="Gioitinh" @bind-Value="Input.Gioitinh" class="form-control">
-                        <option class="form-check-label" value="true">Nam</option>
-                        <option class="form-check-label" value="false">Nữ</option>
-                    </InputSelect>
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="SDT">Số Điện Thoại</label>
-                    <InputText @bind-Value="Input.SDT" class="form-control" placeholder="" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" />
-                    <ValidationMessage For="() => Input.SDT" class="text-danger" />
-                </div>
-                <div class="form-group">
-                    <label class="form-label" for="CapHuyen">Quận/Huyện</label>
-                    <InputSelect style="border-color:greenyellow;" class="form-control" ValueChanged="@((string value)=>FilterData(value))" ValueExpression="@(()=>aa)" Value="aa">
-                        <option value="">Vui Lòng Chọn</option>
-                        @foreach (var qh in Quan)
+                    <label class="form-label" for="CapHuyen">Phường/Xã</label>
+                    <InputSelect style="border-color:greenyellow;" class="form-control" ValueChanged="@((string value)=>Filterxa(value))" ValueExpression="@(()=>xa)" Value="xa">
+                        <option value="0">Vui Lòng Chọn</option>
+                        @foreach (var qh in phuong)
                         {
                             <option value="@qh">@qh</option>
                         }
                     </InputSelect>
-                    <ValidationMessage For="() => Input.CapHuyen" class="text-danger" />
                 </div>
-                @if (aa != "")
-                {
-                    <div class="form-group">
-                        <label class="form-label" for="CapHuyen">Phường/Xã</label>
-                        <InputSelect style="border-color:greenyellow;" class="form-control" ValueChanged="@((string value)=>Filterxa(value))" ValueExpression="@(()=>xa)" Value="xa">
-                            <option value="">Vui Lòng Chọn</option>
-                            @foreach (var qh in phuong)
-                            {
-                                <option value="@qh">@qh</option>
-                            }
-                        </InputSelect>
-                        <ValidationMessage For="() => Input.CapXa" class="text-danger" />
-                    </div>
-                }
-                <div class="form-group">
-                    <label class="form-label" for="Diachi">Địa Chỉ</label>
-                    <InputText @bind-Value="Input.Diachi" class="form-control" placeholder="" />
-                    <ValidationMessage For="() => Input.Diachi" class="text-danger" />
-                </div>
-                <button type="submit" class="w-100 btn btn-lg btn-primary">Cập Nhật Thông Tin</button>
-            </EditForm>
-        </div>
-        <div class="col-md-6">
-            <img src="imgadduser/hinhnen5.png" class="img-fluid" alt="Hình ảnh mô tả">
-        </div>
+            }
+            <div class="form-group">
+                <label class="form-label" for="Diachi">Địa Chỉ</label>
+                <InputText @bind-Value="Input.Diachi" class="form-control" placeholder="" />
+                <ValidationMessage For="() => Input.Diachi" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="SDT">Số Điện Thoại</label>
+                <InputText @bind-Value="Input.SDT" class="form-control" placeholder="" oninput="this.value = this.value.replace(/[^0-9]/g, '').slice(0, 10)" />
+                <ValidationMessage For="() => Input.SDT" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="Tuoi">Giới tính</label>
+                <InputSelect id="Gioitinh" @bind-Value="Input.Gioitinh" class="form-control">
+                    <option class="form-check-label" value="true">Nam</option>
+                    <option class="form-check-label" value="false">Nữ</option>
+                </InputSelect>
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="Tuoi">Ngày sinh </label>
+                <InputDate @bind-Value="Input.Ngaysinh" class="form-control" placeholder="" />
+                <ValidationMessage For="() => Input.Ngaysinh" class="text-danger" />
+            </div>
+            <div class="form-group">
+                <label class="form-label" for="Diachi">Quan hệ</label>
+                <InputText @bind-Value="Input.Quanhe" class="form-control" placeholder="" />
+                <ValidationMessage For="() => Input.Quanhe" class="text-danger" />
+            </div>
+            <button type="submit" class="w-100 btn btn-lg btn-primary">Cập Nhật Thông Tin</button>
+        </EditForm>
     </div>
+
 </div>
 
 @code {
@@ -130,6 +107,7 @@
     List<string> HPLoc = new List<string> { "thị trấn Phú Lộc", "thị trấn Lăng Cô", "xã Giang Hải", "xã Lộc An", "xã Lộc Bình", "xã Lộc Bổn", "xã Lộc Điền", "xã Lộc Hòa", "xã Lộc Sơn", "xã Lộc Thủy", "xã Lộc Tiến", "xã Lộc Trì", "xã Lộc Vĩnh", "xã Vinh Hiền", "xã Vinh Hưng", "xã Vinh Mỹ", "xã Xuân Lộc" };
     List<string> HPVang = new List<string> { "thị trấn Phú Đa", "xã Phú An", "xã Phú Diên", "xã Phú Gia", "xã Phú Hải", "xã Phú Hồ", "xã Phú Lương", "xã Phú Mỹ", "xã Phú Thuận", "xã Phú Xuân", "xã Vinh An", "xã Vinh Hà", "xã Vinh Thanh", "xã Vinh Xuân" };
     List<string> HQDien = new List<string> { "thị trấn Sịa", "xã Quảng An", "xã Quảng Công", "xã Quảng Lợi", "xã Quảng Ngạn", "xã Quảng Phú", "xã Quảng Phước", "xã Quảng Thái", "xã Quảng Thành", "xã Quảng Thọ", "xã Quảng Vinh" };
+    int a;
     protected override async Task OnInitializedAsync()
     {
         Input = await Usertservice.getuserbyid(id);
@@ -184,10 +162,6 @@
         xa = selectedValue;
         Input.CapXa = xa;
     }
-    public async Task keolen()
-    {
-        await JSRuntime.InvokeVoidAsync("scrollToBottom");
-    }
     private async Task add()
     {
         errors.Clear(); // Clear previous errors
@@ -195,28 +169,9 @@
 
         if (errors.Count == 0)
         {
-            request.fullname = Input.Hoten;
-            request.birthday = Input.Ngaysinh;
-            request.insuranceNumber = Input.the;
-            await CheckCard();
-            if (response.message != "Thành công!")
-            {
-                errors.Add(response.message);
-                keolen();
-                return;
-            }
-            else
-            {
-                tachstring();
-                if (firstPart != "Thẻ còn giá trị sử dụng")
-                {
-                    errors.Add(response.data);
-                    keolen();
-                    return;
-                }
-                await Usertservice.updateuserAsync(Input);
-                navigation.NavigateTo("/listNT");
-            }
+
+            await Usertservice.updateuserAsync(Input);
+            navigation.NavigateTo("/listNT");
         }
     }
     private void ValidateInput()
@@ -247,136 +202,5 @@
             errors.Add("Vui lòng chọn Phường/Xã");
         }
     }
-    //xulythe
-    public CheckCardRequest request { get; set; } = new();
-    string data;
-    private CheckCardResponse response;
-    private string[] parts;
-    private string firstPart;
-    public void tachstring()
-    {
-        parts = response.data.Split('!');
-        if (parts.Length > 0)
-        {
-            // Lấy phần tử đầu tiên
-            firstPart = parts[0];
-        }
-    }
-    private async Task CheckCard()
-    {
-        data = ToCustomString();
-        response = await CheckCardService.CheckCardAsync(data);
-    }
-
-    public string ToCustomString()
-    {
-        return $"{{'fullname':'{request.fullname}','birthday':'{request.birthday:dd/MM/yyyy}','insuranceNumber':'{request.insuranceNumber}'}}";
-    }
-
-    //qr
-    private static Suauser _instance;
-    string qr;
-    Boolean a = false;
-    void doi()
-    {
-        a = true;
-    }
-
-    protected override void OnInitialized()
-    {
-        _instance = this;
-    }
-
-    [JSInvokable]
-    public static void UpdateQrSuauser(string decodedText)
-    {
-        if (decodedText != "-1" && _instance != null)
-        {
-
-            string[] parts1 = decodedText.Split('|');
-            _instance.Input.the = parts1[0];
-            if (parts1[parts1.Length - 1] == "$")
-            {
-                _instance.Input.Hoten = ConvertHexStrToUnicode(parts1[1]);
-                _instance.Input.Ngaysinh = DateTime.ParseExact(parts1[2], "dd/MM/yyyy", CultureInfo.InvariantCulture);
-                if (parts1[3] == "1")
-                {
-                    _instance.Input.Gioitinh = true;
-                }
-                else
-                {
-                    _instance.Input.Gioitinh = false;
-                }
-
-
-            }
-            else
-            {
-                _instance.Input.Hoten = parts1[2];
-                _instance.Input.Ngaysinh = DateTime.ParseExact(parts1[3], "ddMMyyyy", CultureInfo.InvariantCulture);
-                if (parts1[4] == "Nam")
-                {
-                    _instance.Input.Gioitinh = true;
-                }
-                else
-                {
-                    _instance.Input.Gioitinh = false;
-                }
-            }
-
-            _instance.a = false;
-            _instance.InvokeAsync(_instance.StateHasChanged);
-            _instance.JSRuntime.InvokeVoidAsync("clearScanner");
-        }
-    }
-
-    public static string ConvertHexStrToUnicode(string pHexString)
-    {
-        int num = pHexString.Length;
-        byte[] bytes = new byte[num / 2];
-        for (int index = 0; index < num; index += 2)
-            bytes[index / 2] = Convert.ToByte(pHexString.Substring(index, 2), 16);
-        return Encoding.UTF8.GetString(bytes);
-    }
 }
-
-@if (a)
-{
-    <div class="modal fade show" style="display: block; background: rgba(0, 0, 0, 0.5);">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">Quét QR</h5>
-                </div>
-                <div class="modal-body">
-                    <div style="width: 100%" id="reader"></div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-primary" @onclick="(() => a = false)">Đóng</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        function onScanSuccess(decodedText, decodedResult) {
-            // Handle on success condition with the decoded text or result.
-            console.log(`Scan result: ${decodedText}`, decodedResult);
-            // Gọi hàm C# để cập nhật giá trị của biến qr
-            html5QrcodeScanner.clear();
-            DotNet.invokeMethodAsync('duanxetnghiem.Client', 'UpdateQr', "-1");
-            DotNet.invokeMethodAsync('duanxetnghiem.Client', 'UpdateQrSuauser', decodedText);
-
-        }
-        var html5QrcodeScanner = new Html5QrcodeScanner(
-            "reader", { fps: 10, qrbox: 250, showZoomSliderIfSupported: true, defaultZoomValueIfSupported: 4 });
-        html5QrcodeScanner.render(onScanSuccess);
-
-    </script>
-}
-<script>
-    window.scrollToBottom = () => {
-        window.scrollTo(0, 0);
-    }
-</script>
 
